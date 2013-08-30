@@ -49,7 +49,7 @@ class ClientManagerTest extends \PHPUnit_Framework_TestCase
     public function Add_Client()
     {
         $manager = new \SE\Component\Redmine\ClientManager;
-        $client = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', ['getName']);
+        $client = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', array('getName'));
 
         $name = sha1(uniqid(microtime(true), true));
         $client->expects($this->once())
