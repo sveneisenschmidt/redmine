@@ -52,6 +52,8 @@ class ClientManager
     /**
      *
      * @param \SE\Component\Redmine\Client\ClientInterface $client
+     * @throws \SE\Component\Redmine\Exception\DuplicateClientNameException
+     *
      * @return void
      */
     public function addClient(ClientInterface $client)
@@ -72,6 +74,8 @@ class ClientManager
     /**
      *
      * @param string $name
+     * @throws \SE\Component\Redmine\Exception\UnkownClientException
+     *
      * @return \SE\Component\Redmine\Client\ClientInterface
      */
     public function getClient($name)

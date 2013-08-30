@@ -66,7 +66,7 @@ class ClientManagerTest extends \PHPUnit_Framework_TestCase
     public function Add_Client_Gets_Default_Client_If_Not_Set()
     {
         $manager = new \SE\Component\Redmine\ClientManager;
-        $client = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', ['getName']);
+        $client = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', array('getName'));
 
         $name = sha1(uniqid(microtime(true), true));
         $client->expects($this->once())
@@ -87,7 +87,7 @@ class ClientManagerTest extends \PHPUnit_Framework_TestCase
         $manager = new \SE\Component\Redmine\ClientManager;
 
         $name1 = sha1(uniqid(microtime(true), true));
-        $client1 = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', ['getName']);
+        $client1 = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', array('getName'));
         $client1->expects($this->once())
             ->method('getName')
             ->will($this->returnValue($name1));
@@ -97,7 +97,7 @@ class ClientManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($name1, $manager->getDefaultClientName());
 
         $name2 = sha1(uniqid(microtime(true), true));
-        $client2 = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', ['getName']);
+        $client2 = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', array('getName'));
         $client2->expects($this->once())
             ->method('getName')
             ->will($this->returnValue($name2));
@@ -118,7 +118,7 @@ class ClientManagerTest extends \PHPUnit_Framework_TestCase
         $manager = new \SE\Component\Redmine\ClientManager;
         $name = sha1(uniqid(microtime(true), true));
 
-        $client1 = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', ['getName']);
+        $client1 = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', array('getName'));
         $client1->expects($this->once())
             ->method('getName')
             ->will($this->returnValue($name));
@@ -126,7 +126,7 @@ class ClientManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($client1, $manager->getClient($name));
         $this->assertEquals($name, $manager->getDefaultClientName());
 
-        $client2 = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', ['getName']);
+        $client2 = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', array('getName'));
         $client2->expects($this->once())
             ->method('getName')
             ->will($this->returnValue($name));
