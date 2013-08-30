@@ -1,7 +1,7 @@
 redmine
 =======
 
-Access layer for for Redmine.
+Access layer for for Redmine, written in PHP.
 
 #### Available Clients
 * REST Api
