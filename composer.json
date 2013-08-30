@@ -1,8 +1,8 @@
 {
     "name": "se/redmine",
     "type": "library",
-    "description": "Access layer for for Redmine. Connects to the API or database.",
-    "keywords": ["redmine", "client", "api", "database", "access", "xml"],
+    "description": "Access layer for for Redmine. Available Clients: REST Api, Database",
+    "keywords": ["redmine", "client", "rest", "database", "xml"],
     "homepage": "https://github.com/sveneisenschmidt/redmine",
     "license": "MIT",
     "authors": [
