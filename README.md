@@ -1,4 +1,8 @@
 redmine
 =======
 
-PHP access library for Redmine. Works via API or DB access.
+Access layer for for Redmine.
+
+#### Available Clients
+* API
+* Database
