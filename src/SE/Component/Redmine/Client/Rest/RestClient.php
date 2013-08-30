@@ -43,7 +43,7 @@ class RestClient implements ClientInterface
      *
      * @var array
      */
-    protected $httpAuth = array();
+    protected $httpAuth = array('', '', 'Basic');
 
     /**
      * @param $httpClient
@@ -106,10 +106,15 @@ class RestClient implements ClientInterface
      *
      * @param string $httpUser
      * @param string $httpPass
+     * @param string $authType
      */
-    public function setHttpAuth($httpUser, $httpPass)
+    public function setHttpAuth($httpUser, $httpPass, $authType = 'Basic')
     {
-        $this->httpAuth = array((string)$httpUser, (string)$httpPass);
+        $this->httpAuth = array(
+            (string)$httpUser,
+            (string)$httpPass,
+            (string)$authType
+        );
     }
 
     /**
@@ -120,6 +125,71 @@ class RestClient implements ClientInterface
     {
         return $this->httpAuth;
     }
+
+    /**
+     *
+     * @param string $uri
+     * @return string
+     */
+    public function prepareUrl($uri)
+    {
+        return sprintf(
+            '%s/%s',
+            rtrim($this->getBaseUrl(), '/'),
+            ltrim($uri, '/')
+        );
+    }
+
+    /**
+     *
+     * @param string $uri
+     * @return array
+     */
+    public function prepareHeaders(array $headers)
+    {
+        return array_merge(array(
+            'X-Redmine-API-Key' => $this->getApiKey()
+        ), $headers);
+    }
+
+    /**
+     *
+     * @param array $options
+     * @return array
+     */
+    public function prepareOptions(array $options)
+    {
+        return array_merge(array(
+            'auth' => $this->getHttpAuth()
+        ), $options);
+    }
+
+    /**
+     * @param string $uri
+     * @param array $headers
+     */
+    public function createRequest($uri, array $headers = array(), array $options = array())
+    {
+        return $this->httpClient->get(
+            $this->prepareUrl($uri),
+            $this->prepareHeaders($headers),
+            $this->prepareOptions($options)
+        );
+    }
+
+    /**
+     *
+     * @param string $project
+     * @param int $limit
+     */
+    public function getNews($project = '', $limit = 25)
+    {
+        $request = $this->createRequest('news.xml');
+        $response = $request->send();
+    }
+
+
+
 
 
 } 

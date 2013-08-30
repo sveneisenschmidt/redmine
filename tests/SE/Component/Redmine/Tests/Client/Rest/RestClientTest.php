@@ -55,19 +55,49 @@ class RestClientTest extends \PHPUnit_Framework_TestCase
         $stub = $this->getMock('\Guzzle\Http\Client');
         $baseUrl = 'http://localhost/redmine';
         $apiKey = sha1(uniqid(microtime(true), true));
+
         $httpUser = sha1(uniqid(microtime(true), true));
         $httpPass = sha1(uniqid(microtime(true), true));
+        $authType = 'Digest';
 
         $client = new \SE\Component\Redmine\Client\Rest\RestClient($stub, $baseUrl, $apiKey);
-        $client->setHttpAuth($httpUser, $httpPass);
+        $client->setHttpAuth($httpUser, $httpPass, $authType);
 
-        $this->assertEquals(array($httpUser, $httpPass), $client->getHttpAuth());
-
-
-
+        $this->assertEquals(array($httpUser, $httpPass, $authType), $client->getHttpAuth());
     }
 
+    /**
+     *
+     * @test
+     */
+    public function Get_Prepared_Uri()
+    {
+        $stub = $this->getMock('\Guzzle\Http\Client');
+        $baseUrl = 'http://localhost/redmine/';
+        $apiKey = sha1(uniqid(microtime(true), true));
+        $uri = '/resource/1.xml';
 
+        $client = new \SE\Component\Redmine\Client\Rest\RestClient($stub, $baseUrl, $apiKey);
 
+        $this->assertNotEquals($baseUrl.$uri, $client->prepareUrl($uri));
+        $this->assertEquals('http://localhost/redmine/resource/1.xml', $client->prepareUrl($uri));
+    }
 
-} 
+    /**
+     *
+     * @test
+     */
+    public function Get_Prepared_Headers_Api_Key()
+    {
+        $stub = $this->getMock('\Guzzle\Http\Client');
+        $baseUrl = 'http://localhost/redmine/';
+        $apiKey = sha1(uniqid(microtime(true), true));
+
+        $client = new \SE\Component\Redmine\Client\Rest\RestClient($stub, $baseUrl, $apiKey);
+        $headers = $client->prepareHeaders(array());
+
+        $this->assertNotEmpty($headers);
+        $this->assertArrayHasKey('X-Redmine-API-Key', $headers);
+        $this->assertContains($client->getApiKey(), $headers);
+    }
+}
