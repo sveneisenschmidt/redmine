@@ -24,7 +24,7 @@ class ClientManager
      *
      * @var \SE\Component\Redmine\Client\ClientInterface[]
      */
-    protected $clients = [];
+    protected $clients = array();
 
     /**
      *
