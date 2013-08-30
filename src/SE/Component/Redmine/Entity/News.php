@@ -112,7 +112,7 @@ class News
     /**
      * @param \DateTime $createdOn
      */
-    public function setCreatedOn($createdOn)
+    public function setCreatedOn(\DateTime $createdOn)
     {
         $this->createdOn = $createdOn;
     }
