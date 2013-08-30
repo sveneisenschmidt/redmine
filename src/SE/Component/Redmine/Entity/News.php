@@ -87,7 +87,7 @@ class News
      *
      * @Serializer\Expose
      * @Serializer\SerializedName("created_on")
-     * @Serializer\Type("datetime")
+     * @Serializer\Type("DateTime<'Y-m-d\TG:i:sP'>")
      *
      * @var \DateTime
      */

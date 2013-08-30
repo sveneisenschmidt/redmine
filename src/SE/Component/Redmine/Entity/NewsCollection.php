@@ -60,7 +60,7 @@ class NewsCollection
      * @Serializer\Type("array<SE\Component\Redmine\Entity\News>")
      * @Serializer\XmlList(inline = true, entry="news")
      *
-     * @var SE\Component\Redmine\Entity\News[]
+     * @var \SE\Component\Redmine\Entity\News[]
      */
     protected $news = array();
 
