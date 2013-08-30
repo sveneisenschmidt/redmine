@@ -10,7 +10,7 @@ Access layer for for Redmine, written in PHP.
 #### Dev branch is master branch.
 
 [![Build Status](https://travis-ci.org/sveneisenschmidt/redmine.png?branch=master)](https://travis-ci.org/sveneisenschmidt/redmine)
-```
+
 
 ### Installing via Composer
 
