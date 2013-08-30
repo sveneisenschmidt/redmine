@@ -1,6 +1,9 @@
 redmine
 =======
 
+
+[![Latest Stable Version](https://poser.pugx.org/se/redmine/v/unstable.png)](https://packagist.org/packages/se/redmine)
+
 Access layer for for Redmine, written in PHP.
 
 #### Available Clients
