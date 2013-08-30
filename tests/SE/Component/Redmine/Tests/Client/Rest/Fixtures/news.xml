@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<news type="array" limit="25" total_count="1" offset="0">
+  <news>
+    <id>1</id>
+    <project name="Redmine" id="97"/>
+    <author name="Sven Eisenschmidt" id="99"/>
+    <title>Redmine PHP Api 0.1 released</title>
+    <summary/>
+    <description>Redmine PHP Api 0.1 has been released</description>
+    <created_on>2013-08-30T14:00:25+02:00</created_on>
+  </news>
+</news>

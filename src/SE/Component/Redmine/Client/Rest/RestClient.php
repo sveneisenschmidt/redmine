@@ -10,7 +10,12 @@
 namespace SE\Component\Redmine\Client\Rest;
 
 use \SE\Component\Redmine\Client\ClientInterface;
+
 use \Guzzle\Http\Client as HttpClient;
+use \Guzzle\Http\Exception\ServerErrorResponseException;
+
+use \JMS\Serializer\Serializer;
+use \JMS\Serializer\SerializerBuilder;
 
 /**
  *
@@ -26,6 +31,12 @@ class RestClient implements ClientInterface
      * @var \Guzzle\Http\Client
      */
     protected $httpClient;
+
+    /**
+     *
+     * @var \JMS\Serializer\Serializer
+     */
+    protected $serializer;
 
     /**
      *
@@ -46,13 +57,20 @@ class RestClient implements ClientInterface
     protected $httpAuth = array('', '', 'Basic');
 
     /**
+     *
      * @param $httpClient
      * @param string $baseUrl
      * @param string $apiKey
+     * @param \JMS\Serializer\Serializer $serializer
      */
-    public function __construct(HttpClient $httpClient, $baseUrl, $apiKey)
+    public function __construct(HttpClient $httpClient, $baseUrl, $apiKey, $serializer = null)
     {
+        if($serializer === null) {
+            $serializer = SerializerBuilder::create()->build();
+        }
+
         $this->httpClient = $httpClient;
+        $this->serializer = $serializer;
 
         $this->setApiKey($apiKey);
         $this->setBaseUrl($baseUrl);
@@ -142,7 +160,7 @@ class RestClient implements ClientInterface
 
     /**
      *
-     * @param string $uri
+     * @param array $headers
      * @return array
      */
     public function prepareHeaders(array $headers)
@@ -167,6 +185,8 @@ class RestClient implements ClientInterface
     /**
      * @param string $uri
      * @param array $headers
+     * @param array $options
+     * @return \Guzzle\Http\Message\RequestInterface
      */
     public function createRequest($uri, array $headers = array(), array $options = array())
     {
@@ -180,12 +200,27 @@ class RestClient implements ClientInterface
     /**
      *
      * @param string $project
-     * @param int $limit
+     * @param integer $limit
+     * @throws \Guzzle\Http\Exception\BadResponseException
+     * @return \SE\Component\Redmine\Entity\NewsCollection
      */
     public function getNews($project = '', $limit = 25)
     {
         $request = $this->createRequest('news.xml');
         $response = $request->send();
+
+        if($response->isSuccessful() === false) {
+            throw ServerErrorResponseException::factory($request, $response);
+        }
+
+        $contents = (string)$response->getBody();
+        $collection =  $this->serializer->deserialize(
+            $contents,
+            'SE\Component\Redmine\Entity\NewsCollection',
+            'xml'
+        );
+
+        return $collection;
     }
 
 
