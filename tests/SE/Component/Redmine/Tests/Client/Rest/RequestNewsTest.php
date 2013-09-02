@@ -25,7 +25,9 @@ class RequestNewsTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        $this->history = new \Guzzle\Plugin\History\HistoryPlugin;
         $httpClient = new \Guzzle\Http\Client();
+        $httpClient->addSubscriber($this->history);
         $baseUrl = 'http://localhost/';
         $apiKey = sha1(uniqid(microtime(true), true));
         $this->restClient = new \SE\Component\Redmine\Client\Rest\RestClient($httpClient, $baseUrl, $apiKey);
@@ -44,7 +46,7 @@ class RequestNewsTest extends \PHPUnit_Framework_TestCase
         $this->restClient->getHttpClient()->addSubscriber($plugin);
 
         $collection = $this->restClient->getNews();
-        $request = $this->restClient->getLastRequest();
+        $request = $this->history->getLastRequest();
         $this->assertNotNull($request);
         $this->assertEquals('limit=25', $request->getQuery());
         $this->assertEquals('/news.xml', $request->getPath());
@@ -87,7 +89,7 @@ class RequestNewsTest extends \PHPUnit_Framework_TestCase
         $this->restClient->getHttpClient()->addSubscriber($plugin);
 
         $collection = $this->restClient->getNews('', 1);
-        $request = $this->restClient->getLastRequest();
+        $request = $this->history->getLastRequest();
 
         $this->assertNotNull($request);
         $this->assertEquals('limit=1', $request->getQuery());
@@ -113,7 +115,7 @@ class RequestNewsTest extends \PHPUnit_Framework_TestCase
         $this->restClient->getHttpClient()->addSubscriber($plugin);
 
         $collection = $this->restClient->getNews('test-project');
-        $request = $this->restClient->getLastRequest();
+        $request = $this->history->getLastRequest();
 
         $this->assertNotNull($request);
         $this->assertEquals('limit=25', $request->getQuery());

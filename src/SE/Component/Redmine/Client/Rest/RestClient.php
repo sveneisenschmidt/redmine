@@ -61,12 +61,6 @@ class RestClient implements ClientInterface
 
     /**
      *
-     * @var \Guzzle\Http\Message\RequestInterface
-     */
-    protected $lastRequest;
-
-    /**
-     *
      * @param $httpClient
      * @param string $baseUrl
      * @param string $apiKey
@@ -136,22 +130,6 @@ class RestClient implements ClientInterface
     public function getBaseUrl()
     {
         return $this->baseUrl;
-    }
-
-    /**
-     * @param \Guzzle\Http\Message\RequestInterface $lastRequest
-     */
-    public function setLastRequest(RequestInterface $lastRequest)
-    {
-        $this->lastRequest = $lastRequest;
-    }
-
-    /**
-     * @return \Guzzle\Http\Message\RequestInterface
-     */
-    public function getLastRequest()
-    {
-        return $this->lastRequest;
     }
 
     /**
@@ -240,7 +218,6 @@ class RestClient implements ClientInterface
             $this->prepareOptions($options)
         );
 
-        $this->setLastRequest($request);
         return $request;
     }
 
