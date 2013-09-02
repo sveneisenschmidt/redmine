@@ -111,9 +111,15 @@ class RestClientTest extends \PHPUnit_Framework_TestCase
         $httpClient = new \Guzzle\Http\Client;
         $baseUrl = 'http://localhost/redmine/';
         $apiKey = sha1(uniqid(microtime(true), true));
+        $uri = '/resource/1.xml';
         $hash = sha1(uniqid(microtime(true), true));
 
         $client = new \SE\Component\Redmine\Client\Rest\RestClient($httpClient, $baseUrl, $apiKey);
+        $request = $client->createRequest($uri, array(
+            $hash => strrev($hash)
+        ));
 
+        $this->assertInstanceOf('\Guzzle\Http\Message\RequestInterface', $request);
+        $this->assertEquals(strrev($hash), $request->getQuery()->get($hash));
     }
 }

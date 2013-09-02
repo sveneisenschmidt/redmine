@@ -206,17 +206,22 @@ class RestClient implements ClientInterface
 
     /**
      * @param string $uri
+     * @param array $query
      * @param array $headers
      * @param array $options
      * @return \Guzzle\Http\Message\RequestInterface
      */
-    public function createRequest($uri, array $headers = array(), array $options = array())
+    public function createRequest($uri, array $query = array(), array $headers = array(), array $options = array())
     {
         $request = $this->httpClient->get(
             $this->prepareUrl($uri),
             $this->prepareHeaders($headers),
             $this->prepareOptions($options)
         );
+
+        foreach($query as $key => $value) {
+            $request->getQuery()->add($key, $value);
+        }
 
         return $request;
     }
@@ -235,17 +240,19 @@ class RestClient implements ClientInterface
             $uri = sprintf('%s/%s', trim($project), $uri);
         }
 
-        $request = $this->createRequest($uri);
-        $request->getQuery()->add('limit', $limit);
+        $request = $this->createRequest($uri, array(
+            'limit' => $limit
+        ));
 
         $response = $request->send();
+        // @codeCoverageIgnoreStart
         if($response->isSuccessful() === false) {
             throw ServerErrorResponseException::factory($request, $response);
         }
+        // @codeCoverageIgnoreEnd
 
-        $contents = (string)$response->getBody();
         $collection =  $this->serializer->deserialize(
-            $contents,
+            (string)$response->getBody(),
             'SE\Component\Redmine\Entity\NewsCollection',
             $this->getFormat()
         );

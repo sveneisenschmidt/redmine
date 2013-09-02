@@ -39,10 +39,9 @@ class RequestNewsTest extends \PHPUnit_Framework_TestCase
      */
     public function Get_News_With_Default_Values()
     {
-        $response = new \Guzzle\Http\Message\Response(200, null,
-            file_get_contents(__DIR__.'/Fixtures/news.get.default.xml'));
-        $plugin = new \Guzzle\Plugin\Mock\MockPlugin();
-        $plugin->addResponse($response);
+        $plugin = new \Guzzle\Plugin\Mock\MockPlugin(array(
+            new \Guzzle\Http\Message\Response(200, null, file_get_contents(__DIR__.'/Fixtures/news.get.default.xml'))
+        ));
         $this->restClient->getHttpClient()->addSubscriber($plugin);
 
         $collection = $this->restClient->getNews();
@@ -82,10 +81,9 @@ class RequestNewsTest extends \PHPUnit_Framework_TestCase
      */
     public function Get_News_With_Limit()
     {
-        $response = new \Guzzle\Http\Message\Response(200, null,
-            file_get_contents(__DIR__.'/Fixtures/news.get.limit.xml'));
-        $plugin = new \Guzzle\Plugin\Mock\MockPlugin();
-        $plugin->addResponse($response);
+        $plugin = new \Guzzle\Plugin\Mock\MockPlugin(array(
+            new \Guzzle\Http\Message\Response(200, null, file_get_contents(__DIR__.'/Fixtures/news.get.limit.xml'))
+        ));
         $this->restClient->getHttpClient()->addSubscriber($plugin);
 
         $collection = $this->restClient->getNews('', 1);
@@ -108,10 +106,9 @@ class RequestNewsTest extends \PHPUnit_Framework_TestCase
      */
     public function Get_News_With_Project()
     {
-        $response = new \Guzzle\Http\Message\Response(200, null,
-            file_get_contents(__DIR__.'/Fixtures/news.get.project.xml'));
-        $plugin = new \Guzzle\Plugin\Mock\MockPlugin();
-        $plugin->addResponse($response);
+        $plugin = new \Guzzle\Plugin\Mock\MockPlugin(array(
+            new \Guzzle\Http\Message\Response(200, null, file_get_contents(__DIR__.'/Fixtures/news.get.project.xml'))
+        ));
         $this->restClient->getHttpClient()->addSubscriber($plugin);
 
         $collection = $this->restClient->getNews('test-project');
@@ -120,5 +117,35 @@ class RequestNewsTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($request);
         $this->assertEquals('limit=25', $request->getQuery());
         $this->assertEquals('/test-project/news.xml', $request->getPath());
+    }
+
+    /**
+     *
+     * @test
+     * @expectedException \Guzzle\Http\Exception\ClientErrorResponseException
+     */
+    public function Server_Returns_Error_404()
+    {
+        $plugin = new \Guzzle\Plugin\Mock\MockPlugin(array(
+            new \Guzzle\Http\Message\Response(404)
+        ));
+        $this->restClient->getHttpClient()->addSubscriber($plugin);
+
+        $collection = $this->restClient->getNews();
+    }
+
+    /**
+     *
+     * @test
+     * @expectedException \Guzzle\Http\Exception\ServerErrorResponseException
+     */
+    public function Server_Returns_Error_500()
+    {
+        $plugin = new \Guzzle\Plugin\Mock\MockPlugin(array(
+            new \Guzzle\Http\Message\Response(500)
+        ));
+        $this->restClient->getHttpClient()->addSubscriber($plugin);
+
+        $collection = $this->restClient->getNews();
     }
 }
