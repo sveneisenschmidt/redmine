@@ -101,4 +101,63 @@ class RestClientTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('X-Redmine-API-Key', $headers);
         $this->assertContains($client->getApiKey(), $headers);
     }
+
+    /**
+     *
+     * @test
+     */
+    public function Create_Request()
+    {
+        $httpClient = new \Guzzle\Http\Client;
+        $baseUrl = 'http://localhost/redmine/';
+        $apiKey = sha1(uniqid(microtime(true), true));
+        $hash = sha1(uniqid(microtime(true), true));
+
+        $client = new \SE\Component\Redmine\Client\Rest\RestClient($httpClient, $baseUrl, $apiKey);
+        $request = $client->createRequest($hash);
+
+        $this->assertSame($request->getPath(), '/redmine/'.$hash);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Set_Get_Last_Request()
+    {
+        $stub = $this->getMock('\Guzzle\Http\Client');
+        $baseUrl = 'http://localhost/redmine/';
+        $apiKey = sha1(uniqid(microtime(true), true));
+
+        $client = new \SE\Component\Redmine\Client\Rest\RestClient($stub, $baseUrl, $apiKey);
+
+        $request1 = $this->getMock('\Guzzle\Http\Message\RequestInterface');
+        $request2 = $this->getMock('\Guzzle\Http\Message\RequestInterface');
+
+        $client->setLastRequest($request1);
+        $this->assertSame($request1, $client->getLastRequest());
+        $client->setLastRequest($request2);
+        $this->assertSame($request2, $client->getLastRequest());
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Request_Is_Saved()
+    {
+        $httpClient = new \Guzzle\Http\Client;
+        $baseUrl = 'http://localhost/redmine/';
+        $apiKey = sha1(uniqid(microtime(true), true));
+        $hash = sha1(uniqid(microtime(true), true));
+
+        $client = new \SE\Component\Redmine\Client\Rest\RestClient($httpClient, $baseUrl, $apiKey);
+        $request = $client->createRequest($hash);
+
+        $this->assertSame($request, $client->getLastRequest());
+
+        $this->markTestIncomplete(
+            'Requests should tracked via Events not in createRequest'
+        );
+    }
 }
