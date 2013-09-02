@@ -49,4 +49,60 @@ class AuthorRelationTest extends \PHPUnit_Framework_TestCase
         $entity->setName($hash);
         $this->assertEquals($hash, $entity->getName());
     }
+
+    /**
+     *
+     * @test
+     */
+    public function Serialize()
+    {
+        $entity = new \SE\Component\Redmine\Entity\AuthorRelation;
+        $entity->setId(1);
+        $entity->setName('John Smith');
+
+        $expected = file_get_contents(__DIR__.'/Fixtures/author_relation.xml');
+        $actual = $this->serializer->serialize($entity, 'xml');
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Serialize_Empty()
+    {
+        $entity = new \SE\Component\Redmine\Entity\AuthorRelation;
+
+        $expected = file_get_contents(__DIR__.'/Fixtures/author_relation_empty.xml');
+        $actual = $this->serializer->serialize($entity, 'xml');
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Deserialize()
+    {
+        $contents = file_get_contents(__DIR__.'/Fixtures/author_relation.xml');
+        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\AuthorRelation', 'xml');
+
+        $this->assertEquals(1, $entity->getId());
+        $this->assertEquals('John Smith', $entity->getName());
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Deserialize_Empty()
+    {
+        $contents = file_get_contents(__DIR__.'/Fixtures/author_relation_empty.xml');
+        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\AuthorRelation', 'xml');
+
+        $this->assertNull($entity->getId());
+        $this->assertNull($entity->getName());
+    }
 }
