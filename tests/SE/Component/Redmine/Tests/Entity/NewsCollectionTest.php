@@ -45,7 +45,7 @@ class NewsCollectionTest extends \PHPUnit_Framework_TestCase
         $entity = new \SE\Component\Redmine\Entity\NewsCollection;
         $value = rand(1,100);
 
-        $this->assertequals(0, $entity->getOffset());
+        $this->assertEquals(0, $entity->getOffset());
         $entity->setOffset($value);
         $this->assertEquals($value, $entity->getOffset());
     }
@@ -59,7 +59,7 @@ class NewsCollectionTest extends \PHPUnit_Framework_TestCase
         $entity = new \SE\Component\Redmine\Entity\NewsCollection;
         $value = rand(1,100);
 
-        $this->assertequals(0, $entity->getTotalCount());
+        $this->assertEquals(0, $entity->getTotalCount());
         $entity->setTotalCount($value);
         $this->assertEquals($value, $entity->getTotalCount());
     }
