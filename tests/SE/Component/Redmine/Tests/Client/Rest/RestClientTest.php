@@ -44,6 +44,7 @@ class RestClientTest extends \PHPUnit_Framework_TestCase
         $client = new \SE\Component\Redmine\Client\Rest\RestClient($stub, $baseUrl, $apiKey);
         $this->assertSame($apiKey, $client->getApiKey());
         $this->assertSame($baseUrl, $client->getBaseUrl());
+        $this->assertSame($stub, $client->getHttpClient());
     }
 
     /**

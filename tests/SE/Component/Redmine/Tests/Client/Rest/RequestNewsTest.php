@@ -25,18 +25,9 @@ class RequestNewsTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $body = file_get_contents(__DIR__.'/Fixtures/news.get.xml');
-        $response = new \Guzzle\Http\Message\Response(200, null, $body);
-
-        $plugin = new \Guzzle\Plugin\Mock\MockPlugin();
-        $plugin->addResponse($response);
-
         $httpClient = new \Guzzle\Http\Client();
-        $httpClient->addSubscriber($plugin);
-
         $baseUrl = 'http://localhost/redmine';
         $apiKey = sha1(uniqid(microtime(true), true));
-
         $this->restClient = new \SE\Component\Redmine\Client\Rest\RestClient($httpClient, $baseUrl, $apiKey);
     }
 
@@ -46,15 +37,21 @@ class RequestNewsTest extends \PHPUnit_Framework_TestCase
      */
     public function Get_News_With_Default_Values()
     {
+        $response = new \Guzzle\Http\Message\Response(200, null,
+            file_get_contents(__DIR__.'/Fixtures/news.get.default.xml'));
+        $plugin = new \Guzzle\Plugin\Mock\MockPlugin();
+        $plugin->addResponse($response);
+        $this->restClient->getHttpClient()->addSubscriber($plugin);
+
         $collection = $this->restClient->getNews();
 
         $this->assertInstanceOf('\SE\Component\Redmine\Entity\NewsCollection', $collection);
         $this->assertEquals(25, $collection->getLimit());
-        $this->assertEquals(1, $collection->getTotalCount());
+        $this->assertEquals(3, $collection->getTotalCount());
         $this->assertEquals(0, $collection->getOffset());
 
         $news = $collection->getNews();
-        $this->assertCount(1, $news);
+        $this->assertCount(3, $news);
 
         $entity = array_shift($news);
         $this->assertEquals(1, $entity->getId());
@@ -67,9 +64,46 @@ class RequestNewsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(99, $entity->getAuthor()->getId());
         $this->assertEquals('Sven Eisenschmidt', $entity->getAuthor()->getName());
 
-        $this->assertEquals('Redmine PHP Api 0.1 released', $entity->getTitle());
+        $this->assertEquals('Redmine PHP Api 0.1 released #1', $entity->getTitle());
         $this->assertEquals('Redmine PHP Api 0.1 has been released', $entity->getDescription());
         $this->assertEmpty($entity->getSummary());
+
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Get_News_With_Limit()
+    {
+        $response = new \Guzzle\Http\Message\Response(200, null,
+            file_get_contents(__DIR__.'/Fixtures/news.get.limit.xml'));
+        $plugin = new \Guzzle\Plugin\Mock\MockPlugin();
+        $plugin->addResponse($response);
+        $this->restClient->getHttpClient()->addSubscriber($plugin);
+
+        $collection = $this->restClient->getNews('', 1);
+
+        $this->assertInstanceOf('\SE\Component\Redmine\Entity\NewsCollection', $collection);
+        $this->assertEquals(25, $collection->getLimit());
+        $this->assertEquals(1, $collection->getTotalCount());
+        $this->assertEquals(0, $collection->getOffset());
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Get_News_With_Porjekt()
+    {
+        $response = new \Guzzle\Http\Message\Response(200, null,
+            file_get_contents(__DIR__.'/Fixtures/news.get.project.xml'));
+        $plugin = new \Guzzle\Plugin\Mock\MockPlugin();
+        $plugin->addResponse($response);
+        $this->restClient->getHttpClient()->addSubscriber($plugin);
+
+        $collection = $this->restClient->getNews('test-project');
+
 
     }
 }

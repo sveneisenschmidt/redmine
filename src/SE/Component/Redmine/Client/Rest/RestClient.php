@@ -26,6 +26,8 @@ class RestClient implements ClientInterface
 {
     const CLIENT_NAME = 'redmine.client.rest';
 
+    const API_FORMAT = 'xml';
+
     /**
      *
      * @var \Guzzle\Http\Client
@@ -74,6 +76,15 @@ class RestClient implements ClientInterface
 
         $this->setApiKey($apiKey);
         $this->setBaseUrl($baseUrl);
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getFormat()
+    {
+        return self::API_FORMAT;
     }
 
     /**
@@ -146,6 +157,16 @@ class RestClient implements ClientInterface
 
     /**
      *
+     * @return \Guzzle\Http\Client
+     */
+    public function getHttpClient()
+    {
+        return $this->httpClient;
+    }
+
+
+    /**
+     *
      * @param string $uri
      * @return string
      */
@@ -206,9 +227,15 @@ class RestClient implements ClientInterface
      */
     public function getNews($project = '', $limit = 25)
     {
-        $request = $this->createRequest('news.xml');
-        $response = $request->send();
+        $uri = sprintf('%s.%s', 'news', $this->getFormat());
+        if(empty($project) === false) {
+            $uri = sprintf('%s/%s', trim($project), $uri);
+        }
 
+        $request = $this->createRequest($uri);
+        $request->getQuery()->add('limit', $limit);
+
+        $response = $request->send();
         if($response->isSuccessful() === false) {
             throw ServerErrorResponseException::factory($request, $response);
         }
@@ -217,7 +244,7 @@ class RestClient implements ClientInterface
         $collection =  $this->serializer->deserialize(
             $contents,
             'SE\Component\Redmine\Entity\NewsCollection',
-            'xml'
+            $this->getFormat()
         );
 
         return $collection;
