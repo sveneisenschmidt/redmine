@@ -29,7 +29,7 @@ class AuthorRelation
      *
      * @var integer
      */
-    protected $id = 0;
+    protected $id;
 
     /**
      *
@@ -40,7 +40,7 @@ class AuthorRelation
      *
      * @var string
      */
-    protected $name = 0;
+    protected $name;
 
     /**
      * 
