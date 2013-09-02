@@ -105,4 +105,92 @@ class NewsTest extends \PHPUnit_Framework_TestCase
         $entity->setProject($project);
         $this->assertSame($project, $entity->getProject());
     }
+
+    /**
+     *
+     * @test
+     */
+    public function Get_Set_Created_On()
+    {
+        $entity = new \SE\Component\Redmine\Entity\News;
+        $value = new \DateTime('2013-01-01 00:00:00 +00:00');
+
+        $this->assertNull($entity->getCreatedOn());
+        $entity->setCreatedOn($value);
+        $this->assertSame($value, $entity->getCreatedOn());
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Serialize()
+    {
+        $entity = new \SE\Component\Redmine\Entity\News;
+        $entity->setTitle('Title #1');
+        $entity->setDescription('Description #1');
+        $entity->setSummary('Summary #1');
+        $entity->setCreatedOn(new \DateTime('2013-01-01 00:00:00 +00:00'));
+
+        $author = new \SE\Component\Redmine\Entity\AuthorRelation();
+        $author->setId(1);
+        $entity->setAuthor($author);
+
+        $project = new \SE\Component\Redmine\Entity\ProjectRelation();
+        $project->setId(1);
+        $entity->setProject($project);
+
+        $expected = file_get_contents(__DIR__.'/Fixtures/news.xml');
+        $actual = $this->serializer->serialize($entity, 'xml');
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Serialize_Empty()
+    {
+        $entity = new \SE\Component\Redmine\Entity\News;
+
+        $expected = file_get_contents(__DIR__.'/Fixtures/news_empty.xml');
+        $actual = $this->serializer->serialize($entity, 'xml');
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Deserialize()
+    {
+        $contents = file_get_contents(__DIR__.'/Fixtures/news.xml');
+        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\News', 'xml');
+
+        $this->assertEquals('Title #1', $entity->getTitle());
+        $this->assertEquals('Description #1', $entity->getDescription());
+        $this->assertEquals('Summary #1', $entity->getSummary());
+        $this->assertEquals(new \DateTime('2013-01-01 00:00:00 +00:00'), $entity->getCreatedOn());
+        $this->assertEquals(1, $entity->getAuthor()->getId());
+        $this->assertEquals(1, $entity->getProject()->getId());
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Deserialize_Empty()
+    {
+        $contents = file_get_contents(__DIR__.'/Fixtures/news_empty.xml');
+        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\News', 'xml');
+
+        $this->assertNull($entity->getTitle());
+        $this->assertNull($entity->getDescription());
+        $this->assertNull($entity->getSummary());
+        $this->assertNull($entity->getCreatedOn());
+        $this->assertNull($entity->getAuthor());
+        $this->assertNull($entity->getProject());
+    }
 }

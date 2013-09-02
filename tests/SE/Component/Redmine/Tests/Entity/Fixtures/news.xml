@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<news>
+  <project id="1"/>
+  <author id="1"/>
+  <title><![CDATA[Title #1]]></title>
+  <summary><![CDATA[Summary #1]]></summary>
+  <description><![CDATA[Description #1]]></description>
+  <created_on><![CDATA[2013-01-01T0:00:00+00:00]]></created_on>
+</news>
