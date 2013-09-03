@@ -130,7 +130,7 @@ class Issue
      *
      * @Serializer\Expose
      * @Serializer\SerializedName("start_date")
-     * @Serializer\Type("DateTime<'Y-m-d'>")
+     * @Serializer\Type("datetime<'Y-m-d'>")
      *
      * @var \DateTime
      */
@@ -186,7 +186,7 @@ class Issue
      *
      * @Serializer\Expose
      * @Serializer\SerializedName("updated_on")
-     * @Serializer\Type("DateTime")
+     * @Serializer\Type("datetime<'Y-m-d\TG:i:sP'>")
      *
      * @var \DateTime
      */
@@ -197,7 +197,7 @@ class Issue
      *
      * @Serializer\Expose
      * @Serializer\SerializedName("created_on")
-     * @Serializer\Type("DateTime")
+     * @Serializer\Type("datetime<'Y-m-d\TG:i:sP'>")
      *
      * @var \DateTime
      */
