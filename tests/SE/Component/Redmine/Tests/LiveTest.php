@@ -17,6 +17,18 @@ namespace SE\Component\Redmine\Tests;
  */
 class LiveTest extends \PHPUnit_Framework_TestCase
 {
+    public function setUp()
+    {
 
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Some_Test()
+    {
+        
+    }
 
 }
