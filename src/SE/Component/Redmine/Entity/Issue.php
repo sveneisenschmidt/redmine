@@ -129,28 +129,6 @@ class Issue
      *
      *
      * @Serializer\Expose
-     * @Serializer\SerializedName("start_date")
-     * @Serializer\Type("datetime<'Y-m-d'>")
-     *
-     * @var \DateTime
-     */
-    protected $startDate;
-
-    /**
-     *
-     *
-     * @Serializer\Expose
-     * @Serializer\SerializedName("due_date")
-     * @Serializer\Type("datetime<'Y-m-d'>")
-     *
-     * @var \DateTime
-     */
-    protected $dueDate;
-
-    /**
-     *
-     *
-     * @Serializer\Expose
      * @Serializer\SerializedName("done_ratio")
      * @Serializer\Type("integer")
      *
@@ -180,6 +158,28 @@ class Issue
      * @var \SE\Component\Redmine\Entity\CustomField[]
      */
     protected $customFields;
+
+    /**
+     *
+     *
+     * @Serializer\Expose
+     * @Serializer\SerializedName("start_date")
+     * @Serializer\Type("string")
+     *
+     * @var \DateTime
+     */
+    protected $startDate;
+
+    /**
+     *
+     *
+     * @Serializer\Expose
+     * @Serializer\SerializedName("due_date")
+     * @Serializer\Type("string")
+     *
+     * @var \DateTime
+     */
+    protected $dueDate;
 
     /**
      *
