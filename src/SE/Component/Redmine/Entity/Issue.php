@@ -186,7 +186,7 @@ class Issue
      *
      * @Serializer\Expose
      * @Serializer\SerializedName("updated_on")
-     * @Serializer\Type("datetime<'r'>")
+     * @Serializer\Type("DateTime")
      *
      * @var \DateTime
      */
@@ -197,7 +197,7 @@ class Issue
      *
      * @Serializer\Expose
      * @Serializer\SerializedName("created_on")
-     * @Serializer\Type("datetime<'r'>")
+     * @Serializer\Type("DateTime")
      *
      * @var \DateTime
      */
