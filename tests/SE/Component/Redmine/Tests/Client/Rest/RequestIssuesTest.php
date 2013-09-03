@@ -52,12 +52,12 @@ class RequestIssuesTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('\SE\Component\Redmine\Entity\Collection\Issue', $collection);
         $this->assertEquals(25, $collection->getLimit());
-        $this->assertEquals(1, $collection->getTotalCount());
+        $this->assertEquals(3, $collection->getTotalCount());
         $this->assertEquals(0, $collection->getOffset());
-        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(3, $collection->count());
 
         $issues = $collection->getIssues();
-        $this->assertCount(1, $issues);
+        $this->assertCount(3, $issues);
 
         $entity = array_shift($issues);
         $this->assertEquals(4326, $entity->getId());
@@ -67,9 +67,61 @@ class RequestIssuesTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\SE\Component\Redmine\Entity\Relation\Category', $entity->getCategory());
         $this->assertInstanceOf('\SE\Component\Redmine\Entity\Relation\Priority', $entity->getPriority());
         $this->assertInstanceOf('\SE\Component\Redmine\Entity\Relation\Tracker', $entity->getTracker());
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Get_Issues_With_Limit()
+    {
+        $plugin = new \Guzzle\Plugin\Mock\MockPlugin(array(
+            new \Guzzle\Http\Message\Response(200, null, file_get_contents(__DIR__.'/Fixtures/issues.get.limit.xml'))
+        ));
+        $this->restClient->getHttpClient()->addSubscriber($plugin);
+
+        $collection = $this->restClient->getIssues(1);
+        $request = $this->history->getLastRequest();
+
+        $this->assertNotNull($request);
+        $this->assertEquals('limit=1', $request->getQuery());
+        $this->assertEquals('/issues.xml', $request->getPath());
+
+        $this->assertInstanceOf('\SE\Component\Redmine\Entity\Collection\Issue', $collection);
+        $this->assertEquals(1, $collection->getLimit());
+        $this->assertEquals(3, $collection->getTotalCount());
+        $this->assertEquals(0, $collection->getOffset());
+    }
 
 
 
+    /**
+     *
+     * @test
+     * @expectedException \Guzzle\Http\Exception\ClientErrorResponseException
+     */
+    public function Server_Returns_Error_404()
+    {
+        $plugin = new \Guzzle\Plugin\Mock\MockPlugin(array(
+            new \Guzzle\Http\Message\Response(404)
+        ));
+        $this->restClient->getHttpClient()->addSubscriber($plugin);
 
+        $collection = $this->restClient->getIssues();
+    }
+
+    /**
+     *
+     * @test
+     * @expectedException \Guzzle\Http\Exception\ServerErrorResponseException
+     */
+    public function Server_Returns_Error_500()
+    {
+        $plugin = new \Guzzle\Plugin\Mock\MockPlugin(array(
+            new \Guzzle\Http\Message\Response(500)
+        ));
+        $this->restClient->getHttpClient()->addSubscriber($plugin);
+
+        $collection = $this->restClient->getIssues();
     }
 }

@@ -94,10 +94,9 @@ class RequestNewsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('/news.xml', $request->getPath());
 
         $this->assertInstanceOf('\SE\Component\Redmine\Entity\Collection\News', $collection);
-        $this->assertEquals(25, $collection->getLimit());
-        $this->assertEquals(1, $collection->getTotalCount());
+        $this->assertEquals(1, $collection->getLimit());
+        $this->assertEquals(3, $collection->getTotalCount());
         $this->assertEquals(0, $collection->getOffset());
-
     }
 
     /**
