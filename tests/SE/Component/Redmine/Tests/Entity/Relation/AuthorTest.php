@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace SE\Component\Redmine\Tests\Entity;
+namespace SE\Component\Redmine\Tests\Entity\Relation;
 
 
 /**
@@ -15,7 +15,7 @@ namespace SE\Component\Redmine\Tests\Entity;
  * @package SE\Component\Redmine\Tests
  * @author Sven Eisenschmidt <sven.eisenschmidt@gmail.com>
  */
-class ProjectRelationTest extends \PHPUnit_Framework_TestCase
+class AuthorTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
@@ -28,7 +28,7 @@ class ProjectRelationTest extends \PHPUnit_Framework_TestCase
      */
     public function Get_Set_Id()
     {
-        $entity = new \SE\Component\Redmine\Entity\Relation\Project;
+        $entity = new \SE\Component\Redmine\Entity\Relation\Author;
         $hash = sha1(uniqid(microtime(true), true));
 
         $this->assertNull($entity->getId());
@@ -42,7 +42,7 @@ class ProjectRelationTest extends \PHPUnit_Framework_TestCase
      */
     public function Get_Set_Name()
     {
-        $entity = new \SE\Component\Redmine\Entity\Relation\Project;
+        $entity = new \SE\Component\Redmine\Entity\Relation\Author;
         $hash = sha1(uniqid(microtime(true), true));
 
         $this->assertNull($entity->getName());
@@ -56,11 +56,11 @@ class ProjectRelationTest extends \PHPUnit_Framework_TestCase
      */
     public function Serialize()
     {
-        $entity = new \SE\Component\Redmine\Entity\Relation\Project;
+        $entity = new \SE\Component\Redmine\Entity\Relation\Author;
         $entity->setId(1);
-        $entity->setName('REST');
+        $entity->setName('John Smith');
 
-        $expected = file_get_contents(__DIR__.'/Fixtures/project_relation.xml');
+        $expected = file_get_contents(__DIR__.'/Fixtures/author_relation.xml');
         $actual = $this->serializer->serialize($entity, 'xml');
 
         $this->assertEquals($expected, $actual);
@@ -72,9 +72,9 @@ class ProjectRelationTest extends \PHPUnit_Framework_TestCase
      */
     public function Serialize_Empty()
     {
-        $entity = new \SE\Component\Redmine\Entity\Relation\Project;
+        $entity = new \SE\Component\Redmine\Entity\Relation\Author;
 
-        $expected = file_get_contents(__DIR__.'/Fixtures/project_relation_empty.xml');
+        $expected = file_get_contents(__DIR__.'/Fixtures/author_relation_empty.xml');
         $actual = $this->serializer->serialize($entity, 'xml');
 
         $this->assertEquals($expected, $actual);
@@ -86,11 +86,11 @@ class ProjectRelationTest extends \PHPUnit_Framework_TestCase
      */
     public function Deserialize()
     {
-        $contents = file_get_contents(__DIR__.'/Fixtures/project_relation.xml');
-        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\Relation\Project', 'xml');
+        $contents = file_get_contents(__DIR__.'/Fixtures/author_relation.xml');
+        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\Relation\Author', 'xml');
 
         $this->assertEquals(1, $entity->getId());
-        $this->assertEquals('REST', $entity->getName());
+        $this->assertEquals('John Smith', $entity->getName());
     }
 
     /**
@@ -99,8 +99,8 @@ class ProjectRelationTest extends \PHPUnit_Framework_TestCase
      */
     public function Deserialize_Empty()
     {
-        $contents = file_get_contents(__DIR__.'/Fixtures/project_relation_empty.xml');
-        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\Relation\Project', 'xml');
+        $contents = file_get_contents(__DIR__.'/Fixtures/author_relation_empty.xml');
+        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\Relation\Author', 'xml');
 
         $this->assertNull($entity->getId());
         $this->assertNull($entity->getName());
