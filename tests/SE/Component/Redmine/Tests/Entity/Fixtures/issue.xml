@@ -2,6 +2,7 @@
 <issue>
   <id>99</id>
   <author id="99" name="Jon Smith"/>
+  <assigned_to id="52" name="Jane Doe"/>
   <status id="1" name="New"/>
   <project id="98" name="Test Project"/>
   <priority id="4" name="High"/>

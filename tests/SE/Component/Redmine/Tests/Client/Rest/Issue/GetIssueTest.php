@@ -39,6 +39,15 @@ class GetIssueTest extends \PHPUnit_Framework_TestCase
      */
     public function Get_Issue()
     {
-        $this->assertTrue(true);
+        $plugin = new \Guzzle\Plugin\Mock\MockPlugin(array(
+            new \Guzzle\Http\Message\Response(200, null, file_get_contents(__DIR__.'/Fixtures/issue.get.default.xml'))
+        ));
+        $this->restClient->getHttpClient()->addSubscriber($plugin);
+
+        $issue = $this->restClient->getIssue(1);
+
+
+
+
     }
 }

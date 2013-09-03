@@ -274,6 +274,11 @@ class IssueTest extends \PHPUnit_Framework_TestCase
         $author->setName('Jon Smith');
         $entity->setAuthor($author);
 
+        $assignedTo = new \SE\Component\Redmine\Entity\Relation\AssignedTo;
+        $assignedTo->setId(52);
+        $assignedTo->setName('Jane Doe');
+        $entity->setAssignedTo($assignedTo);
+
         $project = new \SE\Component\Redmine\Entity\Relation\Project;
         $project->setId(98);
         $project->setName('Test Project');
@@ -368,6 +373,10 @@ class IssueTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(4, $entity->getPriority()->getId());
         $this->assertEquals('High', $entity->getPriority()->getName());
 
+        $this->assertInstanceOf('SE\Component\Redmine\Entity\Relation\AssignedTo', $entity->getAssignedTo());
+        $this->assertEquals(52, $entity->getAssignedTo()->getId());
+        $this->assertEquals('Jane Doe', $entity->getAssignedTo()->getName());
+
         $customFields = $entity->getCustomFields();
         $customField = array_shift($customFields);
 
@@ -397,6 +406,7 @@ class IssueTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($entity->getCategory());
         $this->assertNull($entity->getPriority());
         $this->assertNull($entity->getTracker());
+        $this->assertNull($entity->getAssignedTo());
         $this->assertEmpty($entity->getCustomFields());
     }
 }

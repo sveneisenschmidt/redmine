@@ -9,6 +9,7 @@
  */
 namespace SE\Component\Redmine\Client\Rest;
 
+use \SE\Component\Redmine\EntityManager;
 use \SE\Component\Redmine\Client\ClientInterface;
 
 use \Guzzle\Http\Client as HttpClient;
@@ -231,7 +232,7 @@ class RestClient implements ClientInterface
      * @param string $project
      * @param integer $limit
      * @throws \Guzzle\Http\Exception\BadResponseException
-     * @return \SE\Component\Redmine\Entity\NewsCollection
+     * @return \SE\Component\Redmine\Entity\Collection\News
      */
     public function getNews($project = '', $limit = 25)
     {
@@ -265,7 +266,7 @@ class RestClient implements ClientInterface
      * @param string $project
      * @param integer $limit
      * @throws \Guzzle\Http\Exception\BadResponseException
-     * @return \SE\Component\Redmine\Entity\NewsCollection
+     * @return \SE\Component\Redmine\Entity\Collection\Issue
      */
     public function getIssues($limit = 25, array $params = array())
     {
@@ -290,4 +291,34 @@ class RestClient implements ClientInterface
 
         return $collection;
     }
+
+    /**
+     *
+     * @param string $project
+     * @param integer $limit
+     * @throws \Guzzle\Http\Exception\BadResponseException
+     * @return \SE\Component\Redmine\Entity\NewsCollection
+     */
+    public function getIssue($id)
+    {
+        $uri = sprintf('%s/%s.%s', 'issues', $id, $this->getFormat());
+
+        $request = $this->createRequest($uri);
+
+        $response = $request->send();
+        // @codeCoverageIgnoreStart
+        if($response->isSuccessful() === false) {
+            throw ServerErrorResponseException::factory($request, $response);
+        }
+        // @codeCoverageIgnoreEnd
+
+        $entity =  $this->serializer->deserialize(
+            (string)$response->getBody(),
+            'SE\Component\Redmine\Entity\Issue',
+            $this->getFormat()
+        );
+
+        return $entity;
+    }
+
 }

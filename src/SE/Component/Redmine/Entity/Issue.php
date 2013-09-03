@@ -17,6 +17,7 @@ use \SE\Component\Redmine\Entity\Relation\Status;
 use \SE\Component\Redmine\Entity\Relation\Tracker;
 use \SE\Component\Redmine\Entity\Relation\Priority;
 use \SE\Component\Redmine\Entity\Relation\Category;
+use \SE\Component\Redmine\Entity\Relation\AssignedTo;
 
 /**
  *
@@ -47,6 +48,17 @@ class Issue
      * @var \SE\Component\Redmine\Entity\Relation\Author
      */
     protected $author;
+
+    /**
+     *
+     *
+     * @Serializer\Expose
+     * @Serializer\SerializedName("assigned_to")
+     * @Serializer\Type("SE\Component\Redmine\Entity\Relation\AssignedTo")
+     *
+     * @var \SE\Component\Redmine\Entity\Relation\AssignedTo
+     */
+    protected $assignedTo;
 
     /**
      *
@@ -491,8 +503,21 @@ class Issue
         return $this->updatedOn;
     }
 
+    /**
+     *
+     * @param \SE\Component\Redmine\Entity\Relation\AssignedTo $assignedTo
+     */
+    public function setAssignedTo(AssignedTo $assignedTo)
+    {
+        $this->assignedTo = $assignedTo;
+    }
 
-
-
-
+    /**
+     *
+     * @return \SE\Component\Redmine\Entity\Relation\AssignedTo
+     */
+    public function getAssignedTo()
+    {
+        return $this->assignedTo;
+    }
 }
