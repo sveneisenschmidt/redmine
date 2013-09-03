@@ -18,3 +18,5 @@ call_user_func(function() {
     $loader = require $autoloadFile;
     AnnotationRegistry::registerLoader('class_exists');
 });
+
+require_once __DIR__.'/config.php';
