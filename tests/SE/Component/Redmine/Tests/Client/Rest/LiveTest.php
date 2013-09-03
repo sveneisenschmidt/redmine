@@ -78,4 +78,36 @@ class LiveTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('No news found for testing.');
         }
     }
+
+    /**
+     *
+     * @test
+     */
+    public function Can_Load_Issues()
+    {
+        $collection = $this->client->getIssues(5);
+        $this->assertLessThanOrEqual(5, $collection->count());
+
+        if($collection->count() >= 1) {
+            foreach($collection->getIssues() as $issue) {
+                $this->assertNotNull($issue->getAuthor());
+                $this->assertNotNull($issue->getProject());
+                $this->assertNotNull($issue->getTracker());
+                $this->assertNotNull($issue->getSubject());
+
+                $this->assertInternalType('integer', $issue->getId());
+                $this->assertInternalType('string', $issue->getSubject());
+                $this->assertInternalType('string', $issue->getDescription());
+
+                $this->assertInstanceOf('\DateTime', $issue->getCreatedOn());
+                $this->assertInstanceOf('\DateTime', $issue->getUpdatedOn());
+                $this->assertInstanceOf('\SE\Component\Redmine\Entity\Relation\Author', $issue->getAuthor());
+                $this->assertInstanceOf('\SE\Component\Redmine\Entity\Relation\Project', $issue->getProject());
+                $this->assertInstanceOf('\SE\Component\Redmine\Entity\Relation\Status', $issue->getStatus());
+                $this->assertInstanceOf('\SE\Component\Redmine\Entity\Relation\Tracker', $issue->getTracker());
+            }
+        } else {
+            $this->markTestSkipped('No issues found for testing.');
+        }
+    }
 }

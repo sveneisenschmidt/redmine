@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issue>
+  <id>99</id>
+  <author id="99" name="Jon Smith"/>
+  <status id="1" name="New"/>
+  <project id="98" name="Test Project"/>
+  <priority id="4" name="High"/>
+  <category id="12" name="Bugfix"/>
+  <tracker id="97" name="Ticket"/>
+  <subject><![CDATA[Test Issue #1]]></subject>
+  <description><![CDATA[Test Description #2]]></description>
+  <done_ratio>50</done_ratio>
+  <estimated_hours>60</estimated_hours>
+  <custom_fields>
+    <custom_field id="99" name="Resolution"><![CDATA[Duplicate]]></custom_field>
+  </custom_fields>
+  <start_date><![CDATA[2013-01-01]]></start_date>
+  <due_date><![CDATA[2013-08-01]]></due_date>
+  <updated_on><![CDATA[2013-08-01T00:00:00+0000]]></updated_on>
+  <created_on><![CDATA[2013-01-01T00:00:00+0000]]></created_on>
+</issue>

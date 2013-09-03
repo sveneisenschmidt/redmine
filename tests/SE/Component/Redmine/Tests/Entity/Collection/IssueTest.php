@@ -88,10 +88,7 @@ class IssueTest extends \PHPUnit_Framework_TestCase
      */
     public function Serialize()
     {
-        $this->markTestIncomplete('Model is not yet ready');
-        return;
-
-        $entity = new \SE\Component\Redmine\Entity\Collection\News;
+        $entity = new \SE\Component\Redmine\Entity\Collection\Issue;
         $entity->setLimit(25);
         $entity->setOffset(0);
         $entity->setTotalCount(3);
@@ -130,15 +127,13 @@ class IssueTest extends \PHPUnit_Framework_TestCase
      */
     public function Deserialize()
     {
-        $this->markTestIncomplete('Model is not yet ready');
-        return;
-        $contents = file_get_contents(__DIR__.'/Fixtures/news_collection.xml');
-        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\Collection\News', 'xml');
+        $contents = file_get_contents(__DIR__.'/Fixtures/issue_collection.xml');
+        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\Collection\Issue', 'xml');
 
         $this->assertEquals(25, $entity->getLimit());
         $this->assertEquals(3, $entity->getTotalCount());
         $this->assertEquals(0, $entity->getOffset());
-        $this->assertNotEmpty($entity->getNews());
+        $this->assertNotEmpty($entity->getIssues());
         $this->assertEquals(3, $entity->count());
     }
 
