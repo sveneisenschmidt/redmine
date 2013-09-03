@@ -38,7 +38,7 @@ class News
      * @Serializer\Expose
      * @Serializer\Type("SE\Component\Redmine\Entity\Relation\Project")
      *
-     * @var array
+     * @var \SE\Component\Redmine\Entity\Relation\Project
      */
     protected $project;
 
@@ -49,7 +49,7 @@ class News
      * @Serializer\SerializedName("author")
      * @Serializer\Type("SE\Component\Redmine\Entity\Relation\Author")
      *
-     * @var array
+     * @var \SE\Component\Redmine\Entity\Relation\Author
      */
     protected $author;
 
