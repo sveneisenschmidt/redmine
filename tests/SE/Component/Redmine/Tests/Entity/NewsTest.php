@@ -128,16 +128,18 @@ class NewsTest extends \PHPUnit_Framework_TestCase
     {
         $entity = new \SE\Component\Redmine\Entity\News;
         $entity->setTitle('Title #1');
-        $entity->setDescription('Description #1');
-        $entity->setSummary('Summary #1');
+        $entity->setSummary('Summary #2');
+        $entity->setDescription('Description #3');
         $entity->setCreatedOn(new \DateTime('2013-01-01 00:00:00 +00:00'));
 
         $author = new \SE\Component\Redmine\Entity\AuthorRelation();
-        $author->setId(1);
+        $author->setId(33);
+        $author->setName('Jane Smith');
         $entity->setAuthor($author);
 
         $project = new \SE\Component\Redmine\Entity\ProjectRelation();
-        $project->setId(1);
+        $project->setId(97);
+        $project->setName('Test Project');
         $entity->setProject($project);
 
         $expected = file_get_contents(__DIR__.'/Fixtures/news.xml');
@@ -170,11 +172,13 @@ class NewsTest extends \PHPUnit_Framework_TestCase
         $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\News', 'xml');
 
         $this->assertEquals('Title #1', $entity->getTitle());
-        $this->assertEquals('Description #1', $entity->getDescription());
-        $this->assertEquals('Summary #1', $entity->getSummary());
+        $this->assertEquals('Summary #2', $entity->getSummary());
+        $this->assertEquals('Description #3', $entity->getDescription());
         $this->assertEquals(new \DateTime('2013-01-01 00:00:00 +00:00'), $entity->getCreatedOn());
-        $this->assertEquals(1, $entity->getAuthor()->getId());
-        $this->assertEquals(1, $entity->getProject()->getId());
+        $this->assertEquals(33, $entity->getAuthor()->getId());
+        $this->assertEquals(97, $entity->getProject()->getId());
+        $this->assertEquals('Jane Smith', $entity->getAuthor()->getName());
+        $this->assertEquals('Test Project', $entity->getProject()->getName());
     }
 
     /**
