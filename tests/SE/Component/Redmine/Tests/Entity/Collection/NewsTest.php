@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace SE\Component\Redmine\Tests\Entity;
+namespace SE\Component\Redmine\Tests\Entity\Collection;
 
 
 /**
@@ -15,7 +15,7 @@ namespace SE\Component\Redmine\Tests\Entity;
  * @package SE\Component\Redmine\Tests
  * @author Sven Eisenschmidt <sven.eisenschmidt@gmail.com>
  */
-class NewsCollectionTest extends \PHPUnit_Framework_TestCase
+class NewsTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {

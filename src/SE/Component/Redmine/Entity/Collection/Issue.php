@@ -85,7 +85,7 @@ class Issue
      */
     public function setIssues(array $issues)
     {
-        $this->$issues = $issues;
+        $this->issues = $issues;
     }
 
     /**
