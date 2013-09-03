@@ -50,7 +50,7 @@ class RequestNewsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('limit=25', $request->getQuery());
         $this->assertEquals('/news.xml', $request->getPath());
 
-        $this->assertInstanceOf('\SE\Component\Redmine\Entity\NewsCollection', $collection);
+        $this->assertInstanceOf('\SE\Component\Redmine\Entity\Collection\News', $collection);
         $this->assertEquals(25, $collection->getLimit());
         $this->assertEquals(3, $collection->getTotalCount());
         $this->assertEquals(0, $collection->getOffset());
@@ -60,8 +60,8 @@ class RequestNewsTest extends \PHPUnit_Framework_TestCase
 
         $entity = array_shift($news);
         $this->assertEquals(1, $entity->getId());
-        $this->assertInstanceOf('\SE\Component\Redmine\Entity\AuthorRelation', $entity->getAuthor());
-        $this->assertInstanceOf('\SE\Component\Redmine\Entity\ProjectRelation', $entity->getProject());
+        $this->assertInstanceOf('\SE\Component\Redmine\Entity\Relation\Author', $entity->getAuthor());
+        $this->assertInstanceOf('\SE\Component\Redmine\Entity\Relation\Project', $entity->getProject());
 
         $this->assertEquals(97, $entity->getProject()->getId());
         $this->assertEquals('Redmine', $entity->getProject()->getName());
@@ -93,7 +93,7 @@ class RequestNewsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('limit=1', $request->getQuery());
         $this->assertEquals('/news.xml', $request->getPath());
 
-        $this->assertInstanceOf('\SE\Component\Redmine\Entity\NewsCollection', $collection);
+        $this->assertInstanceOf('\SE\Component\Redmine\Entity\Collection\News', $collection);
         $this->assertEquals(25, $collection->getLimit());
         $this->assertEquals(1, $collection->getTotalCount());
         $this->assertEquals(0, $collection->getOffset());

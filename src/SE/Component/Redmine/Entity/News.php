@@ -11,8 +11,8 @@ namespace SE\Component\Redmine\Entity;
 
 use \JMS\Serializer\Annotation as Serializer;
 
-use \SE\Component\Redmine\Entity\AuthorRelation;
-use \SE\Component\Redmine\Entity\ProjectRelation;
+use \SE\Component\Redmine\Entity\Relation\Author;
+use \SE\Component\Redmine\Entity\Relation\Project;
 
 /**
  *
@@ -36,7 +36,7 @@ class News
     /**
      *
      * @Serializer\Expose
-     * @Serializer\Type("SE\Component\Redmine\Entity\ProjectRelation")
+     * @Serializer\Type("SE\Component\Redmine\Entity\Relation\Project")
      *
      * @var array
      */
@@ -47,7 +47,7 @@ class News
      *
      * @Serializer\Expose
      * @Serializer\SerializedName("author")
-     * @Serializer\Type("SE\Component\Redmine\Entity\AuthorRelation")
+     * @Serializer\Type("SE\Component\Redmine\Entity\Relation\Author")
      *
      * @var array
      */
@@ -175,9 +175,9 @@ class News
     }
 
     /**
-     * @param \SE\Component\Redmine\Entity\AuthorRelation $author
+     * @param \SE\Component\Redmine\Entity\Relation\Author $author
      */
-    public function setAuthor(AuthorRelation $author)
+    public function setAuthor(Author $author)
     {
         $this->author = $author;
     }
@@ -191,9 +191,9 @@ class News
     }
 
     /**
-     * @param \SE\Component\Redmine\Entity\ProjectRelation $project
+     * @param \SE\Component\Redmine\Entity\Relation\Project $project
      */
-    public function setProject(ProjectRelation $project)
+    public function setProject(Project $project)
     {
         $this->project = $project;
     }

@@ -7,18 +7,19 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace SE\Component\Redmine\Entity;
+namespace SE\Component\Redmine\Entity\Relation;
 
 use \JMS\Serializer\Annotation as Serializer;
+use \SE\Component\Redmine\Entity\Relation\RelationInterface;
 
 /**
  *
  * @package SE\Component\Redmine
  * @author Sven Eisenschmidt <sven.eisenschmidt@gmail.com>
  *
- * @Serializer\XmlRoot("author")
+ * @Serializer\XmlRoot("project")
  */
-class AuthorRelation
+class Project implements RelationInterface
 {
     /**
      *
@@ -43,7 +44,7 @@ class AuthorRelation
     protected $name;
 
     /**
-     * 
+     *
      * @param int $id
      */
     public function setId($id)

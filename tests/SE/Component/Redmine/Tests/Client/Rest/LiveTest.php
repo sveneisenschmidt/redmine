@@ -71,8 +71,8 @@ class LiveTest extends \PHPUnit_Framework_TestCase
                 $this->assertInternalType('string', $news->getSummary());
 
                 $this->assertInstanceOf('\DateTime', $news->getCreatedOn());
-                $this->assertInstanceOf('\SE\Component\Redmine\Entity\AuthorRelation', $news->getAuthor());
-                $this->assertInstanceOf('\SE\Component\Redmine\Entity\ProjectRelation', $news->getProject());
+                $this->assertInstanceOf('\SE\Component\Redmine\Entity\Relation\Author', $news->getAuthor());
+                $this->assertInstanceOf('\SE\Component\Redmine\Entity\Relation\Project', $news->getProject());
             }
         } else {
             $this->markTestSkipped('No news found for testing.');

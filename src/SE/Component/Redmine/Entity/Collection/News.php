@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace SE\Component\Redmine\Entity;
+namespace SE\Component\Redmine\Entity\Collection;
 
 use \JMS\Serializer\Annotation as Serializer;
 
@@ -18,7 +18,7 @@ use \JMS\Serializer\Annotation as Serializer;
  *
  * @Serializer\XmlRoot("news")
  */
-class NewsCollection
+class News
 {
     /**
      *

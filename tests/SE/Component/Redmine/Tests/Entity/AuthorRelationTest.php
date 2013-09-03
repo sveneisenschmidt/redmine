@@ -28,7 +28,7 @@ class AuthorRelationTest extends \PHPUnit_Framework_TestCase
      */
     public function Get_Set_Id()
     {
-        $entity = new \SE\Component\Redmine\Entity\AuthorRelation;
+        $entity = new \SE\Component\Redmine\Entity\Relation\Author;
         $hash = sha1(uniqid(microtime(true), true));
 
         $this->assertNull($entity->getId());
@@ -42,7 +42,7 @@ class AuthorRelationTest extends \PHPUnit_Framework_TestCase
      */
     public function Get_Set_Name()
     {
-        $entity = new \SE\Component\Redmine\Entity\AuthorRelation;
+        $entity = new \SE\Component\Redmine\Entity\Relation\Author;
         $hash = sha1(uniqid(microtime(true), true));
 
         $this->assertNull($entity->getName());
@@ -56,7 +56,7 @@ class AuthorRelationTest extends \PHPUnit_Framework_TestCase
      */
     public function Serialize()
     {
-        $entity = new \SE\Component\Redmine\Entity\AuthorRelation;
+        $entity = new \SE\Component\Redmine\Entity\Relation\Author;
         $entity->setId(1);
         $entity->setName('John Smith');
 
@@ -72,7 +72,7 @@ class AuthorRelationTest extends \PHPUnit_Framework_TestCase
      */
     public function Serialize_Empty()
     {
-        $entity = new \SE\Component\Redmine\Entity\AuthorRelation;
+        $entity = new \SE\Component\Redmine\Entity\Relation\Author;
 
         $expected = file_get_contents(__DIR__.'/Fixtures/author_relation_empty.xml');
         $actual = $this->serializer->serialize($entity, 'xml');
@@ -87,7 +87,7 @@ class AuthorRelationTest extends \PHPUnit_Framework_TestCase
     public function Deserialize()
     {
         $contents = file_get_contents(__DIR__.'/Fixtures/author_relation.xml');
-        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\AuthorRelation', 'xml');
+        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\Relation\Author', 'xml');
 
         $this->assertEquals(1, $entity->getId());
         $this->assertEquals('John Smith', $entity->getName());
@@ -100,7 +100,7 @@ class AuthorRelationTest extends \PHPUnit_Framework_TestCase
     public function Deserialize_Empty()
     {
         $contents = file_get_contents(__DIR__.'/Fixtures/author_relation_empty.xml');
-        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\AuthorRelation', 'xml');
+        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\Relation\Author', 'xml');
 
         $this->assertNull($entity->getId());
         $this->assertNull($entity->getName());

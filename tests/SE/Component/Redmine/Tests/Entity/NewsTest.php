@@ -85,7 +85,7 @@ class NewsTest extends \PHPUnit_Framework_TestCase
     public function Get_Set_Author()
     {
         $entity = new \SE\Component\Redmine\Entity\News;
-        $author = new \SE\Component\Redmine\Entity\AuthorRelation();
+        $author = new \SE\Component\Redmine\Entity\Relation\Author();
 
         $this->assertNull($entity->getAuthor());
         $entity->setAuthor($author);
@@ -99,7 +99,7 @@ class NewsTest extends \PHPUnit_Framework_TestCase
     public function Get_Set_Project()
     {
         $entity = new \SE\Component\Redmine\Entity\News;
-        $project = new \SE\Component\Redmine\Entity\ProjectRelation();
+        $project = new \SE\Component\Redmine\Entity\Relation\Project();
 
         $this->assertNull($entity->getProject());
         $entity->setProject($project);
@@ -132,12 +132,12 @@ class NewsTest extends \PHPUnit_Framework_TestCase
         $entity->setDescription('Description #3');
         $entity->setCreatedOn(new \DateTime('2013-01-01 00:00:00 +00:00'));
 
-        $author = new \SE\Component\Redmine\Entity\AuthorRelation();
+        $author = new \SE\Component\Redmine\Entity\Relation\Author();
         $author->setId(33);
         $author->setName('Jane Smith');
         $entity->setAuthor($author);
 
-        $project = new \SE\Component\Redmine\Entity\ProjectRelation();
+        $project = new \SE\Component\Redmine\Entity\Relation\Project();
         $project->setId(97);
         $project->setName('Test Project');
         $entity->setProject($project);
