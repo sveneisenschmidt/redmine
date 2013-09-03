@@ -164,7 +164,7 @@ class Issue
      *
      * @Serializer\Expose
      * @Serializer\SerializedName("start_date")
-     * @Serializer\Type("string")
+     * @Serializer\Type("datetime<'Y-m-d'>")
      *
      * @var \DateTime
      */
@@ -175,7 +175,7 @@ class Issue
      *
      * @Serializer\Expose
      * @Serializer\SerializedName("due_date")
-     * @Serializer\Type("string")
+     * @Serializer\Type("datetime<'Y-m-d'>")
      *
      * @var \DateTime
      */
