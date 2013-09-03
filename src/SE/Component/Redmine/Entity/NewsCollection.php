@@ -128,5 +128,13 @@ class NewsCollection
         return $this->totalCount;
     }
 
+    /**
+     *
+     * @return integer
+     */
+    public function count()
+    {
+        return count($this->news);
+    }
 
 }
