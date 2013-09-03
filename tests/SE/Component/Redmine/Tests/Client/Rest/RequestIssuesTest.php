@@ -37,7 +37,7 @@ class RequestIssuesTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      */
-    public function Get_Issue_With_Default_Values()
+    public function Get_Issues_With_Default_Values()
     {
         $plugin = new \Guzzle\Plugin\Mock\MockPlugin(array(
             new \Guzzle\Http\Message\Response(200, null, file_get_contents(__DIR__.'/Fixtures/issues.get.default.xml'))
@@ -52,9 +52,21 @@ class RequestIssuesTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('\SE\Component\Redmine\Entity\Collection\Issue', $collection);
         $this->assertEquals(25, $collection->getLimit());
-        $this->assertEquals(3, $collection->getTotalCount());
+        $this->assertEquals(1, $collection->getTotalCount());
         $this->assertEquals(0, $collection->getOffset());
         $this->assertEquals(1, $collection->count());
+
+        $issues = $collection->getIssues();
+        $this->assertCount(1, $issues);
+
+        $entity = array_shift($issues);
+        $this->assertEquals(4326, $entity->getId());
+        $this->assertInstanceOf('\SE\Component\Redmine\Entity\Relation\Author', $entity->getAuthor());
+        $this->assertInstanceOf('\SE\Component\Redmine\Entity\Relation\Project', $entity->getProject());
+        $this->assertInstanceOf('\SE\Component\Redmine\Entity\Relation\Status', $entity->getStatus());
+        $this->assertInstanceOf('\SE\Component\Redmine\Entity\Relation\Category', $entity->getCategory());
+        $this->assertInstanceOf('\SE\Component\Redmine\Entity\Relation\Priority', $entity->getPriority());
+        $this->assertInstanceOf('\SE\Component\Redmine\Entity\Relation\Tracker', $entity->getTracker());
 
 
 

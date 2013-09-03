@@ -125,7 +125,83 @@ class Issue
      */
     protected $description;
 
+    /**
+     *
+     *
+     * @Serializer\Expose
+     * @Serializer\SerializedName("start_date")
+     * @Serializer\Type("DateTime<'Y-m-d'>")
+     *
+     * @var \DateTime
+     */
+    protected $startDate;
 
+    /**
+     *
+     *
+     * @Serializer\Expose
+     * @Serializer\SerializedName("due_date")
+     * @Serializer\Type("datetime<'Y-m-d'>")
+     *
+     * @var \DateTime
+     */
+    protected $dueDate;
+
+    /**
+     *
+     *
+     * @Serializer\Expose
+     * @Serializer\SerializedName("done_ratio")
+     * @Serializer\Type("integer")
+     *
+     * @var integer
+     */
+    protected $doneRatio;
+
+    /**
+     *
+     *
+     * @Serializer\Expose
+     * @Serializer\SerializedName("estimated_hours")
+     * @Serializer\Type("float")
+     *
+     * @var float
+     */
+    protected $estimatedHours;
+
+    /**
+     *
+     *
+     * @Serializer\Expose
+     * @Serializer\SerializedName("custom_fields")
+     * @Serializer\Type("array<SE\Component\Redmine\Entity\CustomField>")
+     * @Serializer\XmlList(entry="custom_field")
+     *
+     * @var \SE\Component\Redmine\Entity\CustomField[]
+     */
+    protected $customFields;
+
+    /**
+     *
+     *
+     * @Serializer\Expose
+     * @Serializer\SerializedName("updated_on")
+     * @Serializer\Type("DateTime")
+     *
+     * @var \DateTime
+     */
+    protected $updatedOn;
+
+    /**
+     *
+     *
+     * @Serializer\Expose
+     * @Serializer\SerializedName("created_on")
+     * @Serializer\Type("DateTime")
+     *
+     * @var \DateTime
+     */
+    protected $createdOn;
 
     /**
      *
@@ -147,7 +223,7 @@ class Issue
 
     /**
      *
-     * @param \SE\Component\Redmine\Entity\Relation\Relation $author
+     * @param \SE\Component\Redmine\Entity\Relation\Author $author
      */
     public function setAuthor(Author $author)
     {
@@ -288,4 +364,135 @@ class Issue
     {
         return $this->subject;
     }
+
+    /**
+     *
+     * @param int $doneRatio
+     */
+    public function setDoneRatio($doneRatio)
+    {
+        $this->doneRatio = $doneRatio;
+    }
+
+    /**
+     *
+     * @return int
+     */
+    public function getDoneRatio()
+    {
+        return $this->doneRatio;
+    }
+
+    /**
+     *
+     * @param \DateTime $dueDate
+     */
+    public function setDueDate(\DateTime $dueDate)
+    {
+        $this->dueDate = $dueDate;
+    }
+
+    /**
+     *
+     * @return \DateTime
+     */
+    public function getDueDate()
+    {
+        return $this->dueDate;
+    }
+
+    /**
+     * @param
+     * float $estimatedHours
+     */
+    public function setEstimatedHours($estimatedHours)
+    {
+        $this->estimatedHours = $estimatedHours;
+    }
+
+    /**
+     *
+     * @return float
+     */
+    public function getEstimatedHours()
+    {
+        return $this->estimatedHours;
+    }
+
+    /**
+     *
+     * @param \DateTime $startDate
+     */
+    public function setStartDate(\DateTime $startDate)
+    {
+        $this->startDate = $startDate;
+    }
+
+    /**
+     *
+     * @return \DateTime
+     */
+    public function getStartDate()
+    {
+        return $this->startDate;
+    }
+
+    /**
+     *
+     * @param \SE\Component\Redmine\Entity\CustomField[] $customFields
+     */
+    public function setCustomFields(array $customFields)
+    {
+        $this->customFields = $customFields;
+    }
+
+    /**
+     *
+     * @return \SE\Component\Redmine\Entity\CustomField[]
+     */
+    public function getCustomFields()
+    {
+        return $this->customFields;
+    }
+
+    /**
+     *
+     * @param \DateTime $createdOn
+     */
+    public function setCreatedOn(\DateTime $createdOn)
+    {
+        $this->createdOn = $createdOn;
+    }
+
+    /**
+     *
+     * @return \DateTime
+     */
+    public function getCreatedOn()
+    {
+        return $this->createdOn;
+    }
+
+    /**
+     *
+     * @param \DateTime $updatedOn
+     */
+    public function setUpdatedOn(\DateTime $updatedOn)
+    {
+        $this->updatedOn = $updatedOn;
+    }
+
+    /**
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedOn()
+    {
+        return $this->updatedOn;
+    }
+
+
+
+
+
 }
