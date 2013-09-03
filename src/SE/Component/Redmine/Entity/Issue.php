@@ -164,9 +164,9 @@ class Issue
      *
      * @Serializer\Expose
      * @Serializer\SerializedName("start_date")
-     * @Serializer\Type("datetime<'Y-m-d'>")
+     * @Serializer\Type("string")
      *
-     * @var \DateTime
+     * @var string
      */
     protected $startDate;
 
@@ -175,9 +175,9 @@ class Issue
      *
      * @Serializer\Expose
      * @Serializer\SerializedName("due_date")
-     * @Serializer\Type("datetime<'Y-m-d'>")
+     * @Serializer\Type("string")
      *
-     * @var \DateTime
+     * @var string
      */
     protected $dueDate;
 
@@ -385,16 +385,16 @@ class Issue
 
     /**
      *
-     * @param \DateTime $dueDate
+     * @param string $dueDate
      */
-    public function setDueDate(\DateTime $dueDate)
+    public function setDueDate($dueDate)
     {
         $this->dueDate = $dueDate;
     }
 
     /**
      *
-     * @return \DateTime
+     * @return string
      */
     public function getDueDate()
     {
@@ -421,16 +421,16 @@ class Issue
 
     /**
      *
-     * @param \DateTime $startDate
+     * @param string $startDate
      */
-    public function setStartDate(\DateTime $startDate)
+    public function setStartDate($startDate)
     {
         $this->startDate = $startDate;
     }
 
     /**
      *
-     * @return \DateTime
+     * @return string
      */
     public function getStartDate()
     {
