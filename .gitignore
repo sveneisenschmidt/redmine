@@ -1,3 +1,4 @@
 .idea
 .tmp
 vendor
+tests/config.dist.php
