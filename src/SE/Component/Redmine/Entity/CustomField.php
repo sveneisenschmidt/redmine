@@ -46,11 +46,31 @@ class CustomField
      *
      * @Serializer\Expose
      * @Serializer\Type("string")
-     * @Serializer\XmlValue
+     * @Serializer\SerializedName("value")
      *
      * @var string
      */
     protected $value;
+
+    /**
+     *
+     * @Serializer\Expose
+     * @Serializer\SerializedName("multiple")
+     * @Serializer\Type("boolean")
+     * @Serializer\XmlAttribute
+     *
+     * @var boolean
+     */
+    protected $multiple = false;
+
+    /**
+     *
+     * @return boolean
+     */
+    public function isMultiple()
+    {
+        return $this->multiple;
+    }
 
     /**
      *

@@ -374,6 +374,7 @@ class IssueTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(99, $customField->getId());
         $this->assertEquals('Resolution', $customField->getName());
         $this->assertEquals('Duplicate', $customField->getValue());
+        $this->assertFalse($customField->isMultiple());
     }
 
         /**

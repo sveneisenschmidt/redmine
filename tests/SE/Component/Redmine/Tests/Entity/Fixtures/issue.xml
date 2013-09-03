@@ -12,7 +12,9 @@
   <done_ratio>50</done_ratio>
   <estimated_hours>60</estimated_hours>
   <custom_fields>
-    <custom_field id="99" name="Resolution"><![CDATA[Duplicate]]></custom_field>
+    <custom_field id="99" name="Resolution" multiple="false">
+      <value><![CDATA[Duplicate]]></value>
+    </custom_field>
   </custom_fields>
   <start_date><![CDATA[2013-01-01]]></start_date>
   <due_date><![CDATA[2013-08-01]]></due_date>
