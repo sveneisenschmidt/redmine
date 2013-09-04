@@ -30,6 +30,14 @@ interface ClientInterface
     /**
      *
      * @param string $resource
+     * @param mixed $object
+     * @return mixed
+     */
+    public function persist($resource, $object);
+
+    /**
+     *
+     * @param string $resource
      * @param array $criteria
      * @param string $entityClass
      * @return $$entityClass

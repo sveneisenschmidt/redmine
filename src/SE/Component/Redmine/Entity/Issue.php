@@ -216,7 +216,6 @@ class Issue
     protected $createdOn;
 
     /**
-     *
      * @param integer $id
      */
     public function setId($id)

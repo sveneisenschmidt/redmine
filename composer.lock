@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "49dbd2bcaa740ec08170a0e995a2417c",
+    "hash": "3746bcc229d57dbdd10a341f80bbd751",
     "packages": [
         {
             "name": "doctrine/common",
@@ -218,55 +218,6 @@
                 "url"
             ],
             "time": "2013-07-11 22:46:03"
-        },
-        {
-            "name": "guzzle/plugin-history",
-            "version": "v3.7.2",
-            "target-dir": "Guzzle/Plugin/History",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/guzzle/plugin-history.git",
-                "reference": "4d5abfc332cd426c8d415cfed7010b3e99bad245"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/plugin-history/zipball/4d5abfc332cd426c8d415cfed7010b3e99bad245",
-                "reference": "4d5abfc332cd426c8d415cfed7010b3e99bad245",
-                "shasum": ""
-            },
-            "require": {
-                "guzzle/http": "self.version",
-                "php": ">=5.3.2"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.7-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Guzzle\\Plugin\\History": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Michael Dowling",
-                    "email": "mtdowling@gmail.com",
-                    "homepage": "https://github.com/mtdowling"
-                }
-            ],
-            "description": "Guzzle history plugin",
-            "homepage": "http://guzzlephp.org/",
-            "keywords": [
-                "Guzzle",
-                "plugin"
-            ],
-            "time": "2013-06-11 00:24:07"
         },
         {
             "name": "guzzle/stream",
@@ -619,9 +570,105 @@
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
             "time": "2013-07-21 12:12:18"
+        },
+        {
+            "name": "symfony/serializer",
+            "version": "v2.3.4",
+            "target-dir": "Symfony/Component/Serializer",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Serializer.git",
+                "reference": "457ba76395955926a67ea692957b0872dead5278"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Serializer/zipball/457ba76395955926a67ea692957b0872dead5278",
+                "reference": "457ba76395955926a67ea692957b0872dead5278",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Serializer\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Serializer Component",
+            "homepage": "http://symfony.com",
+            "time": "2013-07-21 12:12:18"
         }
     ],
     "packages-dev": [
+        {
+            "name": "guzzle/plugin-history",
+            "version": "v3.7.2",
+            "target-dir": "Guzzle/Plugin/History",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/plugin-history.git",
+                "reference": "4d5abfc332cd426c8d415cfed7010b3e99bad245"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/plugin-history/zipball/4d5abfc332cd426c8d415cfed7010b3e99bad245",
+                "reference": "4d5abfc332cd426c8d415cfed7010b3e99bad245",
+                "shasum": ""
+            },
+            "require": {
+                "guzzle/http": "self.version",
+                "php": ">=5.3.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.7-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Guzzle\\Plugin\\History": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Guzzle history plugin",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "Guzzle",
+                "plugin"
+            ],
+            "time": "2013-06-11 00:24:07"
+        },
         {
             "name": "guzzle/plugin-mock",
             "version": "v3.7.2",

@@ -12,13 +12,15 @@ namespace SE\Component\Redmine\Repository;
 use \SE\Component\Redmine\Repository\AbstractRepository;
 use \SE\Component\Redmine\Repository\FindAllInterface;
 use \SE\Component\Redmine\Repository\FindOneInterface;
+use \SE\Component\Redmine\Repository\PersistInterface;
+use \SE\Component\Redmine\Exception\UnsupportedEntityException;
 
 /**
  *
  * @package SE\Component\Redmine
  * @author Sven Eisenschmidt <sven.eisenschmidt@gmail.com>
  */
-class IssuesRepository extends AbstractRepository implements FindAllInterface, FindOneInterface
+class IssuesRepository extends AbstractRepository implements FindAllInterface, FindOneInterface, PersistInterface
 {
     /**
      *
@@ -46,4 +48,37 @@ class IssuesRepository extends AbstractRepository implements FindAllInterface, F
             'SE\Component\Redmine\Entity\Issue'
         );
     }
+
+    /**
+     *
+     * @param \SE\Component\Redmine\Entity\Issue $object
+     * @throws \SE\Component\Redmine\Exception\UnsupportedEntityException
+     * @return mixed
+     */
+    public function persist($object)
+    {
+        if($object instanceof \SE\Component\Redmine\Entity\Issue === false) {
+            throw new UnsupportedEntityException(sprintf('Entity %s is not supported for persitence.', get_class($object)));
+        }
+
+        return $this->client->persist(
+            'issues',
+            $object
+        );
+    }
+
+    /**
+     *
+     * @param \SE\Component\Redmine\Entity\Issue $object
+     * @return mixed
+     */
+    public function isNew($object)
+    {
+        if($object instanceof \SE\Component\Redmine\Entity\Issue === false) {
+            throw new UnsupportedEntityException(sprintf('Entity %s is not supported for persitence.', get_class($object)));
+        }
+
+    }
+
+
 }

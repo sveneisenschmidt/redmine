@@ -11,6 +11,7 @@ namespace SE\Component\Redmine\Client\Rest;
 
 use \SE\Component\Redmine\EntityManager;
 use \SE\Component\Redmine\Client\ClientInterface;
+use \SE\Component\Redmine\Client\Rest\EntityNormalizer;
 
 use \Guzzle\Http\Client as HttpClient;
 use \Guzzle\Http\Message\RequestInterface;
@@ -18,6 +19,8 @@ use \Guzzle\Http\Exception\ServerErrorResponseException;
 
 use \JMS\Serializer\Serializer;
 use \JMS\Serializer\SerializerBuilder;
+
+use \Symfony\Component\Serializer\Encoder\XmlEncoder;
 
 /**
  *
@@ -41,6 +44,18 @@ class RestClient implements ClientInterface
      * @var \JMS\Serializer\Serializer
      */
     protected $serializer;
+
+    /**
+     *
+     * @var \SE\Component\Redmine\Client\Rest\EntityNormalizer
+     */
+    protected $normalizer;
+
+    /**
+     *
+     * @var \Symfony\Component\Serializer\Encoder\XmlEncoder
+     */
+    protected $encoder;
 
     /**
      *
@@ -75,6 +90,8 @@ class RestClient implements ClientInterface
 
         $this->httpClient = $httpClient;
         $this->serializer = $serializer;
+        $this->normalizer = new EntityNormalizer($serializer);
+        $this->encoder = new XmlEncoder;
 
         $this->setApiKey($apiKey);
         $this->setBaseUrl($baseUrl);
@@ -212,7 +229,7 @@ class RestClient implements ClientInterface
      * @param array $options
      * @return \Guzzle\Http\Message\RequestInterface
      */
-    public function createRequest($uri, array $query = array(), array $headers = array(), array $options = array())
+    public function createGetRequest($uri, array $query = array(), array $headers = array(), array $options = array())
     {
         $request = $this->httpClient->get(
             $this->prepareUrl($uri),
@@ -228,6 +245,25 @@ class RestClient implements ClientInterface
     }
 
     /**
+     * @param string $uri
+     * @param string $postBody
+     * @param array $headers
+     * @param array $options
+     * @return \Guzzle\Http\Message\RequestInterface
+     */
+    public function createPostRequest($uri, $postBody = null, $headers = array(), array $options = array())
+    {
+        $request = $this->httpClient->post(
+            $this->prepareUrl($uri),
+            $this->prepareHeaders($headers),
+            $postBody,
+            $this->prepareOptions($options)
+        );
+
+        return $request;
+    }
+
+    /**
      * @param string $resource
      * @param integer $id
      * @param string $entityClass
@@ -237,7 +273,7 @@ class RestClient implements ClientInterface
     {
         $uri = sprintf('%s/%s.%s', $resource, $id, $this->getFormat());
 
-        $request = $this->createRequest($uri);
+        $request = $this->createGetRequest($uri);
         $response = $request->send();
 
         // @codeCoverageIgnoreStart
@@ -267,7 +303,7 @@ class RestClient implements ClientInterface
     {
         $uri = sprintf('%s.%s', $resource, $this->getFormat());
 
-        $request = $this->createRequest($uri, $criteria);
+        $request = $this->createGetRequest($uri, $criteria);
         $response = $request->send();
 
         // @codeCoverageIgnoreStart
@@ -284,6 +320,26 @@ class RestClient implements ClientInterface
 
         return $collection;
     }
+
+    /**
+     *
+     * @param string $resource
+     * @param mixed $object
+     * @return mixed
+     */
+    public function persist($resource, $object)
+    {
+        $uri = sprintf('%s.%s', $resource, $this->getFormat());
+        $data = $this->normalizer->toData($object);
+        $root = $this->normalizer->getRootKey($object);
+
+        $body = $this->encoder->encode($data, $this->getFormat(), array(
+            'xml_root_node_name' => $root
+        ));
+
+        $request = $this->createPostRequest($uri, $body);
+    }
+
 
     /**
      * @param $resource

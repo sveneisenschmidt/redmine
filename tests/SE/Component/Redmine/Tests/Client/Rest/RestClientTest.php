@@ -117,7 +117,7 @@ class RestClientTest extends \PHPUnit_Framework_TestCase
         $hash = sha1(uniqid(microtime(true), true));
 
         $client = new \SE\Component\Redmine\Client\Rest\RestClient($httpClient, $baseUrl, $apiKey);
-        $request = $client->createRequest($uri, array(
+        $request = $client->createGetRequest($uri, array(
             $hash => strrev($hash)
         ));
 
