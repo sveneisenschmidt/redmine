@@ -7,14 +7,19 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace SE\Component\Redmine\Client;
+namespace SE\Component\Redmine\Repository;
 
 /**
  *
  * @package SE\Component\Redmine
  * @author Sven Eisenschmidt <sven.eisenschmidt@gmail.com>
  */
-interface ClientInterface
+interface FindAllInterface
 {
-    public function getName();
-}
+    /**
+     *
+     * @param integer $id
+     * @return mixed
+     */
+    public function findAll(array $criteria = array());
+} 

@@ -14,6 +14,10 @@ namespace SE\Component\Redmine\Tests\Entity\Collection;
  *
  * @package SE\Component\Redmine\Tests
  * @author Sven Eisenschmidt <sven.eisenschmidt@gmail.com>
+ *
+ * @group entity
+ * @group news
+ * @group collection
  */
 class NewsTest extends \PHPUnit_Framework_TestCase
 {

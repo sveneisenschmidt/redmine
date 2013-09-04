@@ -14,6 +14,10 @@ namespace SE\Component\Redmine\Tests\Client\Rest\News;
  *
  * @package SE\Component\Redmine\Tests
  * @author Sven Eisenschmidt <sven.eisenschmidt@gmail.com>
+ *
+ * @group client
+ * @group rest
+ * @group news
  */
 class GetNewsTest extends \PHPUnit_Framework_TestCase
 {
@@ -44,10 +48,9 @@ class GetNewsTest extends \PHPUnit_Framework_TestCase
         ));
         $this->restClient->getHttpClient()->addSubscriber($plugin);
 
-        $collection = $this->restClient->getNews();
+        $collection = $this->restClient->getRepository('news')->findAll();
         $request = $this->history->getLastRequest();
         $this->assertNotNull($request);
-        $this->assertEquals('limit=25', $request->getQuery());
         $this->assertEquals('/news.xml', $request->getPath());
 
         $this->assertInstanceOf('\SE\Component\Redmine\Entity\Collection\News', $collection);
@@ -86,11 +89,13 @@ class GetNewsTest extends \PHPUnit_Framework_TestCase
         ));
         $this->restClient->getHttpClient()->addSubscriber($plugin);
 
-        $collection = $this->restClient->getNews('', 1);
+        $collection = $this->restClient->getRepository('news')->findAll(array(
+            'limit' => 1
+        ));
         $request = $this->history->getLastRequest();
 
         $this->assertNotNull($request);
-        $this->assertEquals('limit=1', $request->getQuery());
+        $this->assertEquals('limit=1', (string)$request->getQuery());
         $this->assertEquals('/news.xml', $request->getPath());
 
         $this->assertInstanceOf('\SE\Component\Redmine\Entity\Collection\News', $collection);
@@ -110,12 +115,14 @@ class GetNewsTest extends \PHPUnit_Framework_TestCase
         ));
         $this->restClient->getHttpClient()->addSubscriber($plugin);
 
-        $collection = $this->restClient->getNews('test-project');
+        $collection = $this->restClient->getRepository('news')->findAll(array(
+            'project_id' =>'test-project',
+            'limit' => 10
+        ));
         $request = $this->history->getLastRequest();
 
         $this->assertNotNull($request);
-        $this->assertEquals('limit=25', $request->getQuery());
-        $this->assertEquals('/test-project/news.xml', $request->getPath());
+        $this->assertEquals('project_id=test-project&limit=10', (string)$request->getQuery());
     }
 
     /**
@@ -130,7 +137,7 @@ class GetNewsTest extends \PHPUnit_Framework_TestCase
         ));
         $this->restClient->getHttpClient()->addSubscriber($plugin);
 
-        $collection = $this->restClient->getNews();
+        $collection = $this->restClient->getRepository('news')->findAll();
     }
 
     /**
@@ -145,6 +152,6 @@ class GetNewsTest extends \PHPUnit_Framework_TestCase
         ));
         $this->restClient->getHttpClient()->addSubscriber($plugin);
 
-        $collection = $this->restClient->getNews();
+        $collection = $this->restClient->getRepository('news')->findAll();
     }
 }

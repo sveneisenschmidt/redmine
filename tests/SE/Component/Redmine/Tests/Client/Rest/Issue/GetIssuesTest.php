@@ -14,6 +14,10 @@ namespace SE\Component\Redmine\Tests\Client\Rest\Issue;
  *
  * @package SE\Component\Redmine\Tests
  * @author Sven Eisenschmidt <sven.eisenschmidt@gmail.com>
+ *
+ * @group client
+ * @group rest
+ * @group issues
  */
 class GetIssuesTest extends \PHPUnit_Framework_TestCase
 {
@@ -44,13 +48,12 @@ class GetIssuesTest extends \PHPUnit_Framework_TestCase
         ));
         $this->restClient->getHttpClient()->addSubscriber($plugin);
 
-        $collection = $this->restClient->getIssues();
+        $collection = $this->restClient->getRepository('issues')->findAll();
         $request = $this->history->getLastRequest();
         $this->assertNotNull($request);
-        $this->assertEquals('limit=25', $request->getQuery());
         $this->assertEquals('/issues.xml', $request->getPath());
 
-        $this->assertInstanceOf('\SE\Component\Redmine\Entity\Collection\Issue', $collection);
+        $this->assertInstanceOf('\SE\Component\Redmine\Entity\Collection\Issues', $collection);
         $this->assertEquals(25, $collection->getLimit());
         $this->assertEquals(3, $collection->getTotalCount());
         $this->assertEquals(0, $collection->getOffset());
@@ -80,20 +83,20 @@ class GetIssuesTest extends \PHPUnit_Framework_TestCase
         ));
         $this->restClient->getHttpClient()->addSubscriber($plugin);
 
-        $collection = $this->restClient->getIssues(1);
+        $collection = $this->restClient->getRepository('issues')->findAll(array(
+            'limit' => 1
+        ));
         $request = $this->history->getLastRequest();
 
         $this->assertNotNull($request);
         $this->assertEquals('limit=1', $request->getQuery());
         $this->assertEquals('/issues.xml', $request->getPath());
 
-        $this->assertInstanceOf('\SE\Component\Redmine\Entity\Collection\Issue', $collection);
+        $this->assertInstanceOf('\SE\Component\Redmine\Entity\Collection\Issues', $collection);
         $this->assertEquals(1, $collection->getLimit());
         $this->assertEquals(3, $collection->getTotalCount());
         $this->assertEquals(0, $collection->getOffset());
     }
-
-
 
     /**
      *
@@ -107,7 +110,7 @@ class GetIssuesTest extends \PHPUnit_Framework_TestCase
         ));
         $this->restClient->getHttpClient()->addSubscriber($plugin);
 
-        $collection = $this->restClient->getIssues();
+        $collection = $this->restClient->getRepository('issues')->findAll();
     }
 
     /**
@@ -122,6 +125,6 @@ class GetIssuesTest extends \PHPUnit_Framework_TestCase
         ));
         $this->restClient->getHttpClient()->addSubscriber($plugin);
 
-        $collection = $this->restClient->getIssues();
+        $collection = $this->restClient->getRepository('issues')->findAll();
     }
 }

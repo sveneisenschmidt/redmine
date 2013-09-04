@@ -14,6 +14,9 @@ namespace SE\Component\Redmine\Tests\Entity\Relation;
  *
  * @package SE\Component\Redmine\Tests
  * @author Sven Eisenschmidt <sven.eisenschmidt@gmail.com>
+ *
+ * @group entity
+ * @group relation
  */
 class AuthorTest extends \PHPUnit_Framework_TestCase
 {

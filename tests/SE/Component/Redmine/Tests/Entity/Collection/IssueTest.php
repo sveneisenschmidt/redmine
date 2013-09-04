@@ -14,6 +14,10 @@ namespace SE\Component\Redmine\Tests\Entity\Collection;
  *
  * @package SE\Component\Redmine\Tests
  * @author Sven Eisenschmidt <sven.eisenschmidt@gmail.com>
+ *
+ * @group entity
+ * @group issues
+ * @group collection
  */
 class IssueTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,7 +32,7 @@ class IssueTest extends \PHPUnit_Framework_TestCase
      */
     public function Get_Set_Limit()
     {
-        $entity = new \SE\Component\Redmine\Entity\Collection\Issue;
+        $entity = new \SE\Component\Redmine\Entity\Collection\Issues;
         $value = rand(1,100);
 
         $this->assertequals(0, $entity->getLimit());
@@ -42,7 +46,7 @@ class IssueTest extends \PHPUnit_Framework_TestCase
      */
     public function Get_Set_Offset()
     {
-        $entity = new \SE\Component\Redmine\Entity\Collection\Issue;
+        $entity = new \SE\Component\Redmine\Entity\Collection\Issues;
         $value = rand(1,100);
 
         $this->assertEquals(0, $entity->getOffset());
@@ -56,7 +60,7 @@ class IssueTest extends \PHPUnit_Framework_TestCase
      */
     public function Get_Set_Total_Count()
     {
-        $entity = new \SE\Component\Redmine\Entity\Collection\Issue;
+        $entity = new \SE\Component\Redmine\Entity\Collection\Issues;
         $value = rand(1,100);
 
         $this->assertEquals(0, $entity->getTotalCount());
@@ -70,7 +74,7 @@ class IssueTest extends \PHPUnit_Framework_TestCase
      */
     public function Add_issues()
     {
-        $entity = new \SE\Component\Redmine\Entity\Collection\Issue;
+        $entity = new \SE\Component\Redmine\Entity\Collection\Issues;
         $issues = array(
             new \SE\Component\Redmine\Entity\Issue,
             new \SE\Component\Redmine\Entity\Issue,
@@ -88,7 +92,7 @@ class IssueTest extends \PHPUnit_Framework_TestCase
      */
     public function Serialize()
     {
-        $entity = new \SE\Component\Redmine\Entity\Collection\Issue;
+        $entity = new \SE\Component\Redmine\Entity\Collection\Issues;
         $entity->setLimit(25);
         $entity->setOffset(0);
         $entity->setTotalCount(3);
@@ -112,7 +116,7 @@ class IssueTest extends \PHPUnit_Framework_TestCase
      */
     public function Serialize_Empty()
     {
-        $entity = new \SE\Component\Redmine\Entity\Collection\Issue;
+        $entity = new \SE\Component\Redmine\Entity\Collection\Issues;
 
         $expected = file_get_contents(__DIR__.'/Fixtures/issue_collection_empty.xml');
         $actual = $this->serializer->serialize($entity, 'xml');
@@ -128,7 +132,7 @@ class IssueTest extends \PHPUnit_Framework_TestCase
     public function Deserialize()
     {
         $contents = file_get_contents(__DIR__.'/Fixtures/issue_collection.xml');
-        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\Collection\Issue', 'xml');
+        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\Collection\Issues', 'xml');
 
         $this->assertEquals(25, $entity->getLimit());
         $this->assertEquals(3, $entity->getTotalCount());
@@ -144,7 +148,7 @@ class IssueTest extends \PHPUnit_Framework_TestCase
     public function Deserialize_Empty()
     {
         $contents = file_get_contents(__DIR__.'/Fixtures/issue_collection_empty.xml');
-        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\Collection\Issue', 'xml');
+        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\Collection\Issues', 'xml');
 
         $this->assertEquals(0, $entity->getLimit());
         $this->assertEquals(0, $entity->getTotalCount());

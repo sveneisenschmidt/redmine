@@ -7,6 +7,7 @@
   <priority name="Normal" id="4"/>
   <author name="John Smith" id="44"/>
   <assigned_to name="Jane Doe" id="2"/>
+  <category name="i8n" id="2"/>
   <subject>XYZ is broken</subject>
   <description>Some Description</description>
   <start_date>2011-12-09</start_date>

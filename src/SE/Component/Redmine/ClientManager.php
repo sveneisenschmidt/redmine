@@ -40,6 +40,7 @@ class ClientManager
     {
         $this->defaultClient = $defaultClient;
     }
+
     /**
      *
      * @return string
@@ -53,7 +54,6 @@ class ClientManager
      *
      * @param \SE\Component\Redmine\Client\ClientInterface $client
      * @throws \SE\Component\Redmine\Exception\DuplicateClientNameException
-     *
      * @return void
      */
     public function addClient(ClientInterface $client)
@@ -75,7 +75,6 @@ class ClientManager
      *
      * @param string $name
      * @throws \SE\Component\Redmine\Exception\UnkownClientException
-     *
      * @return \SE\Component\Redmine\Client\ClientInterface
      */
     public function getClient($name)
@@ -95,5 +94,21 @@ class ClientManager
     public function hasClient($name)
     {
         return isset($this->clients[$name]);
+    }
+
+    /**
+     *
+     * @param string $resource
+     * @param string $clientName
+     * @throws \SE\Component\Redmine\Exception\UnkownClientException
+     * @return \SE\Component\Redmine\Repository\AbstractRepository
+     */
+    public function getRepository($resource, $clientName = null)
+    {
+        if($clientName == null) {
+            $clientName = $this->getDefaultClientName();
+        }
+
+        return $this->getClient($clientName)->getRepository($resource);
     }
 }

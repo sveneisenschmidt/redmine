@@ -228,84 +228,18 @@ class RestClient implements ClientInterface
     }
 
     /**
-     *
-     * @param string $project
-     * @param integer $limit
-     * @throws \Guzzle\Http\Exception\BadResponseException
-     * @return \SE\Component\Redmine\Entity\Collection\News
+     * @param string $resource
+     * @param integer $id
+     * @param string $entityClass
+     * @return $$entityClass
      */
-    public function getNews($project = '', $limit = 25)
+    public function find($resource, $id, $entityClass)
     {
-        $uri = sprintf('%s.%s', 'news', $this->getFormat());
-        if(empty($project) === false) {
-            $uri = sprintf('%s/%s', trim($project), $uri);
-        }
-
-        $request = $this->createRequest($uri, array(
-            'limit' => $limit
-        ));
-
-        $response = $request->send();
-        // @codeCoverageIgnoreStart
-        if($response->isSuccessful() === false) {
-            throw ServerErrorResponseException::factory($request, $response);
-        }
-        // @codeCoverageIgnoreEnd
-
-        $collection =  $this->serializer->deserialize(
-            (string)$response->getBody(),
-            'SE\Component\Redmine\Entity\Collection\News',
-            $this->getFormat()
-        );
-
-        return $collection;
-    }
-
-    /**
-     *
-     * @param string $project
-     * @param integer $limit
-     * @throws \Guzzle\Http\Exception\BadResponseException
-     * @return \SE\Component\Redmine\Entity\Collection\Issue
-     */
-    public function getIssues($limit = 25, array $params = array())
-    {
-        $uri = sprintf('%s.%s', 'issues', $this->getFormat());
-
-        $request = $this->createRequest($uri, array_merge(array(
-            'limit' => $limit
-        ), $params));
-
-        $response = $request->send();
-        // @codeCoverageIgnoreStart
-        if($response->isSuccessful() === false) {
-            throw ServerErrorResponseException::factory($request, $response);
-        }
-        // @codeCoverageIgnoreEnd
-
-        $collection =  $this->serializer->deserialize(
-            (string)$response->getBody(),
-            'SE\Component\Redmine\Entity\Collection\Issue',
-            $this->getFormat()
-        );
-
-        return $collection;
-    }
-
-    /**
-     *
-     * @param string $project
-     * @param integer $limit
-     * @throws \Guzzle\Http\Exception\BadResponseException
-     * @return \SE\Component\Redmine\Entity\NewsCollection
-     */
-    public function getIssue($id)
-    {
-        $uri = sprintf('%s/%s.%s', 'issues', $id, $this->getFormat());
+        $uri = sprintf('%s/%s.%s', $resource, $id, $this->getFormat());
 
         $request = $this->createRequest($uri);
-
         $response = $request->send();
+
         // @codeCoverageIgnoreStart
         if($response->isSuccessful() === false) {
             throw ServerErrorResponseException::factory($request, $response);
@@ -314,11 +248,50 @@ class RestClient implements ClientInterface
 
         $entity =  $this->serializer->deserialize(
             (string)$response->getBody(),
-            'SE\Component\Redmine\Entity\Issue',
+            $entityClass,
             $this->getFormat()
         );
 
         return $entity;
+
+
     }
 
+    /**
+     * @param string $resource
+     * @param array $criteria
+     * @param string $entityClass
+     * @return $$entityClass
+     */
+    public function findAll($resource, array $criteria = array(), $entityClass)
+    {
+        $uri = sprintf('%s.%s', $resource, $this->getFormat());
+
+        $request = $this->createRequest($uri, $criteria);
+        $response = $request->send();
+
+        // @codeCoverageIgnoreStart
+        if($response->isSuccessful() === false) {
+            throw ServerErrorResponseException::factory($request, $response);
+        }
+        // @codeCoverageIgnoreEnd
+
+        $collection =  $this->serializer->deserialize(
+            (string)$response->getBody(),
+            $entityClass,
+            $this->getFormat()
+        );
+
+        return $collection;
+    }
+
+    /**
+     * @param $resource
+     * @return \SE\Component\Redmine\Repository\AbstractRepository
+     */
+    public function getRepository($resource)
+    {
+        $class = sprintf('\\SE\\Component\\Redmine\\Repository\\%sRepository', ucfirst($resource));
+        return new $class($this);
+    }
 }

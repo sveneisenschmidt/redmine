@@ -14,6 +14,8 @@ namespace SE\Component\Redmine\Tests\Entity;
  *
  * @package SE\Component\Redmine\Tests
  * @author Sven Eisenschmidt <sven.eisenschmidt@gmail.com>
+ *
+ * @group entity
  */
 class CustomFieldTest extends \PHPUnit_Framework_TestCase
 {

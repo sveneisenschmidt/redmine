@@ -17,4 +17,29 @@ namespace SE\Component\Redmine\Client;
 interface ClientInterface
 {
     public function getName();
+
+    /**
+     *
+     * @param string $resource
+     * @param integer $id
+     * @param string $entityClass
+     * @return $$entityClass
+     */
+    public function find($resource, $id, $entityClass);
+
+    /**
+     *
+     * @param string $resource
+     * @param array $criteria
+     * @param string $entityClass
+     * @return $$entityClass
+     */
+    public function findAll($resource, array $criteria = array(), $entityClass);
+
+    /**
+     *
+     * @param string $resource
+     * @return \SE\Component\Redmine\Repository\AbstractRepository
+     */
+    public function getRepository($resource);
 }

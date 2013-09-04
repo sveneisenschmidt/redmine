@@ -9,11 +9,13 @@
  */
 namespace SE\Component\Redmine\Tests\Client\Rest;
 
-
 /**
  *
  * @package SE\Component\Redmine\Tests
  * @author Sven Eisenschmidt <sven.eisenschmidt@gmail.com>
+ *
+ * @group client
+ * @group rest
  */
 class RestClientTest extends \PHPUnit_Framework_TestCase
 {

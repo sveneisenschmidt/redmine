@@ -16,6 +16,8 @@ namespace SE\Component\Redmine\Tests;
  * @author Sven Eisenschmidt <sven.eisenschmidt@gmail.com>
  *
  * @group live
+ * @group client
+ * @group rest
  */
 class LiveTest extends \PHPUnit_Framework_TestCase
 {
@@ -46,7 +48,10 @@ class LiveTest extends \PHPUnit_Framework_TestCase
      */
     public function Can_Authenticate()
     {
-        $collection = $this->client->getNews('', 1);
+        $collection = $this->client->getRepository('news')->findAll(array(
+            'limit' => 1
+        ));
+
         $this->assertLessThanOrEqual(1, $collection->count());
     }
 
@@ -56,7 +61,10 @@ class LiveTest extends \PHPUnit_Framework_TestCase
      */
     public function Can_Load_News()
     {
-        $collection = $this->client->getNews('', 5);
+        $collection = $this->client->getRepository('news')->findAll(array(
+            'limit' => 5
+        ));
+
         $this->assertLessThanOrEqual(5, $collection->count());
 
         if($collection->count() >= 1) {
@@ -85,7 +93,10 @@ class LiveTest extends \PHPUnit_Framework_TestCase
      */
     public function Can_Load_Issues()
     {
-        $collection = $this->client->getIssues(5);
+        $collection = $this->client->getRepository('issues')->findAll(array(
+            'limit' => 5
+        ));
+
         $this->assertLessThanOrEqual(5, $collection->count());
 
         if($collection->count() >= 1) {
@@ -108,6 +119,45 @@ class LiveTest extends \PHPUnit_Framework_TestCase
             }
         } else {
             $this->markTestSkipped('No issues found for testing.');
+        }
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Can_Load_Issue()
+    {
+        $repository = $this->client->getRepository('issues');
+        $collection = $repository->findAll(array(
+            'limit' => 1
+        ));
+
+        $this->assertLessThanOrEqual(1, $collection->count());
+
+        if($collection->count() >= 1) {
+            $issues = $collection->getIssues();
+            $proxy = array_shift($issues);
+            $issue = $repository->find($proxy->getId());
+
+            $this->assertNotNull($issue->getAuthor());
+            $this->assertNotNull($issue->getProject());
+            $this->assertNotNull($issue->getTracker());
+            $this->assertNotNull($issue->getSubject());
+
+            $this->assertInternalType('integer', $issue->getId());
+            $this->assertInternalType('string', $issue->getSubject());
+            $this->assertInternalType('string', $issue->getDescription());
+
+            $this->assertInstanceOf('\DateTime', $issue->getCreatedOn());
+            $this->assertInstanceOf('\DateTime', $issue->getUpdatedOn());
+            $this->assertInstanceOf('\SE\Component\Redmine\Entity\Relation\Author', $issue->getAuthor());
+            $this->assertInstanceOf('\SE\Component\Redmine\Entity\Relation\Project', $issue->getProject());
+            $this->assertInstanceOf('\SE\Component\Redmine\Entity\Relation\Status', $issue->getStatus());
+            $this->assertInstanceOf('\SE\Component\Redmine\Entity\Relation\Tracker', $issue->getTracker());
+
+        } else {
+            $this->markTestSkipped('No issues found for retrieving a valid issue for testing.');
         }
     }
 }

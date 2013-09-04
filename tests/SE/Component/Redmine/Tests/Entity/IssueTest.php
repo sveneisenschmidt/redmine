@@ -14,6 +14,9 @@ namespace SE\Component\Redmine\Tests\Entity;
  *
  * @package SE\Component\Redmine\Tests
  * @author Sven Eisenschmidt <sven.eisenschmidt@gmail.com>
+ *
+ * @group entity
+ * @group issues
  */
 class IssueTest extends \PHPUnit_Framework_TestCase
 {

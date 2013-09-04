@@ -18,7 +18,7 @@ use \JMS\Serializer\Annotation as Serializer;
  *
  * @Serializer\XmlRoot("issues")
  */
-class Issue
+class Issues
 {
     /**
      *
