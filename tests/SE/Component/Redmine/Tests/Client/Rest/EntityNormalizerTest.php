@@ -98,6 +98,6 @@ class EntityNormalizerTest extends \PHPUnit_Framework_TestCase
         $object->setAuthor($author);
 
         $data = $normalizer->toData($object);
-        $this->assertEquals(['id' => $id, 'author_id' => $id], $data);
+        $this->assertEquals(array('id' => $id, 'author_id' => $id), $data);
     }
 }
