@@ -108,6 +108,57 @@ class RestClientTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      */
+    public function Get_Prepared_Headers_Content_Type_Xml()
+    {
+        $client = $this->getMock('\SE\Component\Redmine\Client\Rest\RestClient', array('getFormat'), array(), '', false);
+        $client->expects($this->once())
+            ->method('getFormat')
+            ->will($this->returnValue('xml'));
+
+        $headers = $client->prepareHeaders(array());
+        $this->assertNotEmpty($headers);
+        $this->assertArrayHasKey('Content-Type', $headers);
+        $this->assertContains('text/xml', $headers);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Get_Prepared_Headers_Content_Type_Json()
+    {
+        $client = $this->getMock('\SE\Component\Redmine\Client\Rest\RestClient', array('getFormat'), array(), '', false);
+        $client->expects($this->once())
+            ->method('getFormat')
+            ->will($this->returnValue('json'));
+
+        $headers = $client->prepareHeaders(array());
+        $this->assertNotEmpty($headers);
+        $this->assertArrayHasKey('Content-Type', $headers);
+        $this->assertContains('application/json', $headers);
+    }
+
+    /**
+     *
+     * @test
+     * @expectedException \SE\Component\Redmine\Client\Rest\Exception\UnknownFormatException
+     */
+    public function Get_Prepared_Headers_Content_Type_Unknown_Format()
+    {
+        $hash = sha1(uniqid(microtime(true), true));
+
+        $client = $this->getMock('\SE\Component\Redmine\Client\Rest\RestClient', array('getFormat'), array(), '', false);
+        $client->expects($this->exactly(2))
+            ->method('getFormat')
+            ->will($this->returnValue($hash));
+
+        $headers = $client->prepareHeaders(array());
+    }
+
+    /**
+     *
+     * @test
+     */
     public function Create_Request()
     {
         $httpClient = new \Guzzle\Http\Client;

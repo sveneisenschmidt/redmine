@@ -44,7 +44,6 @@ class LiveTest extends \PHPUnit_Framework_TestCase
 
     /**
      *
-     * @test
      */
     public function Can_Authenticate()
     {
@@ -57,7 +56,6 @@ class LiveTest extends \PHPUnit_Framework_TestCase
 
     /**
      *
-     * @test
      */
     public function Can_Load_News()
     {
@@ -89,7 +87,6 @@ class LiveTest extends \PHPUnit_Framework_TestCase
 
     /**
      *
-     * @test
      */
     public function Can_Load_Issues()
     {
@@ -124,7 +121,6 @@ class LiveTest extends \PHPUnit_Framework_TestCase
 
     /**
      *
-     * @test
      */
     public function Can_Load_Issue()
     {
@@ -159,5 +155,28 @@ class LiveTest extends \PHPUnit_Framework_TestCase
         } else {
             $this->markTestSkipped('No issues found for retrieving a valid issue for testing.');
         }
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Can_Create_Issue()
+    {
+        $project = new \SE\Component\Redmine\Entity\Relation\Project;
+        $project->setId(TESTS_REDMINE_REST_PROJECT_ID);
+
+        $tracker = new \SE\Component\Redmine\Entity\Relation\Tracker;
+        $tracker->setId(TESTS_REDMINE_REST_TRACKER_ID);
+
+        $issue = new \SE\Component\Redmine\Entity\Issue;
+        $issue->setSubject('Some Test Ticket');
+        $issue->setDescription("Welcome \n\n This is your first ticket.");
+        $issue->setProject($project);
+        $issue->setTracker($tracker);
+
+        $this->assertNull($issue->getId());
+        $this->client->getRepository('issues')->persist($issue);
+        $this->assertNotNull($issue->getId());
     }
 }

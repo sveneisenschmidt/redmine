@@ -12,6 +12,7 @@ namespace SE\Component\Redmine\Client\Rest;
 use \SE\Component\Redmine\EntityManager;
 use \SE\Component\Redmine\Client\ClientInterface;
 use \SE\Component\Redmine\Client\Rest\EntityNormalizer;
+use \SE\Component\Redmine\Client\Rest\Exception\UnknownFormatException;
 
 use \Guzzle\Http\Client as HttpClient;
 use \Guzzle\Http\Message\RequestInterface;
@@ -205,8 +206,20 @@ class RestClient implements ClientInterface
      */
     public function prepareHeaders(array $headers)
     {
+        switch($this->getFormat()) {
+            case 'xml':
+                $type = 'text/xml';
+                break;
+            case 'json':
+                $type = 'application/json';
+                break;
+            default:
+                throw new UnknownFormatException(sprintf('Invalid format %s to use', $this->getFormat()));
+        }
+
         return array_merge(array(
-            'X-Redmine-API-Key' => $this->getApiKey()
+            'X-Redmine-API-Key' => $this->getApiKey(),
+            'Content-Type' => $type
         ), $headers);
     }
 
@@ -325,9 +338,8 @@ class RestClient implements ClientInterface
      *
      * @param string $resource
      * @param mixed $object
-     * @return mixed
      */
-    public function persist($resource, $object)
+    public function persist($resource, &$object)
     {
         $uri = sprintf('%s.%s', $resource, $this->getFormat());
         $data = $this->normalizer->toData($object);
@@ -338,6 +350,21 @@ class RestClient implements ClientInterface
         ));
 
         $request = $this->createPostRequest($uri, $body);
+        $response = $request->send();
+
+        // @codeCoverageIgnoreStart
+        if($response->isSuccessful() === false) {
+            throw ServerErrorResponseException::factory($request, $response);
+        }
+        // @codeCoverageIgnoreEnd
+
+        $contents = (string)$response->getBody();
+
+        $object = $this->serializer->deserialize(
+            (string)$response->getBody(),
+            get_class($object),
+            $this->getFormat()
+        );
     }
 
     /**

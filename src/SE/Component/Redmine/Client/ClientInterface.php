@@ -33,7 +33,7 @@ interface ClientInterface
      * @param mixed $object
      * @return mixed
      */
-    public function persist($resource, $object);
+    public function persist($resource, &$object);
 
     /**
      *

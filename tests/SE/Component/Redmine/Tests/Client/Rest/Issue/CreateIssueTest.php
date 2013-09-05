@@ -43,6 +43,11 @@ class CreateIssueTest extends \PHPUnit_Framework_TestCase
      */
     public function Create_Issue_From_Entity()
     {
+        $plugin = new \Guzzle\Plugin\Mock\MockPlugin(array(
+            new \Guzzle\Http\Message\Response(200, null, file_get_contents(__DIR__.'/Fixtures/issue.get.default.xml'))
+        ));
+        $this->client->getHttpClient()->addSubscriber($plugin);
+
         $author = new \SE\Component\Redmine\Entity\Relation\Author;
         $author->setId(1);
         $author->setName('John Smith');
@@ -52,8 +57,10 @@ class CreateIssueTest extends \PHPUnit_Framework_TestCase
         $issue->setDescription("Welcome \n\n This is your first ticket.");
         $issue->setAuthor($author);
 
+        $this->assertNull($issue->getId());
         $this->client->getRepository('issues')->persist($issue);
+        $this->assertNotNull($issue->getId());
 
-        
+
     }
 }

@@ -55,7 +55,7 @@ class IssuesRepository extends AbstractRepository implements FindAllInterface, F
      * @throws \SE\Component\Redmine\Exception\UnsupportedEntityException
      * @return mixed
      */
-    public function persist($object)
+    public function persist(&$object)
     {
         if($object instanceof \SE\Component\Redmine\Entity\Issue === false) {
             throw new UnsupportedEntityException(sprintf('Entity %s is not supported for persitence.', get_class($object)));
