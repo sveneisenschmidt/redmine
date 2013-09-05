@@ -28,6 +28,7 @@ class IssueTest extends \PHPUnit_Framework_TestCase
     /**
      *
      * @test
+     * @expectedException \BadMethodCallException
      */
     public function Get_Set_Id()
     {
@@ -37,6 +38,7 @@ class IssueTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($entity->getId());
         $entity->setId($value);
         $this->assertEquals($value, $entity->getId());
+        $entity->setId($value);
     }
 
     /**
@@ -155,6 +157,7 @@ class IssueTest extends \PHPUnit_Framework_TestCase
     /**
      *
      * @test
+     * @expectedException \BadMethodCallException
      */
     public function Get_Set_Created_On()
     {
@@ -164,11 +167,13 @@ class IssueTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($entity->getCreatedOn());
         $entity->setCreatedOn($value);
         $this->assertSame($value, $entity->getCreatedOn());
+        $entity->setCreatedOn($value);
     }
 
     /**
      *
      * @test
+     * @expectedException \BadMethodCallException
      */
     public function Get_Set_Updated_On()
     {
@@ -178,6 +183,7 @@ class IssueTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($entity->getUpdatedOn());
         $entity->setUpdatedOn($value);
         $this->assertSame($value, $entity->getUpdatedOn());
+        $entity->setUpdatedOn($value);
     }
 
     /**

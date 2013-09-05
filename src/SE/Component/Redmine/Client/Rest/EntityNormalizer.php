@@ -45,6 +45,16 @@ class EntityNormalizer
 
     /**
      *
+     * @return \JMS\Serializer\Serializer
+     */
+    public function getSerializer()
+    {
+        return $this->serializer;
+    }
+
+
+    /**
+     *
      * @param mixed $object
      * @return array
      */

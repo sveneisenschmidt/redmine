@@ -50,4 +50,12 @@ interface ClientInterface
      * @return \SE\Component\Redmine\Repository\AbstractRepository
      */
     public function getRepository($resource);
+
+    /**
+     *
+     * @param string $resource
+     * @param mixed $object
+     * @return boolean
+     */
+    public function isNew($resource, $object);
 }

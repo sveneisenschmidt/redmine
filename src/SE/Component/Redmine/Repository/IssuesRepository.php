@@ -70,7 +70,7 @@ class IssuesRepository extends AbstractRepository implements FindAllInterface, F
     /**
      *
      * @param \SE\Component\Redmine\Entity\Issue $object
-     * @return mixed
+     * @return boolean
      */
     public function isNew($object)
     {
@@ -78,7 +78,9 @@ class IssuesRepository extends AbstractRepository implements FindAllInterface, F
             throw new UnsupportedEntityException(sprintf('Entity %s is not supported for persitence.', get_class($object)));
         }
 
+        return $this->client->isNew(
+            'issues',
+            $object
+        );
     }
-
-
 }

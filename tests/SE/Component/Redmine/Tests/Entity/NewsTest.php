@@ -28,6 +28,7 @@ class NewsTest extends \PHPUnit_Framework_TestCase
     /**
      *
      * @test
+     * @expectedException \BadMethodCallException
      */
     public function Get_Set_Id()
     {
@@ -37,6 +38,7 @@ class NewsTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($entity->getId());
         $entity->setId($value);
         $this->assertEquals($value, $entity->getId());
+        $entity->setId($value);
     }
 
     /**
@@ -112,6 +114,7 @@ class NewsTest extends \PHPUnit_Framework_TestCase
     /**
      *
      * @test
+     * @expectedException \BadMethodCallException
      */
     public function Get_Set_Created_On()
     {
@@ -121,6 +124,7 @@ class NewsTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($entity->getCreatedOn());
         $entity->setCreatedOn($value);
         $this->assertSame($value, $entity->getCreatedOn());
+        $entity->setCreatedOn($value);
     }
 
     /**

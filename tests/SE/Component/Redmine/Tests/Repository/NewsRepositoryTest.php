@@ -25,7 +25,9 @@ class NewsRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function Find_All()
     {
-        $client = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', array('persist', 'getName', 'find', 'findAll', 'getRepository'));
+        $client = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', array(
+            'persist', 'getName', 'find', 'findAll', 'getRepository', 'isNew'
+        ));
         $client->expects($this->once())
             ->method('findAll')
             ->with('news', array(), 'SE\Component\Redmine\Entity\Collection\News');

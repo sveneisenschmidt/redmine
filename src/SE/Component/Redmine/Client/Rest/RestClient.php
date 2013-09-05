@@ -340,7 +340,6 @@ class RestClient implements ClientInterface
         $request = $this->createPostRequest($uri, $body);
     }
 
-
     /**
      * @param $resource
      * @return \SE\Component\Redmine\Repository\AbstractRepository
@@ -349,5 +348,33 @@ class RestClient implements ClientInterface
     {
         $class = sprintf('\\SE\\Component\\Redmine\\Repository\\%sRepository', ucfirst($resource));
         return new $class($this);
+    }
+
+    /**
+     *
+     * @param string $resource
+     * @param mixed $object
+     * @return boolean
+     */
+    public function isNew($resource, $object)
+    {
+        if(is_object($object) === false) {
+            return true;
+        }
+
+        if(method_exists($object, 'getId') === false) {
+            return true;
+        }
+
+        $id = $object->getId();
+        if($id === null) {
+            return true;
+        }
+
+        if($this->find($resource, $id, get_class($object)) === null) {
+            return true;
+        }
+
+        return false;
     }
 }

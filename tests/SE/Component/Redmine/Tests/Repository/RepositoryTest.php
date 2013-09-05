@@ -24,7 +24,9 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function Set_Get_Client()
     {
-        $client = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', array('persist', 'getName', 'find', 'findAll', 'getRepository'));
+        $client = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', array(
+            'persist', 'getName', 'find', 'findAll', 'getRepository', 'isNew'
+        ));
         $repository = $this->getMockForAbstractClass('\SE\Component\Redmine\Repository\AbstractRepository', array($client));
 
         $this->assertSame($client, $repository->getClient());

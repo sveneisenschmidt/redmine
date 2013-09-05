@@ -25,7 +25,9 @@ class IssuesRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function Find_All()
     {
-        $client = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', array('persist', 'getName', 'find', 'findAll', 'getRepository'));
+        $client = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', array(
+            'persist', 'getName', 'find', 'findAll', 'getRepository', 'isNew'
+        ));
         $client->expects($this->once())
             ->method('findAll')
             ->with('issues', array(), 'SE\Component\Redmine\Entity\Collection\Issues');
@@ -44,7 +46,9 @@ class IssuesRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $id = rand(1,999);
 
-        $client = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', array('persist', 'getName', 'find', 'findAll', 'getRepository'));
+        $client = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', array(
+            'persist', 'getName', 'find', 'findAll', 'getRepository', 'isNew'
+        ));
         $client->expects($this->once())
             ->method('find')
             ->with('issues', $id, 'SE\Component\Redmine\Entity\Issue');
@@ -53,5 +57,58 @@ class IssuesRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($client, $repository->getClient());
 
         $repository->find($id);
+    }
+
+    /**
+     *
+     * @test
+     * @expectedException \SE\Component\Redmine\Exception\UnsupportedEntityException
+     */
+    public function Persist_Unsupported_Entity()
+    {
+
+        $client = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', array(
+            'persist', 'getName', 'find', 'findAll', 'getRepository', 'isNew'
+        ));
+        $repository = new \SE\Component\Redmine\Repository\IssuesRepository($client);
+
+        $object = new \stdClass();
+        $repository->persist($object);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Is_New()
+    {
+        $object = new \SE\Component\Redmine\Entity\Issue;
+
+        $client = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', array(
+            'persist', 'getName', 'find', 'findAll', 'getRepository', 'isNew'
+        ));
+        $client->expects($this->once())
+            ->method('isNew')
+            ->with('issues', $object)
+            ->will($this->returnValue(true));
+
+        $repository = new \SE\Component\Redmine\Repository\IssuesRepository($client);
+        $isNew = $repository->isNew($object);
+
+        $this->assertTrue($isNew);
+    }
+
+    /**
+     *
+     * @test
+     * @expectedException \SE\Component\Redmine\Exception\UnsupportedEntityException
+     */
+    public function Is_New_Unsupported_Class()
+    {
+        $client = $this->getMock('\SE\Component\Redmine\Client\ClientInterface', array(
+            'persist', 'getName', 'find', 'findAll', 'getRepository', 'isNew'
+        ));
+        $repository = new \SE\Component\Redmine\Repository\IssuesRepository($client);
+        $isNew = $repository->isNew(new \stdClass());
     }
 }

@@ -217,9 +217,14 @@ class Issue
 
     /**
      * @param integer $id
+     * @throws \BadMethodCallException
      */
     public function setId($id)
     {
+        if($this->id !== null) {
+            throw new \BadMethodCallException('Property id can not be set.');
+        }
+
         $this->id = $id;
     }
 
@@ -469,9 +474,14 @@ class Issue
     /**
      *
      * @param \DateTime $createdOn
+     * @throws \BadMethodCallException
      */
     public function setCreatedOn(\DateTime $createdOn)
     {
+        if($this->createdOn !== null) {
+            throw new \BadMethodCallException('Property createdOn can not be set.');
+        }
+
         $this->createdOn = $createdOn;
     }
 
@@ -487,9 +497,14 @@ class Issue
     /**
      *
      * @param \DateTime $updatedOn
+     * @throws \BadMethodCallException
      */
     public function setUpdatedOn(\DateTime $updatedOn)
     {
+        if($this->updatedOn !== null) {
+            throw new \BadMethodCallException('Property createdOn can not be set.');
+        }
+
         $this->updatedOn = $updatedOn;
     }
 

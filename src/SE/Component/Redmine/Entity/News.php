@@ -95,13 +95,18 @@ class News
 
     /**
      * @param integer $id
+     * @throws \BadMethodCallException
      */
     public function setId($id)
     {
+        if($this->id !== null) {
+            throw new \BadMethodCallException('Property id can not be set.');
+        }
         $this->id = $id;
     }
 
     /**
+     *
      * @return integer
      */
     public function getId()
@@ -110,14 +115,20 @@ class News
     }
 
     /**
+     *
      * @param \DateTime $createdOn
+     * @throws \BadMethodCallException
      */
     public function setCreatedOn(\DateTime $createdOn)
     {
+        if($this->createdOn !== null) {
+            throw new \BadMethodCallException('Property id can not be set.');
+        }
         $this->createdOn = $createdOn;
     }
 
     /**
+     *
      * @return \DateTime
      */
     public function getCreatedOn()
@@ -126,6 +137,7 @@ class News
     }
 
     /**
+     *
      * @param string $description
      */
     public function setDescription($description)
@@ -134,6 +146,7 @@ class News
     }
 
     /**
+     *
      * @return string
      */
     public function getDescription()
@@ -142,6 +155,7 @@ class News
     }
 
     /**
+     *
      * @param string $summary
      */
     public function setSummary($summary)
@@ -150,6 +164,7 @@ class News
     }
 
     /**
+     *
      * @return string
      */
     public function getSummary()
@@ -158,6 +173,7 @@ class News
     }
 
     /**
+     *
      * @param string $title
      */
     public function setTitle($title)
@@ -175,6 +191,7 @@ class News
     }
 
     /**
+     *
      * @param \SE\Component\Redmine\Entity\Relation\Author $author
      */
     public function setAuthor(Author $author)
@@ -183,6 +200,7 @@ class News
     }
 
     /**
+     *
      * @return array
      */
     public function getAuthor()
@@ -191,6 +209,7 @@ class News
     }
 
     /**
+     *
      * @param \SE\Component\Redmine\Entity\Relation\Project $project
      */
     public function setProject(Project $project)
@@ -199,14 +218,11 @@ class News
     }
 
     /**
+     *
      * @return array
      */
     public function getProject()
     {
         return $this->project;
     }
-
-
-
-
 }

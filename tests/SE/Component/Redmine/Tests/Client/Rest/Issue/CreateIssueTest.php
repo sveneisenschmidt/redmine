@@ -53,5 +53,7 @@ class CreateIssueTest extends \PHPUnit_Framework_TestCase
         $issue->setAuthor($author);
 
         $this->client->getRepository('issues')->persist($issue);
+
+        
     }
 }

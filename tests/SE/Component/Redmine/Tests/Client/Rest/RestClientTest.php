@@ -124,4 +124,102 @@ class RestClientTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\Guzzle\Http\Message\RequestInterface', $request);
         $this->assertEquals(strrev($hash), $request->getQuery()->get($hash));
     }
+
+    /**
+     *
+     * @test
+     */
+    public function Is_New()
+    {
+        $hash = sha1(uniqid(microtime(true), true));
+        $id = rand(1,999);
+
+        $object = new \SE\Component\Redmine\Entity\Issue;
+        $object->setId($id);
+
+        $client = $this->getMock('\SE\Component\Redmine\Client\Rest\RestClient', array('find'), array(), '', false);
+        $client->expects($this->once())
+            ->method('find')
+            ->with($hash, $id, get_class($object))
+            ->will($this->returnValue(null));
+
+        $isNew = $client->isNew($hash, $object);
+        $this->assertTrue($isNew);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Is_New_With_Valid_Find()
+    {
+        $hash = sha1(uniqid(microtime(true), true));
+        $id = rand(1,999);
+
+        $object = new \SE\Component\Redmine\Entity\Issue;
+        $object->setId($id);
+
+        $client = $this->getMock('\SE\Component\Redmine\Client\Rest\RestClient', array('find'), array(), '', false);
+        $client->expects($this->once())
+            ->method('find')
+            ->with($hash, $id, get_class($object))
+            ->will($this->returnValue($object));
+
+        $isNew = $client->isNew($hash, $object);
+        $this->assertFalse($isNew);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Is_New_Without_Id()
+    {
+        $hash = sha1(uniqid(microtime(true), true));
+
+        $object = new \SE\Component\Redmine\Entity\Issue;
+
+        $client = $this->getMock('\SE\Component\Redmine\Client\Rest\RestClient', array('find'), array(), '', false);
+        $client->expects($this->never())
+            ->method('find');
+
+        $isNew = $client->isNew($hash, $object);
+        $this->assertTrue($isNew);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Is_New_Without_Invalid_Object()
+    {
+        $hash = sha1(uniqid(microtime(true), true));
+
+        $object = new \stdClass();
+
+        $client = $this->getMock('\SE\Component\Redmine\Client\Rest\RestClient', array('find'), array(), '', false);
+        $client->expects($this->never())
+            ->method('find');
+
+        $isNew = $client->isNew($hash, $object);
+        $this->assertTrue($isNew);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Is_New_Without_Invalid_Argument()
+    {
+        $hash = sha1(uniqid(microtime(true), true));
+
+        $object = array();
+
+        $client = $this->getMock('\SE\Component\Redmine\Client\Rest\RestClient', array('find'), array(), '', false);
+        $client->expects($this->never())
+            ->method('find');
+
+        $isNew = $client->isNew($hash, $object);
+        $this->assertTrue($isNew);
+    }
 }
