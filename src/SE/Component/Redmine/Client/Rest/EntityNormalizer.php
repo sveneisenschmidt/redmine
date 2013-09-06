@@ -68,6 +68,21 @@ class EntityNormalizer
                     unset($data[$key]);
                     $data[$key.'_id'] = $value['id'];
                 }
+                if($key === 'custom_fields') {
+                    $fields = $data[$key];
+                    $data[$key] = array();
+                    foreach($fields as $field) {
+                        $data[$key][] = array(
+                            '@type' => 'array',
+                            'custom_field' => array(
+                                '@id' => $field['id'],
+                                '@name' => $field['name'],
+                                '@multiple' => $field['multiple'],
+                                'value' => $field['value']
+                            )
+                        );
+                    }
+                }
             }
         }
 
@@ -86,6 +101,36 @@ class EntityNormalizer
 
         return $data;
     }
+
+    /**
+     *
+     * @return array
+     */
+    /**
+    public function amend(array $data)
+    {
+        foreach($data as $key => $value) {
+            if($key === 'custom_fields') {
+                foreach($data[$key]['custom_field'] as $index => $field) {
+                    if(is_array($field['value']) === false) {
+                        $data[$key]['custom_field'][$index]['value'] = array(
+                            '@type' => 'string',
+                            'value' => $field['value']
+                        );
+                    } else {
+                        if(is_string($field['value']['value']) === true && $field['@multiple'] == "true") {
+                            $data[$key]['custom_field'][$index]['value']['value'] = array(
+                                $field['value']['value']
+                            );
+                        }
+                    }
+                }
+            }
+        }
+
+        return $data;
+    }
+    */
 
     /**
      *

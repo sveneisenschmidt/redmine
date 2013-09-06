@@ -44,6 +44,7 @@ class LiveTest extends \PHPUnit_Framework_TestCase
 
     /**
      *
+     * @//test
      */
     public function Can_Authenticate()
     {
@@ -56,6 +57,7 @@ class LiveTest extends \PHPUnit_Framework_TestCase
 
     /**
      *
+     * @//test
      */
     public function Can_Load_News()
     {
@@ -87,6 +89,7 @@ class LiveTest extends \PHPUnit_Framework_TestCase
 
     /**
      *
+     * @//test
      */
     public function Can_Load_Issues()
     {
@@ -121,6 +124,7 @@ class LiveTest extends \PHPUnit_Framework_TestCase
 
     /**
      *
+     * @test
      */
     public function Can_Load_Issue()
     {
@@ -178,5 +182,40 @@ class LiveTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($issue->getId());
         $this->client->getRepository('issues')->persist($issue);
         $this->assertNotNull($issue->getId());
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Can_Update_Issue()
+    {
+        $repository = $this->client->getRepository('issues');
+        $collection = $repository->findAll(array(
+            'limit' => 1
+        ));
+
+        $this->assertLessThanOrEqual(1, $collection->count());
+
+        if($collection->count() >= 1) {
+            $issues = $collection->getIssues();
+            $proxy = array_shift($issues);
+            $issue = $repository->find($proxy->getId());
+
+            $subject = 'My_Test_Update_'.sha1(uniqid(microtime(true), true));
+            $originalUpdatedOn = $issue->getUpdatedOn();
+
+            $issue->setSubject($subject);
+            $issue->setCustomFields(array());
+            $repository->persist($issue);
+
+            $this->assertNotEquals($originalUpdatedOn, $issue->getUpdatedOn());
+            $this->assertEquals($subject, $issue->getSubject());
+
+        } else {
+            $this->markTestSkipped('No issues found for retrieving a valid issue for testing.');
+        }
+
+
     }
 }

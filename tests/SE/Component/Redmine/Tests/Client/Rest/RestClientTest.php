@@ -159,7 +159,7 @@ class RestClientTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      */
-    public function Create_Request()
+    public function Create_Get_Request()
     {
         $httpClient = new \Guzzle\Http\Client;
         $baseUrl = 'http://localhost/redmine/';
@@ -174,6 +174,54 @@ class RestClientTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('\Guzzle\Http\Message\RequestInterface', $request);
         $this->assertEquals(strrev($hash), $request->getQuery()->get($hash));
+
+        $this->assertEquals('GET', $request->getMethod());
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Create_Put_Request()
+    {
+        $httpClient = new \Guzzle\Http\Client;
+        $baseUrl = 'http://localhost/redmine/';
+        $apiKey = sha1(uniqid(microtime(true), true));
+        $uri = '/resource/1.xml';
+        $hash = sha1(uniqid(microtime(true), true));
+
+        $client = new \SE\Component\Redmine\Client\Rest\RestClient($httpClient, $baseUrl, $apiKey);
+        $request = $client->createPutRequest($uri, null, array(
+            $hash => strrev($hash)
+        ));
+
+        $this->assertInstanceOf('\Guzzle\Http\Message\RequestInterface', $request);
+        $this->assertEquals(strrev($hash), $request->getHeaders()->get($hash));
+
+        $this->assertEquals('PUT', $request->getMethod());
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Create_Post_Request()
+    {
+        $httpClient = new \Guzzle\Http\Client;
+        $baseUrl = 'http://localhost/redmine/';
+        $apiKey = sha1(uniqid(microtime(true), true));
+        $uri = '/resource/1.xml';
+        $hash = sha1(uniqid(microtime(true), true));
+
+        $client = new \SE\Component\Redmine\Client\Rest\RestClient($httpClient, $baseUrl, $apiKey);
+        $request = $client->createPostRequest($uri, null, array(
+            $hash => strrev($hash)
+        ));
+
+        $this->assertInstanceOf('\Guzzle\Http\Message\RequestInterface', $request);
+        $this->assertEquals(strrev($hash), $request->getHeaders()->get($hash));
+
+        $this->assertEquals('POST', $request->getMethod());
     }
 
     /**

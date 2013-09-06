@@ -277,6 +277,25 @@ class RestClient implements ClientInterface
     }
 
     /**
+     * @param string $uri
+     * @param string $postBody
+     * @param array $headers
+     * @param array $options
+     * @return \Guzzle\Http\Message\RequestInterface
+     */
+    public function createPutRequest($uri, $postBody = null, $headers = array(), array $options = array())
+    {
+        $request = $this->httpClient->put(
+            $this->prepareUrl($uri),
+            $this->prepareHeaders($headers),
+            $postBody,
+            $this->prepareOptions($options)
+        );
+
+        return $request;
+    }
+
+    /**
      * @param string $resource
      * @param integer $id
      * @param string $entityClass
@@ -302,8 +321,6 @@ class RestClient implements ClientInterface
         );
 
         return $entity;
-
-
     }
 
     /**
@@ -335,13 +352,26 @@ class RestClient implements ClientInterface
     }
 
     /**
+     * @param string $content
+     * @return string
+     */
+    /**
+    public function amend($format, $content)
+    {
+        $data = $this->encoder->decode($content, $format);
+        $data = $this->normalizer->amend($data);
+        $content = $this->encoder->encode($data, $format);
+        return $content;
+    }
+    */
+
+    /**
      *
      * @param string $resource
      * @param mixed $object
      */
     public function persist($resource, &$object)
     {
-        $uri = sprintf('%s.%s', $resource, $this->getFormat());
         $data = $this->normalizer->toData($object);
         $root = $this->normalizer->getRootKey($object);
 
@@ -349,7 +379,14 @@ class RestClient implements ClientInterface
             'xml_root_node_name' => $root
         ));
 
-        $request = $this->createPostRequest($uri, $body);
+        if(($isNew = $this->isNew($resource, $object)) === false) {
+            $uri = sprintf('%s/%s.%s', $resource, $object->getId(), $this->getFormat());
+            $request = $this->createPutRequest($uri, $body);
+        } else {
+            $uri = sprintf('%s.%s', $resource, $this->getFormat());
+            $request = $this->createPostRequest($uri, $body);
+        }
+
         $response = $request->send();
 
         // @codeCoverageIgnoreStart
@@ -358,11 +395,19 @@ class RestClient implements ClientInterface
         }
         // @codeCoverageIgnoreEnd
 
-        $object = $this->serializer->deserialize(
-            (string)$response->getBody(),
-            get_class($object),
-            $this->getFormat()
-        );
+        if($isNew === true) {
+            $object = $this->serializer->deserialize(
+                (string)$response->getBody(),
+                get_class($object),
+                $this->getFormat()
+            );
+        } else {
+            $object = $this->find(
+                $resource,
+                $object->getId(),
+                get_class($object)
+            );
+        }
     }
 
     /**

@@ -26,7 +26,7 @@ class CreateIssueTest extends \PHPUnit_Framework_TestCase
      *
      * @var \SE\Component\Redmine\Client\Rest\RestClient
      */
-    protected $client;
+    protected $restClient;
 
     public function setUp()
     {
@@ -34,7 +34,7 @@ class CreateIssueTest extends \PHPUnit_Framework_TestCase
         $apiKey = sha1(uniqid(microtime(true), true));
         $http = new \Guzzle\Http\Client;
 
-        $this->client = new \SE\Component\Redmine\Client\Rest\RestClient($http, $baseUrl, $apiKey);
+        $this->restClient = new \SE\Component\Redmine\Client\Rest\RestClient($http, $baseUrl, $apiKey);
     }
 
     /**
@@ -46,7 +46,7 @@ class CreateIssueTest extends \PHPUnit_Framework_TestCase
         $plugin = new \Guzzle\Plugin\Mock\MockPlugin(array(
             new \Guzzle\Http\Message\Response(200, null, file_get_contents(__DIR__.'/Fixtures/issue.get.default.xml'))
         ));
-        $this->client->getHttpClient()->addSubscriber($plugin);
+        $this->restClient->getHttpClient()->addSubscriber($plugin);
 
         $author = new \SE\Component\Redmine\Entity\Relation\Author;
         $author->setId(1);
@@ -58,9 +58,7 @@ class CreateIssueTest extends \PHPUnit_Framework_TestCase
         $issue->setAuthor($author);
 
         $this->assertNull($issue->getId());
-        $this->client->getRepository('issues')->persist($issue);
+        $this->restClient->getRepository('issues')->persist($issue);
         $this->assertNotNull($issue->getId());
-
-
     }
 }

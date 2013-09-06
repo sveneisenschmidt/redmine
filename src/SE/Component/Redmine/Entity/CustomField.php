@@ -10,6 +10,7 @@
 namespace SE\Component\Redmine\Entity;
 
 use \JMS\Serializer\Annotation as Serializer;
+use \SE\Component\Redmine\Entity\CustomFieldValue;
 
 /**
  *
@@ -45,10 +46,9 @@ class CustomField
     /**
      *
      * @Serializer\Expose
-     * @Serializer\Type("string")
+     * @Serializer\Type("aa")
      * @Serializer\SerializedName("value")
      *
-     * @var string
      */
     protected $value;
 
@@ -114,7 +114,10 @@ class CustomField
      */
     public function setValue($value)
     {
-        $this->value = $value;
+        var_dump(func_get_args());
+
+
+        // $this->value = $value;
     }
 
     /**
