@@ -55,6 +55,7 @@ class UpdateIssueTest extends \PHPUnit_Framework_TestCase
         $plugin = new \Guzzle\Plugin\Mock\MockPlugin(array(
             new \Guzzle\Http\Message\Response(200, null, file_get_contents(__DIR__.'/Fixtures/issue.get.default.xml')),
             new \Guzzle\Http\Message\Response(200, null, file_get_contents(__DIR__.'/Fixtures/issue.get.default.xml')),
+            new \Guzzle\Http\Message\Response(200, null, file_get_contents(__DIR__.'/Fixtures/issue.get.default.xml')),
             new \Guzzle\Http\Message\Response(200, null, $contents),
         ));
         $this->restClient->getHttpClient()->addSubscriber($plugin);

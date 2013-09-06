@@ -46,7 +46,7 @@ class CustomField
     /**
      *
      * @Serializer\Expose
-     * @Serializer\Type("aa")
+     * @Serializer\Type("string")
      * @Serializer\SerializedName("value")
      *
      */
@@ -114,10 +114,7 @@ class CustomField
      */
     public function setValue($value)
     {
-        var_dump(func_get_args());
-
-
-        // $this->value = $value;
+        $this->value = $value;
     }
 
     /**
