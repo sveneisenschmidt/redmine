@@ -83,7 +83,7 @@ class RestClient implements ClientInterface
      * @param string $apiKey
      * @param \JMS\Serializer\Serializer $serializer
      */
-    public function __construct(HttpClient $httpClient, $baseUrl, $apiKey, $serializer = null)
+    public function __construct(HttpClient $httpClient, $baseUrl, $apiKey, Serializer $serializer = null)
     {
         if($serializer === null) {
             $serializer = SerializerBuilder::create()->build();
@@ -357,8 +357,6 @@ class RestClient implements ClientInterface
             throw ServerErrorResponseException::factory($request, $response);
         }
         // @codeCoverageIgnoreEnd
-
-        $contents = (string)$response->getBody();
 
         $object = $this->serializer->deserialize(
             (string)$response->getBody(),
