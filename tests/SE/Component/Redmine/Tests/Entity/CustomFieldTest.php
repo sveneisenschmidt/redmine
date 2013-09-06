@@ -56,7 +56,7 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      */
-    public function Get_Set_Value()
+    public function Get_Set_Value_Single()
     {
         $entity = new \SE\Component\Redmine\Entity\CustomField;
         $value = sha1(uniqid(microtime(true), true));
@@ -64,6 +64,15 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($entity->getValue());
         $entity->setValue($value);
         $this->assertEquals($value, $entity->getValue());
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Get_Set_Value_Multiple()
+    {
+        $this->markTestIncomplete();
     }
 
     /**
@@ -80,7 +89,7 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      */
-    public function Serialize()
+    public function Serialize_Single()
     {
         $entity = new \SE\Component\Redmine\Entity\CustomField;
 
@@ -98,7 +107,7 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      */
-    public function Serialize_Empty()
+    public function Serialize_Single_Empty()
     {
         $entity = new \SE\Component\Redmine\Entity\CustomField;
 
@@ -112,7 +121,7 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      */
-    public function Deserialize()
+    public function Deserialize_Single()
     {
         $contents = file_get_contents(__DIR__.'/Fixtures/custom_field.xml');
         $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\CustomField', 'xml');
@@ -128,7 +137,7 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      */
-    public function Deserialize_Empty()
+    public function Deserialize_Single_Empty()
     {
         $contents = file_get_contents(__DIR__.'/Fixtures/custom_field_empty.xml');
         $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\CustomField', 'xml');
@@ -137,5 +146,41 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($entity->getName());
         $this->assertNull($entity->getValue());
         $this->assertFalse($entity->isMultiple());
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Serialize_Multiple()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Serialize_Single_Multiple()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Deserialize_Multiple()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Deserialize_Multiple_Empty()
+    {
+        $this->markTestIncomplete();
     }
 }
