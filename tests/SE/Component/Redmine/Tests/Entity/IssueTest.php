@@ -250,9 +250,9 @@ class IssueTest extends \PHPUnit_Framework_TestCase
     {
         $entity = new \SE\Component\Redmine\Entity\Issue;
         $value = array(
-            new \SE\Component\Redmine\Entity\CustomField\ScalarValue,
-            new \SE\Component\Redmine\Entity\CustomField\ArrayValue,
-            new \SE\Component\Redmine\Entity\CustomField\ArrayValue
+            new \SE\Component\Redmine\Entity\CustomField\ScalarField,
+            new \SE\Component\Redmine\Entity\CustomField\ListField,
+            new \SE\Component\Redmine\Entity\CustomField\ListField
         );
 
         $this->assertEmpty($entity->getCustomFields());
@@ -313,15 +313,15 @@ class IssueTest extends \PHPUnit_Framework_TestCase
         $category->setName('Bugfix');
         $entity->setCategory($category);
 
-        $scalar = new \SE\Component\Redmine\Entity\CustomField\ScalarValue();
+        $scalar = new \SE\Component\Redmine\Entity\CustomField\ScalarField();
         $scalar->setId(99);
         $scalar->setName('Resolution');
         $scalar->setValue('Duplicate');
 
-        $array = new \SE\Component\Redmine\Entity\CustomField\ArrayValue();
+        $array = new \SE\Component\Redmine\Entity\CustomField\ListField();
         $array->setId(12);
         $array->setName('Level');
-        $array->setValue(array(1,2,3));
+        $array->setValue(new \SE\Component\Redmine\Entity\CustomField\ValueList(array(1,2,3)));
 
         $entity->setCustomFields(array($scalar, $array));
 

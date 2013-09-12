@@ -17,37 +17,46 @@ use \SE\Component\Redmine\Entity\CustomField;
  * @package SE\Component\Redmine
  * @author Sven Eisenschmidt <sven.eisenschmidt@gmail.com>
  *
- * @Serializer\XmlRoot("value")
+ * @Serializer\XmlRoot("custom_field")
  */
-class ScalarValue
+class ListField extends CustomField
 {
     /**
      *
      * @Serializer\Expose
      * @Serializer\SerializedName("value")
-     * @Serializer\Type("string")
-     * @Serializer\XmlValue
+     * @Serializer\Type("SE\Component\Redmine\Entity\CustomField\ValueList")
      *
-     * @var string
+     * @var \SE\Component\Redmine\Entity\CustomField\ValueList
      */
-
     protected $value;
 
     /**
      *
-     * @param string $value
+     * @Serializer\Expose
+     * @Serializer\SerializedName("multiple")
+     * @Serializer\Type("boolean")
+     * @Serializer\XmlAttribute
+     *
+     * @var boolean
      */
-    public function __construct($value)
+    protected $multiple = true;
+
+    /**
+     *
+     * @param array $value
+     */
+    public function setValue($value)
     {
         $this->value = $value;
     }
 
     /**
      *
-     * @return string
+     * @return array|\SE\Component\Redmine\Entity\CustomField\SimpleValue[]
      */
-    public function __toString()
+    public function getValue()
     {
-        return (string)$this->value;
+        return $this->value;
     }
 }

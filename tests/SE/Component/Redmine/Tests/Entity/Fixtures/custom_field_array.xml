@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <custom_field id="45" name="Field Name" multiple="true">
-  <value>
-    <value>1</value>
-    <value>2</value>
-    <value>3</value>
+  <value type="array">
+    <value><![CDATA[1]]></value>
+    <value><![CDATA[2]]></value>
+    <value><![CDATA[3]]></value>
   </value>
   <__type><![CDATA[array]]></__type>
 </custom_field>

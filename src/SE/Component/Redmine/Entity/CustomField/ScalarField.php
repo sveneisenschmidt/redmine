@@ -19,33 +19,21 @@ use \SE\Component\Redmine\Entity\CustomField;
  *
  * @Serializer\XmlRoot("custom_field")
  */
-class ArrayValue extends CustomField
+class ScalarField extends CustomField
 {
     /**
      *
      * @Serializer\Expose
      * @Serializer\SerializedName("value")
-     * @Serializer\Type("array<string>")
-     * @Serializer\XmlList(entry = "value")
+     * @Serializer\Type("string")
      *
-     * @var array
+     * @var string
      */
     protected $value;
 
     /**
      *
-     * @Serializer\Expose
-     * @Serializer\SerializedName("multiple")
-     * @Serializer\Type("boolean")
-     * @Serializer\XmlAttribute
-     *
-     * @var boolean
-     */
-    protected $multiple = true;
-
-    /**
-     *
-     * @param array $value
+     * @param string $value
      */
     public function setValue($value)
     {
@@ -54,7 +42,7 @@ class ArrayValue extends CustomField
 
     /**
      *
-     * @return string
+     * @return \SE\Component\Redmine\Entity\CustomField\SimpleValue
      */
     public function getValue()
     {

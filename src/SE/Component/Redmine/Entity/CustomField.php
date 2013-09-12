@@ -21,8 +21,8 @@ use \SE\Component\Redmine\Entity\CustomField\ScalarValue;
  * @Serializer\Discriminator(
  *      field = "__type",
  *      map = {
- *          "scalar": "SE\Component\Redmine\Entity\CustomField\ScalarValue",
- *          "array": "SE\Component\Redmine\Entity\CustomField\ArrayValue"
+ *          "scalar": "SE\Component\Redmine\Entity\CustomField\ScalarField",
+ *          "array": "SE\Component\Redmine\Entity\CustomField\ListField"
  *      }
  * )
  */
@@ -123,8 +123,6 @@ abstract class CustomField
     {
         return $this->multiple;
     }
-
-
 
     /**
      *
