@@ -44,7 +44,7 @@ class LiveTest extends \PHPUnit_Framework_TestCase
 
     /**
      *
-     * @//test
+     * @test
      */
     public function Can_Authenticate()
     {
@@ -57,7 +57,7 @@ class LiveTest extends \PHPUnit_Framework_TestCase
 
     /**
      *
-     * @//test
+     * @test
      */
     public function Can_Load_News()
     {
@@ -69,6 +69,7 @@ class LiveTest extends \PHPUnit_Framework_TestCase
 
         if($collection->count() >= 1) {
             foreach($collection->getNews() as $news) {
+
                 $this->assertNotNull($news->getAuthor());
                 $this->assertNotNull($news->getProject());
                 $this->assertNotNull($news->getTitle());
@@ -89,7 +90,7 @@ class LiveTest extends \PHPUnit_Framework_TestCase
 
     /**
      *
-     * @//test
+     * @test
      */
     public function Can_Load_Issues()
     {
@@ -206,7 +207,7 @@ class LiveTest extends \PHPUnit_Framework_TestCase
             $originalUpdatedOn = $issue->getUpdatedOn();
 
             $issue->setSubject($subject);
-            $issue->setCustomFields(array());
+
             $repository->persist($issue);
 
             $this->assertNotEquals($originalUpdatedOn, $issue->getUpdatedOn());
@@ -215,7 +216,5 @@ class LiveTest extends \PHPUnit_Framework_TestCase
         } else {
             $this->markTestSkipped('No issues found for retrieving a valid issue for testing.');
         }
-
-
     }
 }

@@ -28,6 +28,8 @@ class ScalarValue
      * @Serializer\Type("string")
      * @Serializer\XmlValue
      *
+     * @Serializer\Groups({"default", "persist"})
+     *
      * @var string
      */
 

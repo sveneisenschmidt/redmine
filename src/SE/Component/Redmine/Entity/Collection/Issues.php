@@ -27,6 +27,8 @@ class Issues
      * @Serializer\Type("integer")
      * @Serializer\XmlAttribute
      *
+     * @Serializer\Groups({"default"})
+     *
      * @var integer
      */
     protected $limit = 0;
@@ -37,6 +39,8 @@ class Issues
      * @Serializer\SerializedName("total_count")
      * @Serializer\Type("integer")
      * @Serializer\XmlAttribute
+     *
+     * @Serializer\Groups({"default"})
      *
      * @var integer
      */
@@ -49,6 +53,8 @@ class Issues
      * @Serializer\Type("integer")
      * @Serializer\XmlAttribute
      *
+     * @Serializer\Groups({"default"})
+     *
      * @var integer
      */
     protected $offset = 0;
@@ -59,6 +65,8 @@ class Issues
      * @Serializer\SerializedName("issues")
      * @Serializer\Type("array<SE\Component\Redmine\Entity\Issue>")
      * @Serializer\XmlList(inline = true, entry="issue")
+     *
+     * @Serializer\Groups({"default"})
      *
      * @var \SE\Component\Redmine\Entity\Issues[]
      */

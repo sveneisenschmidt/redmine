@@ -29,6 +29,8 @@ class News
      * @Serializer\SerializedName("id")
      * @Serializer\Type("integer")
      *
+     * @Serializer\Groups({"default"})
+     *
      * @var integer
      */
     protected $id;
@@ -37,6 +39,8 @@ class News
      *
      * @Serializer\Expose
      * @Serializer\Type("SE\Component\Redmine\Entity\Relation\Project")
+     *
+     * @Serializer\Groups({"default"})
      *
      * @var \SE\Component\Redmine\Entity\Relation\Project
      */
@@ -49,6 +53,8 @@ class News
      * @Serializer\SerializedName("author")
      * @Serializer\Type("SE\Component\Redmine\Entity\Relation\Author")
      *
+     * @Serializer\Groups({"default"})
+     *
      * @var \SE\Component\Redmine\Entity\Relation\Author
      */
     protected $author;
@@ -58,6 +64,8 @@ class News
      * @Serializer\Expose
      * @Serializer\SerializedName("title")
      * @Serializer\Type("string")
+     *
+     * @Serializer\Groups({"default"})
      *
      * @var string
      */
@@ -69,6 +77,8 @@ class News
      * @Serializer\SerializedName("summary")
      * @Serializer\Type("string")
      *
+     * @Serializer\Groups({"default"})
+     *
      * @var string
      */
     protected $summary;
@@ -79,6 +89,8 @@ class News
      * @Serializer\SerializedName("description")
      * @Serializer\Type("string")
      *
+     * @Serializer\Groups({"default"})
+     *
      * @var string
      */
     protected $description;
@@ -88,6 +100,8 @@ class News
      * @Serializer\Expose
      * @Serializer\SerializedName("created_on")
      * @Serializer\Type("DateTime<'Y-m-d\TG:i:sP'>")
+     *
+     * @Serializer\Groups({"default"})
      *
      * @var \DateTime
      */

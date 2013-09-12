@@ -34,16 +34,19 @@ class Issue
      * @Serializer\SerializedName("id")
      * @Serializer\Type("integer")
      *
+     * @Serializer\Groups({"default"})
+     *
      * @var integer
      */
     protected $id;
 
     /**
      *
-     *
      * @Serializer\Expose
      * @Serializer\SerializedName("author")
      * @Serializer\Type("SE\Component\Redmine\Entity\Relation\Author")
+     *
+     * @Serializer\Groups({"default"})
      *
      * @var \SE\Component\Redmine\Entity\Relation\Author
      */
@@ -51,10 +54,11 @@ class Issue
 
     /**
      *
-     *
      * @Serializer\Expose
      * @Serializer\SerializedName("assigned_to")
      * @Serializer\Type("SE\Component\Redmine\Entity\Relation\AssignedTo")
+     *
+     * @Serializer\Groups({"default"})
      *
      * @var \SE\Component\Redmine\Entity\Relation\AssignedTo
      */
@@ -62,10 +66,11 @@ class Issue
 
     /**
      *
-     *
      * @Serializer\Expose
      * @Serializer\SerializedName("status")
      * @Serializer\Type("SE\Component\Redmine\Entity\Relation\Status")
+     *
+     * @Serializer\Groups({"default"})
      *
      * @var \SE\Component\Redmine\Entity\Relation\Status
      */
@@ -73,10 +78,11 @@ class Issue
 
     /**
      *
-     *
      * @Serializer\Expose
      * @Serializer\SerializedName("project")
      * @Serializer\Type("SE\Component\Redmine\Entity\Relation\Project")
+     *
+     * @Serializer\Groups({"default"})
      *
      * @var \SE\Component\Redmine\Entity\Relation\Project
      */
@@ -84,10 +90,11 @@ class Issue
 
     /**
      *
-     *
      * @Serializer\Expose
      * @Serializer\SerializedName("priority")
      * @Serializer\Type("SE\Component\Redmine\Entity\Relation\Priority")
+     *
+     * @Serializer\Groups({"default"})
      *
      * @var \SE\Component\Redmine\Entity\Relation\Priority
      */
@@ -95,10 +102,11 @@ class Issue
 
     /**
      *
-     *
      * @Serializer\Expose
      * @Serializer\SerializedName("category")
      * @Serializer\Type("SE\Component\Redmine\Entity\Relation\Category")
+     *
+     * @Serializer\Groups({"default"})
      *
      * @var \SE\Component\Redmine\Entity\Relation\Category
      */
@@ -106,10 +114,11 @@ class Issue
 
     /**
      *
-     *
      * @Serializer\Expose
      * @Serializer\SerializedName("tracker")
      * @Serializer\Type("SE\Component\Redmine\Entity\Relation\Tracker")
+     *
+     * @Serializer\Groups({"default"})
      *
      * @var \SE\Component\Redmine\Entity\Relation\Tracker
      */
@@ -117,10 +126,11 @@ class Issue
 
     /**
      *
-     *
      * @Serializer\Expose
      * @Serializer\SerializedName("subject")
      * @Serializer\Type("string")
+     *
+     * @Serializer\Groups({"default", "persist"})
      *
      * @var string
      */
@@ -128,10 +138,11 @@ class Issue
 
     /**
      *
-     *
      * @Serializer\Expose
      * @Serializer\SerializedName("description")
      * @Serializer\Type("string")
+     *
+     * @Serializer\Groups({"default", "persist"})
      *
      * @var string
      */
@@ -139,10 +150,11 @@ class Issue
 
     /**
      *
-     *
      * @Serializer\Expose
      * @Serializer\SerializedName("done_ratio")
      * @Serializer\Type("integer")
+     *
+     * @Serializer\Groups({"default", "persist"})
      *
      * @var integer
      */
@@ -150,10 +162,11 @@ class Issue
 
     /**
      *
-     *
      * @Serializer\Expose
      * @Serializer\SerializedName("estimated_hours")
      * @Serializer\Type("float")
+     *
+     * @Serializer\Groups({"default", "persist"})
      *
      * @var float
      */
@@ -161,11 +174,12 @@ class Issue
 
     /**
      *
-     *
      * @Serializer\Expose
      * @Serializer\SerializedName("custom_fields")
      * @Serializer\Type("array<SE\Component\Redmine\Entity\CustomField>")
      * @Serializer\XmlList(entry="custom_field")
+     *
+     * @Serializer\Groups({"default", "persist"})
      *
      * @var \SE\Component\Redmine\Entity\CustomField[]
      */
@@ -173,10 +187,11 @@ class Issue
 
     /**
      *
-     *
      * @Serializer\Expose
      * @Serializer\SerializedName("start_date")
      * @Serializer\Type("string")
+     *
+     * @Serializer\Groups({"default", "persist"})
      *
      * @var string
      */
@@ -184,10 +199,11 @@ class Issue
 
     /**
      *
-     *
      * @Serializer\Expose
      * @Serializer\SerializedName("due_date")
      * @Serializer\Type("string")
+     *
+     * @Serializer\Groups({"default", "persist"})
      *
      * @var string
      */
@@ -195,10 +211,11 @@ class Issue
 
     /**
      *
-     *
      * @Serializer\Expose
      * @Serializer\SerializedName("updated_on")
      * @Serializer\Type("DateTime")
+     *
+     * @Serializer\Groups({"default"})
      *
      * @var \DateTime
      */
@@ -206,16 +223,18 @@ class Issue
 
     /**
      *
-     *
      * @Serializer\Expose
      * @Serializer\SerializedName("created_on")
      * @Serializer\Type("DateTime")
+     *
+     * @Serializer\Groups({"default"})
      *
      * @var \DateTime
      */
     protected $createdOn;
 
     /**
+     *
      * @param integer $id
      * @throws \BadMethodCallException
      */
@@ -533,5 +552,140 @@ class Issue
     public function getAssignedTo()
     {
         return $this->assignedTo;
+    }
+
+
+    /**
+     *
+     * @Serializer\SerializedName("author_id")
+     * @Serializer\Type("integer")
+     * @Serializer\VirtualProperty
+     *
+     * @Serializer\Groups({"persist"})
+     *
+     * @var string
+     */
+    public function getAuthorId()
+    {
+        if($this->author !== null) {
+            return $this->author->getId();
+        }
+
+        return null;
+    }
+
+
+    /**
+     *
+     * @Serializer\SerializedName("assigned_to_id")
+     * @Serializer\Type("integer")
+     * @Serializer\VirtualProperty
+     *
+     * @Serializer\Groups({"persist"})
+     *
+     * @var string
+     */
+    public function getAssignedToId()
+    {
+        if($this->assignedTo !== null) {
+            return $this->assignedTo->getId();
+        }
+
+        return null;
+    }
+
+    /**
+     *
+     * @Serializer\SerializedName("project_id")
+     * @Serializer\Type("integer")
+     * @Serializer\VirtualProperty
+     *
+     * @Serializer\Groups({"persist"})
+     *
+     * @var string
+     */
+    public function getProjectId()
+    {
+        if($this->project !== null) {
+            return $this->project->getId();
+        }
+
+        return null;
+    }
+
+    /**
+     *
+     * @Serializer\SerializedName("tracker_id")
+     * @Serializer\Type("integer")
+     * @Serializer\VirtualProperty
+     *
+     * @Serializer\Groups({"persist"})
+     *
+     * @var string
+     */
+    public function getTrackerId()
+    {
+        if($this->tracker !== null) {
+            return $this->tracker->getId();
+        }
+
+        return null;
+    }
+
+    /**
+     *
+     * @Serializer\SerializedName("priority_id")
+     * @Serializer\Type("integer")
+     * @Serializer\VirtualProperty
+     *
+     * @Serializer\Groups({"persist"})
+     *
+     * @var string
+     */
+    public function getPriorityId()
+    {
+        if($this->priority !== null) {
+            return $this->priority->getId();
+        }
+
+        return null;
+    }
+
+    /**
+     *
+     * @Serializer\SerializedName("status_id")
+     * @Serializer\Type("integer")
+     * @Serializer\VirtualProperty
+     *
+     * @Serializer\Groups({"persist"})
+     *
+     * @var string
+     */
+    public function getStatusId()
+    {
+        if($this->status !== null) {
+            return $this->status->getId();
+        }
+
+        return null;
+    }
+
+    /**
+     *
+     * @Serializer\SerializedName("category_id")
+     * @Serializer\Type("integer")
+     * @Serializer\VirtualProperty
+     *
+     * @Serializer\Groups({"persist"})
+     *
+     * @var string
+     */
+    public function getCategoryId()
+    {
+        if($this->category !== null) {
+            return $this->category->getId();
+        }
+
+        return null;
     }
 }

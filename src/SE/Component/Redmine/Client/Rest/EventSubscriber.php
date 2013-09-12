@@ -10,8 +10,10 @@
 namespace SE\Component\Redmine\Client\Rest;
 
 use \JMS\Serializer\EventDispatcher\EventSubscriberInterface;
-use \JMS\Serializer\EventDispatcher\PreDeserializeEvent;
 use \JMS\Serializer\XmlDeserializationVisitor;
+use \JMS\Serializer\XmlSerializationVisitor;
+use \JMS\Serializer\EventDispatcher\PreDeserializeEvent;
+use \JMS\Serializer\EventDispatcher\PreSerializeEvent;
 
 /**
  *

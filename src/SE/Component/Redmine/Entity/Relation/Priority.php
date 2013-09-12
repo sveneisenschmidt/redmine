@@ -28,6 +28,8 @@ class Priority implements RelationInterface
      * @Serializer\Type("integer")
      * @Serializer\XmlAttribute
      *
+     * @Serializer\Groups({"default"})
+     *
      * @var integer
      */
     protected $id;
@@ -38,6 +40,8 @@ class Priority implements RelationInterface
      * @Serializer\SerializedName("name")
      * @Serializer\Type("string")
      * @Serializer\XmlAttribute
+     *
+     * @Serializer\Groups({"default"})
      *
      * @var string
      */

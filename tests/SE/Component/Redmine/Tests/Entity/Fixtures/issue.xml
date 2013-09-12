@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <issue>
+  <author_id>99</author_id>
+  <assigned_to_id>52</assigned_to_id>
+  <project_id>98</project_id>
+  <tracker_id>97</tracker_id>
+  <priority_id>4</priority_id>
+  <status_id>1</status_id>
+  <category_id>12</category_id>
   <id>99</id>
   <author id="99" name="Jon Smith"/>
   <assigned_to id="52" name="Jane Doe"/>

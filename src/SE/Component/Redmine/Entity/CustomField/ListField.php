@@ -27,6 +27,8 @@ class ListField extends CustomField
      * @Serializer\SerializedName("value")
      * @Serializer\Type("SE\Component\Redmine\Entity\CustomField\ValueList")
      *
+     * @Serializer\Groups({"default", "persist"})
+     *
      * @var \SE\Component\Redmine\Entity\CustomField\ValueList
      */
     protected $value;
@@ -37,6 +39,8 @@ class ListField extends CustomField
      * @Serializer\SerializedName("multiple")
      * @Serializer\Type("boolean")
      * @Serializer\XmlAttribute
+     *
+     * @Serializer\Groups({"default"})
      *
      * @var boolean
      */

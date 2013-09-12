@@ -12,7 +12,6 @@ namespace SE\Component\Redmine\Client\Rest;
 use \SE\Component\Redmine\EntityManager;
 use \SE\Component\Redmine\Client\RestEventSubscriber;
 use \SE\Component\Redmine\Client\ClientInterface;
-use \SE\Component\Redmine\Client\Rest\EntityNormalizer;
 use \SE\Component\Redmine\Client\Rest\Exception\UnknownFormatException;
 
 use \Guzzle\Http\Client as HttpClient;
@@ -22,6 +21,8 @@ use \Guzzle\Http\Exception\ServerErrorResponseException;
 use \JMS\Serializer\Serializer;
 use \JMS\Serializer\SerializerBuilder;
 use \JMS\Serializer\EventDispatcher\EventDispatcher;
+use \JMS\Serializer\SerializationContext;
+use \JMS\Serializer\DeserializationContext;
 
 use \Symfony\Component\Serializer\Encoder\XmlEncoder;
 
@@ -47,12 +48,6 @@ class RestClient implements ClientInterface
      * @var \JMS\Serializer\Serializer
      */
     protected $serializer;
-
-    /**
-     *
-     * @var \SE\Component\Redmine\Client\Rest\EntityNormalizer
-     */
-    protected $normalizer;
 
     /**
      *
@@ -96,7 +91,6 @@ class RestClient implements ClientInterface
 
         $this->httpClient = $httpClient;
         $this->serializer = $serializer;
-        $this->normalizer = new EntityNormalizer($serializer);
         $this->encoder = new XmlEncoder;
 
         $this->setApiKey($apiKey);
@@ -322,7 +316,8 @@ class RestClient implements ClientInterface
         $entity =  $this->serializer->deserialize(
             (string)$response->getBody(),
             $entityClass,
-            $this->getFormat()
+            $this->getFormat(),
+            DeserializationContext::create()->setGroups(array('default'))
         );
 
         return $entity;
@@ -350,7 +345,8 @@ class RestClient implements ClientInterface
         $collection =  $this->serializer->deserialize(
             (string)$response->getBody(),
             $entityClass,
-            $this->getFormat()
+            $this->getFormat(),
+            DeserializationContext::create()->setGroups(array('default'))
         );
 
         return $collection;
@@ -363,12 +359,13 @@ class RestClient implements ClientInterface
      */
     public function persist($resource, &$object)
     {
-        $data = $this->normalizer->toData($object);
-        $root = $this->normalizer->getRootKey($object);
+        $body = $this->serializer->serialize(
+            clone $object,
+            $this->getFormat(),
+            SerializationContext::create()->setGroups(array('persist'))
+        );
 
-        $body = $this->encoder->encode($data, $this->getFormat(), array(
-            'xml_root_node_name' => $root
-        ));
+        $body = str_replace('<custom_fields>', '<custom_fields type="array">', $body);
 
         if(($isNew = $this->isNew($resource, $object)) === false) {
             $uri = sprintf('%s/%s.%s', $resource, $object->getId(), $this->getFormat());
@@ -390,7 +387,8 @@ class RestClient implements ClientInterface
             $object = $this->serializer->deserialize(
                 (string)$response->getBody(),
                 get_class($object),
-                $this->getFormat()
+                $this->getFormat(),
+                DeserializationContext::create()->setGroups(array('default'))
             );
         } else {
             $object = $this->find(

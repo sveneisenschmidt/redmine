@@ -27,6 +27,8 @@ class ScalarField extends CustomField
      * @Serializer\SerializedName("value")
      * @Serializer\Type("string")
      *
+     * @Serializer\Groups({"default", "persist"})
+     *
      * @var string
      */
     protected $value;

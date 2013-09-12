@@ -35,6 +35,8 @@ abstract class CustomField
      * @Serializer\Type("integer")
      * @Serializer\XmlAttribute
      *
+     * @Serializer\Groups({"default", "persist"})
+     *
      * @var integer
      */
     protected $id;
@@ -46,6 +48,8 @@ abstract class CustomField
      * @Serializer\Type("string")
      * @Serializer\XmlAttribute
      *
+     * @Serializer\Groups({"default"})
+     *
      * @var string
      */
     protected $name;
@@ -56,6 +60,8 @@ abstract class CustomField
      * @Serializer\SerializedName("multiple")
      * @Serializer\Type("boolean")
      * @Serializer\XmlAttribute
+     *
+     * @Serializer\Groups({"default"})
      *
      * @var boolean
      */

@@ -29,6 +29,8 @@ class ValueList
      * @Serializer\XmlList(inline=true, entry="value")
      * @Serializer\Accessor(setter="setValues")
      *
+     * @Serializer\Groups({"default", "persist"})
+     *
      * @var string
      */
     protected $values;
@@ -39,6 +41,8 @@ class ValueList
      * @Serializer\SerializedName("type")
      * @Serializer\Type("string")
      * @Serializer\XmlAttribute
+     *
+     * @Serializer\Groups({"default", "persist"})
      *
      * @var string
      */
