@@ -355,7 +355,6 @@ class RestClient implements ClientInterface
      * @param string $content
      * @return string
      */
-    /**
     public function amend($format, $content)
     {
         $data = $this->encoder->decode($content, $format);
@@ -363,7 +362,6 @@ class RestClient implements ClientInterface
         $content = $this->encoder->encode($data, $format);
         return $content;
     }
-    */
 
     /**
      *

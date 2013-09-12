@@ -10,30 +10,42 @@
 namespace SE\Component\Redmine\Entity\CustomField;
 
 use \JMS\Serializer\Annotation as Serializer;
+use \SE\Component\Redmine\Entity\CustomField;
 
 /**
  *
  * @package SE\Component\Redmine
  * @author Sven Eisenschmidt <sven.eisenschmidt@gmail.com>
  *
- * @Serializer\XmlRoot("value")
+ * @Serializer\XmlRoot("custom_field")
  */
-class Value
+class ScalarValue extends CustomField
 {
-    /**
-     *
-     * @Serializer\Expose
-     * @Serializer\SerializedName("type")
-     * @Serializer\Type("string")
-     * @Serializer\XmlAttribute
-     */
-    protected $type = 'string';
-
     /**
      *
      * @Serializer\Expose
      * @Serializer\SerializedName("value")
      * @Serializer\Type("string")
+     *
+     * @var string
      */
     protected $value;
+
+    /**
+     *
+     * @param string $value
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
 }

@@ -106,23 +106,17 @@ class EntityNormalizer
      *
      * @return array
      */
-    /**
     public function amend(array $data)
     {
         foreach($data as $key => $value) {
             if($key === 'custom_fields') {
                 foreach($data[$key]['custom_field'] as $index => $field) {
-                    if(is_array($field['value']) === false) {
-                        $data[$key]['custom_field'][$index]['value'] = array(
-                            '@type' => 'string',
-                            'value' => $field['value']
-                        );
-                    } else {
-                        if(is_string($field['value']['value']) === true && $field['@multiple'] == "true") {
-                            $data[$key]['custom_field'][$index]['value']['value'] = array(
-                                $field['value']['value']
-                            );
-                        }
+                    if(is_array($field['value']) === true) {
+                        var_dump("string");
+                    } else
+
+                    if(is_string($field['value']) === true) {
+                        var_dump("array");
                     }
                 }
             }
@@ -130,7 +124,6 @@ class EntityNormalizer
 
         return $data;
     }
-    */
 
     /**
      *

@@ -30,7 +30,7 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase
      */
     public function Get_Set_Id()
     {
-        $entity = new \SE\Component\Redmine\Entity\CustomField;
+        $entity = new \SE\Component\Redmine\Entity\CustomField\ScalarValue;
         $value = rand(1,100);
 
         $this->assertNull($entity->getId());
@@ -44,7 +44,7 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase
      */
     public function Get_Set_Name()
     {
-        $entity = new \SE\Component\Redmine\Entity\CustomField;
+        $entity = new \SE\Component\Redmine\Entity\CustomField\ScalarValue;
         $value = sha1(uniqid(microtime(true), true));
 
         $this->assertNull($entity->getName());
@@ -56,12 +56,12 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      */
-    public function Get_Set_Value_Single()
+    public function Get_Set_Value_Scalar()
     {
-        $entity = new \SE\Component\Redmine\Entity\CustomField;
+        $entity = new \SE\Component\Redmine\Entity\CustomField\ScalarValue;
         $value = sha1(uniqid(microtime(true), true));
 
-        $this->assertNull($entity->getValue());
+        $this->assertEmpty($entity->getValue());
         $entity->setValue($value);
         $this->assertEquals($value, $entity->getValue());
     }
@@ -70,18 +70,9 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      */
-    public function Get_Set_Value_Multiple()
+    public function Is_Multiple_Scalar_Default()
     {
-        $this->markTestIncomplete();
-    }
-
-    /**
-     *
-     * @test
-     */
-    public function Is_Multiple_Default()
-    {
-        $entity = new \SE\Component\Redmine\Entity\CustomField;
+        $entity = new \SE\Component\Redmine\Entity\CustomField\ScalarValue;
         $this->assertFalse($entity->isMultiple());
     }
 
@@ -89,15 +80,15 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      */
-    public function Serialize_Single()
+    public function Serialize_Scalar()
     {
-        $entity = new \SE\Component\Redmine\Entity\CustomField;
+        $entity = new \SE\Component\Redmine\Entity\CustomField\ScalarValue;
 
         $entity->setId(45);
         $entity->setName('Field Name');
         $entity->setValue('My Field Value');
 
-        $expected = file_get_contents(__DIR__.'/Fixtures/custom_field.xml');
+        $expected = file_get_contents(__DIR__.'/Fixtures/custom_field_scalar.xml');
         $actual = $this->serializer->serialize($entity, 'xml');
 
         $this->assertEquals($expected, $actual);
@@ -107,11 +98,11 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      */
-    public function Serialize_Single_Empty()
+    public function Serialize_Scalar_Empty()
     {
-        $entity = new \SE\Component\Redmine\Entity\CustomField;
+        $entity = new \SE\Component\Redmine\Entity\CustomField\ScalarValue;
 
-        $expected = file_get_contents(__DIR__.'/Fixtures/custom_field_empty.xml');
+        $expected = file_get_contents(__DIR__.'/Fixtures/custom_field_scalar_empty.xml');
         $actual = $this->serializer->serialize($entity, 'xml');
 
         $this->assertEquals($expected, $actual);
@@ -121,10 +112,10 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      */
-    public function Deserialize_Single()
+    public function Deserialize_Scalar()
     {
-        $contents = file_get_contents(__DIR__.'/Fixtures/custom_field.xml');
-        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\CustomField', 'xml');
+        $contents = file_get_contents(__DIR__.'/Fixtures/custom_field_scalar.xml');
+        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\CustomField\ScalarValue', 'xml');
 
         $this->assertEquals(45, $entity->getId());
         $this->assertEquals('Field Name', $entity->getName());
@@ -137,10 +128,10 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      */
-    public function Deserialize_Single_Empty()
+    public function Deserialize_Scalar_Empty()
     {
-        $contents = file_get_contents(__DIR__.'/Fixtures/custom_field_empty.xml');
-        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\CustomField', 'xml');
+        $contents = file_get_contents(__DIR__.'/Fixtures/custom_field_scalar_empty.xml');
+        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\CustomField\ScalarValue', 'xml');
 
         $this->assertNull($entity->getId());
         $this->assertNull($entity->getName());
@@ -152,35 +143,91 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      */
-    public function Serialize_Multiple()
+    public function Get_Set_Value_Array()
     {
-        $this->markTestIncomplete();
+        $entity = new \SE\Component\Redmine\Entity\CustomField\ArrayValue;
+        $value = array(
+            sha1(uniqid(microtime(true), true)),
+            sha1(uniqid(microtime(true), true)),
+            sha1(uniqid(microtime(true), true))
+        );
+
+        $this->assertEmpty($entity->getValue());
+        $entity->setValue($value);
+        $this->assertEquals($value, $entity->getValue());
     }
 
     /**
      *
      * @test
      */
-    public function Serialize_Single_Multiple()
+    public function Is_Multiple_Array_Default()
     {
-        $this->markTestIncomplete();
+        $entity = new \SE\Component\Redmine\Entity\CustomField\ArrayValue;
+        $this->assertTrue($entity->isMultiple());
     }
 
     /**
      *
      * @test
      */
-    public function Deserialize_Multiple()
+    public function Serialize_Array()
     {
-        $this->markTestIncomplete();
+        $entity = new \SE\Component\Redmine\Entity\CustomField\ArrayValue;
+
+        $entity->setId(45);
+        $entity->setName('Field Name');
+        $entity->setValue(array(1,2,3));
+        $entity->setMultiple(true);
+
+        $expected = file_get_contents(__DIR__.'/Fixtures/custom_field_array.xml');
+        $actual = $this->serializer->serialize($entity, 'xml');
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
      *
      * @test
      */
-    public function Deserialize_Multiple_Empty()
+    public function Serialize_Empty_Array()
     {
-        $this->markTestIncomplete();
+        $entity = new \SE\Component\Redmine\Entity\CustomField\ArrayValue;
+
+        $expected = file_get_contents(__DIR__.'/Fixtures/custom_field_array_empty.xml');
+        $actual = $this->serializer->serialize($entity, 'xml');
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Deserialize_Array()
+    {
+        $contents = file_get_contents(__DIR__.'/Fixtures/custom_field_array.xml');
+        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\CustomField\ArrayValue', 'xml');
+
+        $this->assertEquals(45, $entity->getId());
+        $this->assertEquals('Field Name', $entity->getName());
+        $this->assertEquals(array(1,2,3), $entity->getValue());
+        $this->assertTrue($entity->isMultiple());
+
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Deserialize_Array_Empty()
+    {
+        $contents = file_get_contents(__DIR__.'/Fixtures/custom_field_array_empty.xml');
+        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\CustomField\ArrayValue', 'xml');
+
+        $this->assertNull($entity->getId());
+        $this->assertNull($entity->getName());
+        $this->assertEquals(array(), $entity->getValue());
+        $this->assertTrue($entity->isMultiple());
     }
 }

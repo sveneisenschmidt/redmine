@@ -10,7 +10,7 @@
 namespace SE\Component\Redmine\Entity;
 
 use \JMS\Serializer\Annotation as Serializer;
-use \SE\Component\Redmine\Entity\CustomFieldValue;
+use \SE\Component\Redmine\Entity\CustomField\ScalarValue;
 
 /**
  *
@@ -18,8 +18,15 @@ use \SE\Component\Redmine\Entity\CustomFieldValue;
  * @author Sven Eisenschmidt <sven.eisenschmidt@gmail.com>
  *
  * @Serializer\XmlRoot("custom_field")
+ * @Serializer\Discriminator(
+ *      field = "__type",
+ *      map = {
+ *          "scalar": "SE\Component\Redmine\Entity\CustomField\ScalarValue",
+ *          "array": "SE\Component\Redmine\Entity\CustomField\ArrayValue"
+ *      }
+ * )
  */
-class CustomField
+abstract class CustomField
 {
     /**
      *
@@ -42,15 +49,6 @@ class CustomField
      * @var string
      */
     protected $name;
-
-    /**
-     *
-     * @Serializer\Expose
-     * @Serializer\Type("string")
-     * @Serializer\SerializedName("value")
-     *
-     */
-    protected $value;
 
     /**
      *
@@ -110,19 +108,35 @@ class CustomField
 
     /**
      *
-     * @param string $value
+     * @param boolean $multiple
      */
-    public function setValue($value)
+    public function setMultiple($multiple)
     {
-        $this->value = $value;
+        $this->multiple = (bool)$multiple;
     }
 
     /**
      *
-     * @return string
+     * @return boolean
      */
-    public function getValue()
+    public function getMultiple()
     {
-        return $this->value;
+        return $this->multiple;
     }
+
+
+
+    /**
+     *
+     * @return mixed
+     */
+    abstract function setValue($value);
+
+    /**
+     *
+     * @return mixed
+     */
+    abstract function getValue();
+
+
 }

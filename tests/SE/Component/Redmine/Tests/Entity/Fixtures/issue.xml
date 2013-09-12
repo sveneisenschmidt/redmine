@@ -14,7 +14,16 @@
   <estimated_hours>60</estimated_hours>
   <custom_fields>
     <custom_field id="99" name="Resolution" multiple="false">
+      <__type>scalar</__type>
       <value><![CDATA[Duplicate]]></value>
+    </custom_field>
+    <custom_field id="12" name="Level" multiple="true">
+      <__type>array</__type>
+      <value type="array">
+        <value>1</value>
+        <value>2</value>
+        <value>3</value>
+      </value>
     </custom_field>
   </custom_fields>
   <start_date><![CDATA[2013-01-01]]></start_date>

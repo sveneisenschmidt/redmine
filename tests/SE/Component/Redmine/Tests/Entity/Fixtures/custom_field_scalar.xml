@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <custom_field id="45" name="Field Name" multiple="false">
   <value><![CDATA[My Field Value]]></value>
+  <__type><![CDATA[scalar]]></__type>
 </custom_field>

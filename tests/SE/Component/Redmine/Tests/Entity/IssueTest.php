@@ -250,9 +250,9 @@ class IssueTest extends \PHPUnit_Framework_TestCase
     {
         $entity = new \SE\Component\Redmine\Entity\Issue;
         $value = array(
-            new \SE\Component\Redmine\Entity\CustomField,
-            new \SE\Component\Redmine\Entity\CustomField,
-            new \SE\Component\Redmine\Entity\CustomField
+            new \SE\Component\Redmine\Entity\CustomField\ScalarValue,
+            new \SE\Component\Redmine\Entity\CustomField\ArrayValue,
+            new \SE\Component\Redmine\Entity\CustomField\ArrayValue
         );
 
         $this->assertEmpty($entity->getCustomFields());
@@ -313,11 +313,17 @@ class IssueTest extends \PHPUnit_Framework_TestCase
         $category->setName('Bugfix');
         $entity->setCategory($category);
 
-        $customField = new \SE\Component\Redmine\Entity\CustomField;
-        $customField->setId(99);
-        $customField->setName('Resolution');
-        $customField->setValue('Duplicate');
-        $entity->setCustomFields(array($customField));
+        $scalar = new \SE\Component\Redmine\Entity\CustomField\ScalarValue();
+        $scalar->setId(99);
+        $scalar->setName('Resolution');
+        $scalar->setValue('Duplicate');
+
+        $array = new \SE\Component\Redmine\Entity\CustomField\ArrayValue();
+        $array->setId(12);
+        $array->setName('Level');
+        $array->setValue(array(1,2,3));
+
+        $entity->setCustomFields(array($scalar, $array));
 
         $expected = file_get_contents(__DIR__.'/Fixtures/issue.xml');
         $actual = $this->serializer->serialize($entity, 'xml');
