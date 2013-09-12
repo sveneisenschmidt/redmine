@@ -74,7 +74,7 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase
     public function Is_Multiple_Scalar_Default()
     {
         $entity = new \SE\Component\Redmine\Entity\CustomField\ScalarField;
-        $this->assertFalse($entity->isMultiple());
+        $this->assertFalse($entity->getMultiple());
     }
 
     /**
@@ -121,7 +121,8 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(45, $entity->getId());
         $this->assertEquals('Field Name', $entity->getName());
         $this->assertEquals('My Field Value', $entity->getValue());
-        $this->assertFalse($entity->isMultiple());
+        $this->assertFalse($entity->getMultiple());
+        $this->assertFalse($entity->getMultiple());
 
     }
 
@@ -137,7 +138,7 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($entity->getId());
         $this->assertNull($entity->getName());
         $this->assertNull($entity->getValue());
-        $this->assertFalse($entity->isMultiple());
+        $this->assertFalse($entity->getMultiple());
     }
 
     /**
@@ -165,7 +166,7 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase
     public function Is_Multiple_Array_Default()
     {
         $entity = new \SE\Component\Redmine\Entity\CustomField\ListField;
-        $this->assertTrue($entity->isMultiple());
+        $this->assertTrue($entity->getMultiple());
     }
 
     /**
@@ -216,7 +217,7 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(45, $entity->getId());
         $this->assertEquals('Field Name', $entity->getName());
         $this->assertEquals($expected, $entity->getValue());
-        $this->assertTrue($entity->isMultiple());
+        $this->assertTrue($entity->getMultiple());
     }
 
     /**
@@ -231,6 +232,6 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($entity->getId());
         $this->assertNull($entity->getName());
         $this->assertNull($entity->getValue());
-        $this->assertTrue($entity->isMultiple());
+        $this->assertTrue($entity->getMultiple());
     }
 }

@@ -68,21 +68,6 @@ class EntityNormalizer
                     unset($data[$key]);
                     $data[$key.'_id'] = $value['id'];
                 }
-                if($key === 'custom_fields') {
-                    $fields = $data[$key];
-                    $data[$key] = array();
-                    foreach($fields as $field) {
-                        $data[$key][] = array(
-                            '@type' => 'array',
-                            'custom_field' => array(
-                                '@id' => $field['id'],
-                                '@name' => $field['name'],
-                                '@multiple' => $field['multiple'],
-                                'value' => $field['value']
-                            )
-                        );
-                    }
-                }
             }
         }
 
@@ -98,29 +83,6 @@ class EntityNormalizer
     {
         $json = $this->serializer->serialize($object, 'json');
         $data = json_decode($json, true);
-
-        return $data;
-    }
-
-    /**
-     *
-     * @return array
-     */
-    public function amend(array $data)
-    {
-        foreach($data as $key => $value) {
-            if($key === 'custom_fields') {
-                foreach($data[$key]['custom_field'] as $index => $field) {
-                    if(is_array($field['value']) === true) {
-                        var_dump("string");
-                    } else
-
-                    if(is_string($field['value']) === true) {
-                        var_dump("array");
-                    }
-                }
-            }
-        }
 
         return $data;
     }

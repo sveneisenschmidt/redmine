@@ -63,15 +63,6 @@ abstract class CustomField
 
     /**
      *
-     * @return boolean
-     */
-    public function isMultiple()
-    {
-        return $this->multiple;
-    }
-
-    /**
-     *
      * @param int $id
      */
     public function setId($id)
@@ -135,6 +126,4 @@ abstract class CustomField
      * @return mixed
      */
     abstract function getValue();
-
-
 }

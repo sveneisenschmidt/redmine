@@ -10,6 +10,7 @@
 namespace SE\Component\Redmine\Client\Rest;
 
 use \SE\Component\Redmine\EntityManager;
+use \SE\Component\Redmine\Client\RestEventSubscriber;
 use \SE\Component\Redmine\Client\ClientInterface;
 use \SE\Component\Redmine\Client\Rest\EntityNormalizer;
 use \SE\Component\Redmine\Client\Rest\Exception\UnknownFormatException;
@@ -20,6 +21,7 @@ use \Guzzle\Http\Exception\ServerErrorResponseException;
 
 use \JMS\Serializer\Serializer;
 use \JMS\Serializer\SerializerBuilder;
+use \JMS\Serializer\EventDispatcher\EventDispatcher;
 
 use \Symfony\Component\Serializer\Encoder\XmlEncoder;
 
@@ -86,7 +88,10 @@ class RestClient implements ClientInterface
     public function __construct(HttpClient $httpClient, $baseUrl, $apiKey, Serializer $serializer = null)
     {
         if($serializer === null) {
-            $serializer = SerializerBuilder::create()->build();
+            $builder = SerializerBuilder::create()->configureListeners(function(EventDispatcher $dispatcher) {
+                $dispatcher->addSubscriber(new EventSubscriber());
+            });
+            $serializer = $builder->build();
         }
 
         $this->httpClient = $httpClient;
@@ -349,18 +354,6 @@ class RestClient implements ClientInterface
         );
 
         return $collection;
-    }
-
-    /**
-     * @param string $content
-     * @return string
-     */
-    public function amend($format, $content)
-    {
-        $data = $this->encoder->decode($content, $format);
-        $data = $this->normalizer->amend($data);
-        $content = $this->encoder->encode($data, $format);
-        return $content;
     }
 
     /**
