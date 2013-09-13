@@ -10,7 +10,7 @@
 namespace SE\Component\Redmine\Client\Rest;
 
 use \SE\Component\Redmine\EntityManager;
-use \SE\Component\Redmine\Client\RestEventSubscriber;
+use \SE\Component\Redmine\Client\Rest\EventSubscriber;
 use \SE\Component\Redmine\Client\ClientInterface;
 use \SE\Component\Redmine\Client\Rest\Exception\UnknownFormatException;
 

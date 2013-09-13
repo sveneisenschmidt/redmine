@@ -22,7 +22,10 @@ class IssueTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->serializer = \JMS\Serializer\SerializerBuilder::create()->build();
+        $builder = \JMS\Serializer\SerializerBuilder::create()->configureListeners(function($dispatcher) {
+            $dispatcher->addSubscriber(new \SE\Component\Redmine\Client\Rest\EventSubscriber());
+        });
+        $this->serializer = $builder->build();
     }
 
     /**
@@ -264,7 +267,7 @@ class IssueTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      */
-    public function Serialize()
+    public function Serialize_Default()
     {
         $entity = new \SE\Component\Redmine\Entity\Issue;
 
@@ -325,8 +328,12 @@ class IssueTest extends \PHPUnit_Framework_TestCase
 
         $entity->setCustomFields(array($scalar, $array));
 
-        $expected = file_get_contents(__DIR__.'/Fixtures/issue.xml');
-        $actual = $this->serializer->serialize($entity, 'xml');
+        $expected = file_get_contents(__DIR__.'/Fixtures/issue_default.xml');
+        $actual = $this->serializer->serialize(
+            $entity,
+            'xml',
+            \JMS\Serializer\SerializationContext::create()->setGroups(array('default'))
+        );
 
         $this->assertEquals($expected, $actual);
     }
@@ -335,12 +342,16 @@ class IssueTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      */
-    public function Serialize_Empty()
+    public function Serialize_Default_Empty()
     {
         $entity = new \SE\Component\Redmine\Entity\Issue;
 
-        $expected = file_get_contents(__DIR__.'/Fixtures/issue_empty.xml');
-        $actual = $this->serializer->serialize($entity, 'xml');
+        $expected = file_get_contents(__DIR__.'/Fixtures/issue_default_empty.xml');
+        $actual = $this->serializer->serialize(
+            $entity,
+            'xml',
+            \JMS\Serializer\SerializationContext::create()->setGroups(array('default'))
+        );
 
         $this->assertEquals($expected, $actual);
     }
@@ -349,10 +360,14 @@ class IssueTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      */
-    public function Deserialize()
+    public function Deserialize_Default()
     {
-        $contents = file_get_contents(__DIR__.'/Fixtures/issue.xml');
-        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\Issue', 'xml');
+        $entity = $this->serializer->deserialize(
+            file_get_contents(__DIR__.'/Fixtures/issue_default.xml'),
+            'SE\Component\Redmine\Entity\Issue',
+            'xml',
+            \JMS\Serializer\DeserializationContext::create()->setGroups(array('default'))
+        );
 
         $this->assertEquals(99, $entity->getId());
         $this->assertEquals('Test Issue #1', $entity->getSubject());
@@ -401,14 +416,18 @@ class IssueTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($customField->getMultiple());
     }
 
-        /**
+    /**
      *
      * @test
      */
-    public function Deserialize_Empty()
+    public function Deserialize_Default_Empty()
     {
-        $contents = file_get_contents(__DIR__.'/Fixtures/issue_empty.xml');
-        $entity = $this->serializer->deserialize($contents, 'SE\Component\Redmine\Entity\Issue', 'xml');
+        $entity = $this->serializer->deserialize(
+            file_get_contents(__DIR__.'/Fixtures/issue_default_empty.xml'),
+            'SE\Component\Redmine\Entity\Issue',
+            'xml',
+            \JMS\Serializer\DeserializationContext::create()->setGroups(array('default'))
+        );
 
         $this->assertNull($entity->getId());
         $this->assertNull($entity->getSubject());
@@ -423,5 +442,107 @@ class IssueTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($entity->getTracker());
         $this->assertNull($entity->getAssignedTo());
         $this->assertEmpty($entity->getCustomFields());
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Serialize_Persist()
+    {
+        $entity = new \SE\Component\Redmine\Entity\Issue;
+
+        $entity->setId(99);
+        $entity->setSubject('Test Issue #1');
+        $entity->setDescription('Test Description #2');
+        $entity->setEstimatedHours(60);
+        $entity->setDoneRatio(50);
+        $entity->setStartDate('2013-01-01');
+        $entity->setDueDate('2013-08-01');
+        $entity->setCreatedOn(new \DateTime('2013-01-01 00:00:00 +00:00'));
+        $entity->setUpdatedOn(new \DateTime('2013-08-01 00:00:00 +00:00'));
+
+        $author = new \SE\Component\Redmine\Entity\Relation\Author;
+        $author->setId(99);
+        $author->setName('Jon Smith');
+        $entity->setAuthor($author);
+
+        $assignedTo = new \SE\Component\Redmine\Entity\Relation\AssignedTo;
+        $assignedTo->setId(52);
+        $assignedTo->setName('Jane Doe');
+        $entity->setAssignedTo($assignedTo);
+
+        $project = new \SE\Component\Redmine\Entity\Relation\Project;
+        $project->setId(98);
+        $project->setName('Test Project');
+        $entity->setProject($project);
+
+        $tracker = new \SE\Component\Redmine\Entity\Relation\Tracker;
+        $tracker->setId(97);
+        $tracker->setName('Ticket');
+        $entity->setTracker($tracker);
+
+        $status = new \SE\Component\Redmine\Entity\Relation\Status;
+        $status->setId(1);
+        $status->setName('New');
+        $entity->setStatus($status);
+
+        $priority = new \SE\Component\Redmine\Entity\Relation\Priority;
+        $priority->setId(4);
+        $priority->setName('High');
+        $entity->setPriority($priority);
+
+        $category = new \SE\Component\Redmine\Entity\Relation\Category;
+        $category->setId(12);
+        $category->setName('Bugfix');
+        $entity->setCategory($category);
+
+        $scalar = new \SE\Component\Redmine\Entity\CustomField\ScalarField();
+        $scalar->setId(99);
+        $scalar->setName('Resolution');
+        $scalar->setValue('Duplicate');
+
+        $array = new \SE\Component\Redmine\Entity\CustomField\ListField();
+        $array->setId(12);
+        $array->setName('Level');
+        $array->setValue(new \SE\Component\Redmine\Entity\CustomField\ValueList(array(1,2,3)));
+
+        $entity->setCustomFields(array($scalar, $array));
+
+        $expected = file_get_contents(__DIR__.'/Fixtures/issue_default.xml');
+        $actual = $this->serializer->serialize(
+            $entity,
+            'xml',
+            \JMS\Serializer\SerializationContext::create()->setGroups(array('default'))
+        );
+
+        $this->assertEquals($expected, $actual);
+
+        $expected = file_get_contents(__DIR__.'/Fixtures/issue_persist.xml');
+        $actual = $this->serializer->serialize(
+            $entity,
+            'xml',
+            \JMS\Serializer\SerializationContext::create()->setGroups(array('persist'))
+        );
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Serialize_Persist_Empty()
+    {
+        $entity = new \SE\Component\Redmine\Entity\Issue;
+
+        $expected = file_get_contents(__DIR__.'/Fixtures/issue_persist_empty.xml');
+        $actual = $this->serializer->serialize(
+            $entity,
+            'xml',
+            \JMS\Serializer\SerializationContext::create()->setGroups(array('persist'))
+        );
+
+        $this->assertEquals($expected, $actual);
     }
 }

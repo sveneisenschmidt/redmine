@@ -7,34 +7,22 @@
   <priority_id>4</priority_id>
   <status_id>1</status_id>
   <category_id>12</category_id>
-  <id>99</id>
-  <author id="99" name="Jon Smith"/>
-  <assigned_to id="52" name="Jane Doe"/>
-  <status id="1" name="New"/>
-  <project id="98" name="Test Project"/>
-  <priority id="4" name="High"/>
-  <category id="12" name="Bugfix"/>
-  <tracker id="97" name="Ticket"/>
   <subject><![CDATA[Test Issue #1]]></subject>
   <description><![CDATA[Test Description #2]]></description>
   <done_ratio>50</done_ratio>
   <estimated_hours>60</estimated_hours>
   <custom_fields>
-    <custom_field id="99" name="Resolution" multiple="false">
+    <custom_field id="99">
       <value><![CDATA[Duplicate]]></value>
-      <__type><![CDATA[scalar]]></__type>
     </custom_field>
-    <custom_field id="12" name="Level" multiple="true">
+    <custom_field id="12">
       <value type="array">
         <value><![CDATA[1]]></value>
         <value><![CDATA[2]]></value>
         <value><![CDATA[3]]></value>
       </value>
-      <__type><![CDATA[array]]></__type>
     </custom_field>
   </custom_fields>
   <start_date><![CDATA[2013-01-01]]></start_date>
   <due_date><![CDATA[2013-08-01]]></due_date>
-  <updated_on><![CDATA[2013-08-01T00:00:00+0000]]></updated_on>
-  <created_on><![CDATA[2013-01-01T00:00:00+0000]]></created_on>
 </issue>
