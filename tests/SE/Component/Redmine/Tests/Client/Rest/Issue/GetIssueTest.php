@@ -34,7 +34,7 @@ class GetIssueTest extends \PHPUnit_Framework_TestCase
         $httpClient->addSubscriber($this->history);
         $baseUrl = 'http://localhost/';
         $apiKey = sha1(uniqid(microtime(true), true));
-        $this->restClient = new \SE\Component\Redmine\Client\Rest\RestClient($httpClient, $baseUrl, $apiKey);
+        $this->restClient = new \SE\Component\Redmine\Client\Rest\RestClient($baseUrl, $apiKey, $httpClient);
     }
 
     /**

@@ -32,9 +32,9 @@ class UpdateIssueTest extends \PHPUnit_Framework_TestCase
     {
         $baseUrl = 'http://localhost/';
         $apiKey = sha1(uniqid(microtime(true), true));
-        $http = new \Guzzle\Http\Client;
+        $httpClient = new \Guzzle\Http\Client;
 
-        $this->restClient = new \SE\Component\Redmine\Client\Rest\RestClient($http, $baseUrl, $apiKey);
+        $this->restClient = new \SE\Component\Redmine\Client\Rest\RestClient($baseUrl, $apiKey, $httpClient);
     }
 
     /**

@@ -29,7 +29,7 @@ class RestClientTest extends \PHPUnit_Framework_TestCase
         $baseUrl = 'http://localhost/redmine';
         $apiKey = sha1(uniqid(microtime(true), true));
 
-        $client = new \SE\Component\Redmine\Client\Rest\RestClient($stub, $baseUrl, $apiKey);
+        $client = new \SE\Component\Redmine\Client\Rest\RestClient($baseUrl, $apiKey, $stub);
         $this->assertEquals(\SE\Component\Redmine\Client\Rest\RestClient::CLIENT_NAME, $client->getName());
     }
 
@@ -43,7 +43,7 @@ class RestClientTest extends \PHPUnit_Framework_TestCase
         $baseUrl = 'http://localhost/redmine';
         $apiKey = sha1(uniqid(microtime(true), true));
 
-        $client = new \SE\Component\Redmine\Client\Rest\RestClient($stub, $baseUrl, $apiKey);
+        $client = new \SE\Component\Redmine\Client\Rest\RestClient($baseUrl, $apiKey, $stub);
         $this->assertSame($apiKey, $client->getApiKey());
         $this->assertSame($baseUrl, $client->getBaseUrl());
         $this->assertSame($stub, $client->getHttpClient());
@@ -63,7 +63,7 @@ class RestClientTest extends \PHPUnit_Framework_TestCase
         $httpPass = sha1(uniqid(microtime(true), true));
         $authType = 'Digest';
 
-        $client = new \SE\Component\Redmine\Client\Rest\RestClient($stub, $baseUrl, $apiKey);
+        $client = new \SE\Component\Redmine\Client\Rest\RestClient($baseUrl, $apiKey, $stub);
         $client->setHttpAuth($httpUser, $httpPass, $authType);
 
         $this->assertEquals(array($httpUser, $httpPass, $authType), $client->getHttpAuth());
@@ -80,7 +80,7 @@ class RestClientTest extends \PHPUnit_Framework_TestCase
         $apiKey = sha1(uniqid(microtime(true), true));
         $uri = '/resource/1.xml';
 
-        $client = new \SE\Component\Redmine\Client\Rest\RestClient($stub, $baseUrl, $apiKey);
+        $client = new \SE\Component\Redmine\Client\Rest\RestClient($baseUrl, $apiKey, $stub);
 
         $this->assertNotEquals($baseUrl.$uri, $client->prepareUrl($uri));
         $this->assertEquals('http://localhost/redmine/resource/1.xml', $client->prepareUrl($uri));
@@ -96,7 +96,7 @@ class RestClientTest extends \PHPUnit_Framework_TestCase
         $baseUrl = 'http://localhost/redmine/';
         $apiKey = sha1(uniqid(microtime(true), true));
 
-        $client = new \SE\Component\Redmine\Client\Rest\RestClient($stub, $baseUrl, $apiKey);
+        $client = new \SE\Component\Redmine\Client\Rest\RestClient($baseUrl, $apiKey, $stub);
         $headers = $client->prepareHeaders(array());
 
         $this->assertNotEmpty($headers);
@@ -167,7 +167,7 @@ class RestClientTest extends \PHPUnit_Framework_TestCase
         $uri = '/resource/1.xml';
         $hash = sha1(uniqid(microtime(true), true));
 
-        $client = new \SE\Component\Redmine\Client\Rest\RestClient($httpClient, $baseUrl, $apiKey);
+        $client = new \SE\Component\Redmine\Client\Rest\RestClient($baseUrl, $apiKey, $httpClient);
         $request = $client->createGetRequest($uri, array(
             $hash => strrev($hash)
         ));
@@ -190,7 +190,7 @@ class RestClientTest extends \PHPUnit_Framework_TestCase
         $uri = '/resource/1.xml';
         $hash = sha1(uniqid(microtime(true), true));
 
-        $client = new \SE\Component\Redmine\Client\Rest\RestClient($httpClient, $baseUrl, $apiKey);
+        $client = new \SE\Component\Redmine\Client\Rest\RestClient($baseUrl, $apiKey, $httpClient);
         $request = $client->createPutRequest($uri, null, array(
             $hash => strrev($hash)
         ));
@@ -213,7 +213,7 @@ class RestClientTest extends \PHPUnit_Framework_TestCase
         $uri = '/resource/1.xml';
         $hash = sha1(uniqid(microtime(true), true));
 
-        $client = new \SE\Component\Redmine\Client\Rest\RestClient($httpClient, $baseUrl, $apiKey);
+        $client = new \SE\Component\Redmine\Client\Rest\RestClient($baseUrl, $apiKey, $httpClient);
         $request = $client->createPostRequest($uri, null, array(
             $hash => strrev($hash)
         ));

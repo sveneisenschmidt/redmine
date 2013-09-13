@@ -80,13 +80,17 @@ class RestClient implements ClientInterface
      * @param string $apiKey
      * @param \JMS\Serializer\Serializer $serializer
      */
-    public function __construct(HttpClient $httpClient, $baseUrl, $apiKey, Serializer $serializer = null)
+    public function __construct($baseUrl, $apiKey, HttpClient $httpClient = null, Serializer $serializer = null)
     {
         if($serializer === null) {
             $builder = SerializerBuilder::create()->configureListeners(function(EventDispatcher $dispatcher) {
                 $dispatcher->addSubscriber(new EventSubscriber());
             });
             $serializer = $builder->build();
+        }
+
+        if($httpClient === null) {
+            $httpClient = new \Guzzle\Http\Client();
         }
 
         $this->httpClient = $httpClient;

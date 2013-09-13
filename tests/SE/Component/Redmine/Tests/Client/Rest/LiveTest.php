@@ -31,7 +31,6 @@ class LiveTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->client = new \SE\Component\Redmine\Client\Rest\RestClient(
-            new \Guzzle\Http\Client,
             TESTS_REDMINE_REST_BASE_URL,
             TESTS_REDMINE_REST_API_KEY
         );
