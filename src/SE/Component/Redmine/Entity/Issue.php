@@ -19,6 +19,8 @@ use \SE\Component\Redmine\Entity\Relation\Priority;
 use \SE\Component\Redmine\Entity\Relation\Category;
 use \SE\Component\Redmine\Entity\Relation\AssignedTo;
 
+use \SE\Component\Redmine\Entity\Collection\CustomFields;
+
 /**
  *
  * @package SE\Component\Redmine
@@ -176,12 +178,11 @@ class Issue
      *
      * @Serializer\Expose
      * @Serializer\SerializedName("custom_fields")
-     * @Serializer\Type("array<SE\Component\Redmine\Entity\CustomField>")
-     * @Serializer\XmlList(entry="custom_field")
+     * @Serializer\Type("SE\Component\Redmine\Entity\Collection\CustomFields")
      *
      * @Serializer\Groups({"default", "persist"})
      *
-     * @var \SE\Component\Redmine\Entity\CustomField[]
+     * @var \SE\Component\Redmine\Entity\Collection\CustomFields
      */
     protected $customFields;
 
@@ -474,16 +475,16 @@ class Issue
 
     /**
      *
-     * @param \SE\Component\Redmine\Entity\CustomField[] $customFields
+     * @param \SE\Component\Redmine\Entity\Collection\CustomFields $customFields
      */
-    public function setCustomFields(array $customFields)
+    public function setCustomFields(CustomFields $customFields)
     {
         $this->customFields = $customFields;
     }
 
     /**
      *
-     * @return \SE\Component\Redmine\Entity\CustomField[]
+     * @return \SE\Component\Redmine\Entity\Collection\CustomFields
      */
     public function getCustomFields()
     {

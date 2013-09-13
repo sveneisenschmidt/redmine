@@ -369,8 +369,6 @@ class RestClient implements ClientInterface
             SerializationContext::create()->setGroups(array('persist'))
         );
 
-        $body = str_replace('<custom_fields>', '<custom_fields type="array">', $body);
-
         if(($isNew = $this->isNew($resource, $object)) === false) {
             $uri = sprintf('%s/%s.%s', $resource, $object->getId(), $this->getFormat());
             $request = $this->createPutRequest($uri, $body);

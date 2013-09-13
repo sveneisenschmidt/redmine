@@ -252,11 +252,11 @@ class IssueTest extends \PHPUnit_Framework_TestCase
     public function Get_Set_Custom_Fields()
     {
         $entity = new \SE\Component\Redmine\Entity\Issue;
-        $value = array(
+        $value = new \SE\Component\Redmine\Entity\Collection\CustomFields(array(
             new \SE\Component\Redmine\Entity\CustomField\ScalarField,
             new \SE\Component\Redmine\Entity\CustomField\ListField,
             new \SE\Component\Redmine\Entity\CustomField\ListField
-        );
+        ));
 
         $this->assertEmpty($entity->getCustomFields());
         $entity->setCustomFields($value);
@@ -326,7 +326,11 @@ class IssueTest extends \PHPUnit_Framework_TestCase
         $array->setName('Level');
         $array->setValue(new \SE\Component\Redmine\Entity\CustomField\ValueList(array(1,2,3)));
 
-        $entity->setCustomFields(array($scalar, $array));
+        $customFields = new \SE\Component\Redmine\Entity\Collection\CustomFields(array(
+            $scalar, $array
+        ));
+
+        $entity->setCustomFields($customFields);
 
         $expected = file_get_contents(__DIR__.'/Fixtures/issue_default.xml');
         $actual = $this->serializer->serialize(
@@ -407,7 +411,7 @@ class IssueTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(52, $entity->getAssignedTo()->getId());
         $this->assertEquals('Jane Doe', $entity->getAssignedTo()->getName());
 
-        $customFields = $entity->getCustomFields();
+        $customFields = $entity->getCustomFields()->all();
         $customField = array_shift($customFields);
 
         $this->assertEquals(99, $customField->getId());
@@ -507,16 +511,13 @@ class IssueTest extends \PHPUnit_Framework_TestCase
         $array->setName('Level');
         $array->setValue(new \SE\Component\Redmine\Entity\CustomField\ValueList(array(1,2,3)));
 
-        $entity->setCustomFields(array($scalar, $array));
+        $customFields = new \SE\Component\Redmine\Entity\Collection\CustomFields(array(
+            $scalar, $array
+        ));
 
-        $expected = file_get_contents(__DIR__.'/Fixtures/issue_default.xml');
-        $actual = $this->serializer->serialize(
-            $entity,
-            'xml',
-            \JMS\Serializer\SerializationContext::create()->setGroups(array('default'))
-        );
+        $entity->setCustomFields($customFields);
 
-        $this->assertEquals($expected, $actual);
+
 
         $expected = file_get_contents(__DIR__.'/Fixtures/issue_persist.xml');
         $actual = $this->serializer->serialize(

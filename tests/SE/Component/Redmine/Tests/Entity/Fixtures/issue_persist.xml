@@ -11,7 +11,7 @@
   <description><![CDATA[Test Description #2]]></description>
   <done_ratio>50</done_ratio>
   <estimated_hours>60</estimated_hours>
-  <custom_fields>
+  <custom_fields type="array">
     <custom_field id="99">
       <value><![CDATA[Duplicate]]></value>
     </custom_field>
