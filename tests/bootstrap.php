@@ -19,4 +19,6 @@ call_user_func(function() {
     AnnotationRegistry::registerLoader('class_exists');
 });
 
-require_once __DIR__.'/config.dist.php';
+if(file_exists(__DIR__.'/config.dist.php') === true) {
+    require_once __DIR__.'/config.dist.php';
+}
