@@ -45,21 +45,19 @@ $client = new DbClient('www.example.org:3306', 'redmine_v21', 'user', 'pass');
 $repository = $client->getRepository('issues');
 
 // Find all by criteria
-$issues = $repository->findAll(array('status_id' => 'closed')); // [SE\Component\Redmine\Entity\Collection\Issues](https://github.com/sveneisenschmidt/redmine/blob/master/src/SE/Component/Redmine/Entity/Collection/Issues.php)
-
-
+$issues = $repository->findAll(array('status_id' => 'closed')); 
+// $issues instanceof SE\Component\Redmine\Entity\Collection\Issues
 
 // Find one by id & persist changes
 $issue = $repository->find(2); // find by id
 $issue->setSubject('New Title');
 $repository->persist($issue);
 
-// Create new Issue
+// Create new Issue & save it
 use SE\Component\Redmine\Entity\Issue;
 
 $issue = new Issue();
 $issue->setSubject('My First Issue');
-
 $repository->persist($issue);
 
 print $issue->getId(); // returns Id of newly create Issue, similar to Doctrine
