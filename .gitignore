@@ -2,4 +2,3 @@
 .tmp
 vendor
 tests/config.dist.php
-tests/config.dist.php
